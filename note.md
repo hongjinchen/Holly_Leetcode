@@ -1,34 +1,24 @@
-# 回溯法框架
+# 二分法
 
-本质是暴力穷举，解决回溯问题即是一个**决策树的遍历过程**
+二分算法（Binary Search Algorithm），比较集合中间元素与目标元素，根据比较结果来消除一半的搜索空间。
 
-在回溯树节点考虑：1）**路径（已做出的选择）**，2）**选择列表（当前可做的选择）**，3）**结束条件**（到达决策树底层无法再做选择的条件）。
+1. **初始化指针**: 设定两个指针，`low` 和 `high`，分别指向集合的首尾。
+2. **计算中点**: 在循环内，计算 `mid = (low + high) // 2`。
+3. **比较**: 比较集合中间点 mid 的元素与目标元素。
+   - 如果 `mid` 元素等于目标，搜索成功，返回 `mid` 的索引。
+   - 如果 `mid` 元素小于目标，更新 `low = mid + 1`。
+   - 如果 `mid` 元素大于目标，更新 `high = mid - 1`。
+4. **重复**: 继续步骤2和3，直到 `low <= high` 不成立，或找到目标元素。
 
-    result = []
-    def backtrack(选择列表, 路径):
-        if 满足结束条件:
-            result.add(路径)
-            return
-    
-    for 选择 in 选择列表:
-        # 做选择
-        路径.add(选择)
-        将该选择从选择列表移除
-        backtrack(选择列表, 路径) # 核心 递归调用之前【做选择】，调用之后【撤销选择】
-        # 撤销选择
-        路径.remove(选择)
-        将该选择再加入选择列表
+### 时间复杂度
 
-example：
-
-以对a、b、c做全排列为例，初始时选择列表为a、b、c，先选a，路径中为[a]，此时选择列表还剩下b、c，递归调用（此时选择列表是b、c，选b，[a,b]，选择列表还剩c，递归……，递归过程相当于是逐个的选出第1、2、3个位置的元素），撤销选择则是把路径中的a去掉，a还原到选择列表，进行下一次循环时把下个元素b加入列表。
-
-做选择和撤销选择的过程就像人为做全排列时选不同的元素做第一个、第二个、第三个位置的元素的过程。
-
-链接：https://leetcode.cn/problems/combination-sum/solution/by-huan-huan-20-k3hb/
+- 最好情况*O*(1)（目标元素就在集合的中间位置）
+- 平均和最坏情况：O(logn)
 
 
 
-例题：
+相关问题：
 
-求组合之和，元素可重复：https://leetcode.cn/problems/combination-sum/solution/
+[33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+
+[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)

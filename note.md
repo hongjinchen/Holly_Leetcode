@@ -17,8 +17,18 @@
 
 
 
-相关问题：
+### 相关问题
 
 [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+
+
+# 动态规划
+
+
+
+[46. 全排列](https://leetcode.cn/problems/permutations/)
+
+[47. 全排列 II](https://leetcode.cn/problems/permutations-ii/)

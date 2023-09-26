@@ -32,3 +32,11 @@
 [46. 全排列](https://leetcode.cn/problems/permutations/)
 
 [47. 全排列 II](https://leetcode.cn/problems/permutations-ii/)
+
+[53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
+
+> 给你一个整数数组 `nums` ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+>
+> 只用返回一个数字会比较适合dp解法，在这个题中是将球最大的数组和简化为在当前的index上，最大和为多少
+
+# 分治法

@@ -24,14 +24,15 @@ class Solution:
     
     def isAnagram(self,item,answer_list):
         for index  in range(len(answer_list)):
-            comparer=answer_list[index]
-            if len(item)==len(comparer[0]):
+            comparer=answer_list[index][0]
+            if len(item)==len(comparer):
                 for j in item:
-                    if j in comparer[0]:
-                        continue
+                    if j in comparer:
+                        comparer=comparer.replace(j,'',1)
                     else:
                         break
-                return comparer
+                else: 
+                    return answer_list[index]
         return []
             
 
@@ -39,4 +40,4 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+    print(s.groupAnagrams(["ddddddddddg","dgggggggggg"]))

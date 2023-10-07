@@ -77,3 +77,22 @@ https://zhuanlan.zhihu.com/p/338302261
 
 ## 相关题目
 
+
+
+
+
+
+
+# 排序问题
+
+
+
+## 冒泡排序
+
+[75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
+
+
+
+# 回溯算法和DFS
+
+回溯算法是一种用于找到所有（或某些）可能解决方案的算法，特别是在涉及约束满足问题（Constraint Satisfaction Problems，CSP）的情况下。回溯算法的核心思想是从问题的可能解决方案的空间树中，按照深度优先搜索（DFS）的策略，从根节点出发遍历解空间树。

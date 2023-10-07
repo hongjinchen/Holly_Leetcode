@@ -5,4 +5,23 @@
 # 给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。
 
 class Solution:
-    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        if not matrix:
+            return False
+        
+        row = len(matrix)
+
+        for i in range(row):
+            if target >= matrix[i][0] and target <= matrix[i][-1]:
+                if target in matrix[i]:
+                    return True
+        
+        return False
+
+
+
+if __name__ == "__main__":
+    s = Solution()
+    matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]]
+    target = 3
+    print(s.searchMatrix(matrix, target))

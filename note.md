@@ -1,3 +1,11 @@
+
+
+# ACM模式
+
+https://www.programmercarl.com/qita/acm.html
+
+
+
 # 二分法
 
 二分算法（Binary Search Algorithm），比较集合中间元素与目标元素，根据比较结果来消除一半的搜索空间。

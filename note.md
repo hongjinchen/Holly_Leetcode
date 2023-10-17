@@ -209,8 +209,29 @@ https://zhuanlan.zhihu.com/p/338302261
    - 如果当前节点没有未访问的邻接点，则回溯到上一个节点，并将其设置为当前节点。
 5. **终止条件**：
    - 所有可访问的节点都已访问。
+   
    - 找到目标节点（如果有）。
+   
    - 手动终止。
+   
+      **模板**
+   
+     ```
+     void backtracking(参数) {
+         if (终止条件) {
+             存放结果;
+             return;
+         }
+     
+         for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+             处理节点;
+             backtracking(路径，选择列表); // 递归
+             回溯，撤销处理结果
+         }
+     }
+     ```
+   
+     
 
 ### 应用场景
 
@@ -234,7 +255,43 @@ https://zhuanlan.zhihu.com/p/338302261
 
 [86. 分隔链表](https://leetcode.cn/problems/partition-list/)
 
+## 二叉树
 
+### 平衡二叉树
+
+平衡二叉树（Balanced Binary Tree）是一种特别的二叉树，其设计初衷是为了解决普通二叉搜索树在极端情况下可能出现的效率问题（比如，当所有节点都在一侧时，二叉搜索树退化为链表）。
+
+**定义**
+
+平衡二叉树必须满足两个条件：
+
+1. **每个节点的左子树和右子树的高度差（称为平衡因子）不得超过一个给定的常数（通常为 1）**。
+2. **每个节点的左子树和右子树也都必须是平衡二叉树**。
+
+**判断是否为平衡二叉树**
+
+```
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def isBalanced(root):
+    def height(root):
+        if not root:
+            return 0
+        left_height = height(root.left)
+        right_height = height(root.right)
+        
+        # 如果子树是不平衡的，则提前停止
+        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
+            return -1
+        
+        return max(left_height, right_height) + 1
+
+    return height(root) != -1
+```
 
 
 

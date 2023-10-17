@@ -57,6 +57,32 @@ https://www.programmercarl.com/qita/acm.html
 
 [64. 最小路径和](https://leetcode.cn/problems/minimum-path-sum/)
 
+### 青蛙跳台阶
+
+问题描述：青蛙可以一次跳一个或两个台阶，问跳到第 `n` 个台阶有多少种跳法。
+
+```
+def climb_stairs(n: int) -> int:
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+
+    dp = [0] * (n + 1)
+    dp[1], dp[2] = 1, 2
+
+    for i in range(3, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    return dp[n]
+
+# 测试
+print(climb_stairs(3))  # 输出应为 3
+print(climb_stairs(4))  # 输出应为 5
+```
+
+
+
 # 分治法
 
 
@@ -247,6 +273,66 @@ https://zhuanlan.zhihu.com/p/338302261
 
 # 数据结构
 
+### 栈（Stack）
+
+1. **定义**：栈是一种后进先出（LIFO，Last-In-First-Out）的数据结构。
+2. **操作**：主要有两种基本操作——压栈（push）和弹栈（pop）。
+3. **应用**：函数调用、表达式求值、深度优先搜索等。
+4. **存储**：通常使用数组或链表来实现。
+5. **性能**：压栈和弹栈操作通常是 O(1) 的时间复杂度。
+
+**示例代码（Python）**
+
+```
+class Stack:
+    def __init__(self):
+        self.items = []
+        
+    def push(self, item):
+        self.items.append(item)
+        
+    def pop(self):
+        return self.items.pop() if not self.is_empty() else None
+    
+    def is_empty(self):
+        return len(self.items) == 0
+```
+
+### 堆（Heap）
+
+1. **定义**：堆是一种特殊的完全二叉树，满足堆的性质（最大堆或最小堆）。
+2. **操作**：插入元素、删除最大/最小元素等。
+3. **应用**：优先队列、堆排序、图算法（如 Dijkstra 算法）等。
+4. **存储**：通常使用数组来实现。
+5. **性能**：插入和删除最大/最小元素通常是 �(log⁡�)*O*(log*n*) 的时间复杂度。
+
+**示例代码（Python，最小堆）**
+
+```
+import heapq
+
+# 初始化一个空堆
+heap = []
+
+# 插入元素
+heapq.heappush(heap, 3)
+heapq.heappush(heap, 1)
+heapq.heappush(heap, 4)
+
+# 删除并返回最小元素
+min_val = heapq.heappop(heap)  # 返回 1
+```
+
+### 栈 vs 堆
+
+- **存储方式**：栈通常是连续的内存空间，堆则是动态分配。
+- **生命周期**：栈中的数据通常随函数的调用和返回而创建和销毁，而堆中的数据需要手动管理。
+- **访问速度**：由于栈使用连续内存空间和局部性原理，通常访问速度更快。
+- **灵活性**：堆由于是动态分配，更加灵活，但管理复杂。
+- **应用场景**：栈适用于需要快速、临时存储的场景；堆则适用于需要长时间存储或者快速找到最大/最小元素的场景。
+
+
+
 ## 链表
 
 ### 相关题目
@@ -295,13 +381,86 @@ def isBalanced(root):
 
 
 
-# 面试题目
+# 双指针法
 
-## 合并有序数组
+## 相关题目
 
-### 方法1：双指针法
+### 合并有序数组
 
 1. 使用两个指针分别遍历两个有序数组。
 2. 比较两个指针指向的元素，将较小的元素添加到结果数组中，并将对应的指针向前移动。
 3. 如果一个数组遍历完了，将另一个数组剩余的元素添加到结果数组中。
+
+合并两个有序数组是一个常见的算法问题，通常可以通过双指针法来解决。假设我们有两个有序数组 `A` 和 `B`，长度分别为 `m` 和 `n`。我们要将数组 `B` 合并到数组 `A` 中，并确保合并后的数组也是有序的。
+
+以下是使用 Python 实现的代码：
+
+```python
+def merge_sorted_arrays(A, m, B, n):
+    # 设置三个指针：p1 指向 A 的末尾，p2 指向 B 的末尾，p 指向合并后数组的末尾
+    p1, p2, p = m - 1, n - 1, m + n - 1
+    
+    # 当两个数组都还有元素时
+    while p1 >= 0 and p2 >= 0:
+        if A[p1] > B[p2]:
+            A[p] = A[p1]
+            p1 -= 1
+        else:
+            A[p] = B[p2]
+            p2 -= 1
+        p -= 1
+    
+    # 如果 A 中还有元素，那么它们已经是有序的并且在正确的位置
+    # 所以我们只需要关心 B 中是否还有元素
+    while p2 >= 0:
+        A[p] = B[p2]
+        p2 -= 1
+        p -= 1
+
+# 测试
+A = [1, 3, 5, 0, 0, 0]
+m = 3
+B = [2, 4, 6]
+n = 3
+
+merge_sorted_arrays(A, m, B, n)
+print(A)  # 输出应为 [1, 2, 3, 4, 5, 6]
+```
+
+在这里，我假设数组 `A` 有足够的空间来保存合并后的数组（也就是 `m + n` 的大小）。这是一个就地操作，也就是说我们没有使用额外的空间。
+
+1. 我们从两个数组的末尾开始，使用三个指针：`p1`、`p2` 和 `p`。
+2. `p1` 指向数组 `A` 中最后一个元素的位置，`p2` 指向数组 `B` 中最后一个元素的位置，`p` 指向数组 `A` 合并后最后一个元素应该放置的位置。
+3. 我们比较 `p1` 和 `p2` 指向的元素，将较大的一个放到 `p` 指向的位置。
+4. 然后，我们向左移动指针，重复步骤 3，直到 `p1` 或 `p2` 小于 0。
+5. 最后，如果 `B` 中还有剩余的元素，我们需要将它们复制到 `A` 中相应的位置。
+
+
+
+### 回文串判断 
+
+其中一个指针从字符串开始处开始移动，另一个从字符串末尾开始移动。两个指针都只会经过一半的字符串，因此该算法的时间复杂度是 O(n/2)，即 O(n)。
+
+```
+def is_palindrome(s: str) -> bool:
+    # 移除字符串中的非字母和数字字符，并转为小写
+    filtered_s = ''.join(filter(str.isalnum, s)).lower()
+    
+    # 使用双指针法进行回文检查
+    left, right = 0, len(filtered_s) - 1
+    while left < right:
+        if filtered_s[left] != filtered_s[right]:
+            return False
+        left += 1
+        right -= 1
+
+    return True
+
+# 测试
+print(is_palindrome("A man a plan a canal Panama"))  # 输出应为 True
+print(is_palindrome("race a car"))  # 输出应为 False
+
+```
+
+
 

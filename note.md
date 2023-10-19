@@ -35,9 +35,9 @@ https://www.programmercarl.com/qita/acm.html
 
 # 动态规划
 
+动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。
 
-
-
+所以动态规划中每一个状态一定是由上一个状态推导出来的，**这一点就区分于贪心**，贪心没有状态推导，而是从局部直接选最优的，
 
 ## 相关题目
 
@@ -210,6 +210,18 @@ https://zhuanlan.zhihu.com/p/338302261
 
 ## 冒泡排序
 
+#### 基本思路
+
+1. 遍历整个数组，比较相邻的两个元素，如果它们是逆序的，则交换它们。
+2. 重复这个过程，每次遍历少看一个元素。
+3. 如果一次遍历中没有发生任何交换，则数组已经是有序的，可以提前结束算法。
+
+#### 时间复杂度和空间复杂度
+
+- 时间复杂度：O(n^2)
+- 空间复杂度：O(1)
+- 稳定性：稳定
+
 [75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
 
 
@@ -230,6 +242,7 @@ https://zhuanlan.zhihu.com/p/338302261
 2. **选择起点**：选择一个起点作为当前节点。
 3. **标记当前节点**：将当前节点标记为已访问。
 4. **检查邻接点**：
+   
    - 查找当前节点的所有未访问的邻接点。
    - 如果当前节点存在未访问的邻接点，则选择其中一个，作为当前节点，并回到步骤3。
    - 如果当前节点没有未访问的邻接点，则回溯到上一个节点，并将其设置为当前节点。
@@ -331,8 +344,6 @@ min_val = heapq.heappop(heap)  # 返回 1
 - **灵活性**：堆由于是动态分配，更加灵活，但管理复杂。
 - **应用场景**：栈适用于需要快速、临时存储的场景；堆则适用于需要长时间存储或者快速找到最大/最小元素的场景。
 
-
-
 ## 链表
 
 ### 相关题目
@@ -342,6 +353,105 @@ min_val = heapq.heappop(heap)  # 返回 1
 [86. 分隔链表](https://leetcode.cn/problems/partition-list/)
 
 ## 二叉树
+
+### 遍历方式
+
+在计算机科学中，前序遍历、中序遍历和后序遍历是用于遍历树结构（特别是二叉树）的三种主要方法。下面我会详细解释这三种遍历方法，并给出Python代码示例。
+
+**前序遍历（Preorder Traversal）**
+
+前序遍历的顺序是：根节点 -> 左子树 -> 右子树。
+
+```
+def preorder_traversal(root):
+    if root is None:
+        return
+    print(root.val, end=' ')
+    preorder_traversal(root.left)
+    preorder_traversal(root.right)
+```
+
+**中序遍历（Inorder Traversal）**
+
+中序遍历的顺序是：左子树 -> 根节点 -> 右子树。
+
+```
+def inorder_traversal(root):
+    if root is None:
+        return
+    inorder_traversal(root.left)
+    print(root.val, end=' ')
+    inorder_traversal(root.right)
+```
+
+**后序遍历（Postorder Traversal）**
+
+后序遍历的顺序是：左子树 -> 右子树 -> 根节点。
+
+```
+def postorder_traversal(root):
+    if root is None:
+        return
+    postorder_traversal(root.left)
+    postorder_traversal(root.right)
+    print(root.val, end=' ')
+```
+
+**示例代码**
+
+下面是一个完整的Python代码示例，展示了如何定义一个简单的二叉树节点类，并对这个类的实例进行前序、中序和后序遍历。
+
+```
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def preorder_traversal(root):
+    if root is None:
+        return
+    print(root.val, end=' ')
+    preorder_traversal(root.left)
+    preorder_traversal(root.right)
+
+def inorder_traversal(root):
+    if root is None:
+        return
+    inorder_traversal(root.left)
+    print(root.val, end=' ')
+    inorder_traversal(root.right)
+
+def postorder_traversal(root):
+    if root is None:
+        return
+    postorder_traversal(root.left)
+    postorder_traversal(root.right)
+    print(root.val, end=' ')
+
+# 创建一个简单的二叉树
+#        1
+#       / \
+#      2   3
+#     / \
+#    4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# 执行遍历
+print("前序遍历：", end='')
+preorder_traversal(root)
+print("\n中序遍历：", end='')
+inorder_traversal(root)
+print("\n后序遍历：", end='')
+postorder_traversal(root)
+```
+
+
 
 ### 平衡二叉树
 
@@ -441,7 +551,7 @@ print(A)  # 输出应为 [1, 2, 3, 4, 5, 6]
 
 其中一个指针从字符串开始处开始移动，另一个从字符串末尾开始移动。两个指针都只会经过一半的字符串，因此该算法的时间复杂度是 O(n/2)，即 O(n)。
 
-```
+```python
 def is_palindrome(s: str) -> bool:
     # 移除字符串中的非字母和数字字符，并转为小写
     filtered_s = ''.join(filter(str.isalnum, s)).lower()
@@ -459,7 +569,6 @@ def is_palindrome(s: str) -> bool:
 # 测试
 print(is_palindrome("A man a plan a canal Panama"))  # 输出应为 True
 print(is_palindrome("race a car"))  # 输出应为 False
-
 ```
 
 

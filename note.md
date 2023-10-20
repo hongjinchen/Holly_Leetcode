@@ -286,6 +286,18 @@ https://zhuanlan.zhihu.com/p/338302261
 
 # 数据结构
 
+### 数组
+
+
+
+![image-20231020215226122](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215226122.png)
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215700924.png" alt="image-20231020215700924" style="zoom:50%;" />
+
+
+
+
+
 ### 栈（Stack）
 
 1. **定义**：栈是一种后进先出（LIFO，Last-In-First-Out）的数据结构。

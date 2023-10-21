@@ -488,6 +488,14 @@ Red Hat, CentOS等基于RPM的系统的软件包管理工具。
 
 
 
+#### 单道批处理 (Single-Stream Batch Processing)
+
+在单道批处理系统中，一次只执行一个作业或任务。系统将完成一个作业后才开始执行下一个作业。这种方式简单易理解，但由于任何时候都只有一个作业在执行，系统资源（如CPU、内存等）的利用率相对较低。
+
+#### 多道批处理 (Multi-Stream Batch Processing)
+
+多道批处理系统是单道批处理系统的扩展，它允许多个作业同时在系统中处于不同的执行阶段（例如，一个作业在执行，另一个作业在等待磁盘I/O，另一个作业在等待CPU等）。这样，当一个作业等待I/O操作完成时，CPU可以被另一个作业使用，从而提高系统资源的利用率。
+
 
 
 ### 分时操作系统（Time-Sharing Operating System）
@@ -556,8 +564,12 @@ Red Hat, CentOS等基于RPM的系统的软件包管理工具。
 #### 示例：
 
 - QNX
+
 - VxWorks
+
 - FreeRTOS
+
+  
 
 ### 分布式操作系统（Distributed Operating System）
 
@@ -576,7 +588,10 @@ Red Hat, CentOS等基于RPM的系统的软件包管理工具。
 #### 示例：
 
 - Apache Hadoop
+
 - Google's Borg
+
+  
 
 ### 移动操作系统（Mobile Operating System）
 

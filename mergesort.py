@@ -5,3 +5,4 @@ def mergeSort(list):
     first_list=list[:int(length/2)]
     second_list=list[int(length/2):]
     first_list
+

@@ -433,8 +433,6 @@ Red Hat, CentOS等基于RPM的系统的软件包管理工具。
 
 
 
-
-
 # 操作系统
 
 ### 批处理操作系统（Batch Processing Operating System）

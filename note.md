@@ -85,9 +85,67 @@ print(climb_stairs(4))  # 输出应为 5
 
 # 分治法
 
+当然，分治法（Divide and Conquer）是一种常见的算法设计范式，其中一个典型的例子是归并排序（Merge Sort）。归并排序是一种高效、稳定的排序算法，它将一个大问题拆分成几个小问题，并递归解决这些小问题。具体地，归并排序将一个大数组分成两个（或更多）小数组，分别对这些小数组进行排序，最后再将它们合并成一个有序数组。
 
 
 
+## 代码示例
+
+```python
+def merge_sort(arr):
+    # 基本情况：当数组长度为 1 或 0 时，数组已经是有序的
+    if len(arr) <= 1:
+        return arr
+    
+    # 分治步骤：将数组分成两半
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+    
+    # 递归地对两半进行排序
+    sorted_left = merge_sort(left_half)
+    sorted_right = merge_sort(right_half)
+    
+    # 合并两个有序数组
+    return merge(sorted_left, sorted_right)
+
+def merge(left, right):
+    result = []
+    i, j = 0, 0
+    
+    # 比较两个数组的元素并添加到结果数组中
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    # 如果左边数组还有剩余元素，将它们添加到结果数组中
+    while i < len(left):
+        result.append(left[i])
+        i += 1
+    
+    # 如果右边数组还有剩余元素，将它们添加到结果数组中
+    while j < len(right):
+        result.append(right[j])
+        j += 1
+    
+    return result
+
+# 示例
+arr = [38, 27, 43, 3, 9, 82, 10]
+sorted_arr = merge_sort(arr)
+print("Sorted array:", sorted_arr)
+```
+
+在这个例子中：
+
+- `merge_sort` 函数负责将输入数组拆分成更小的数组，并递归地对它们进行排序。
+- `merge` 函数负责将两个已排序的数组合并成一个新的有序数组。
+
+这样，通过将大问题拆分成小问题，并将小问题的解决方案合并为大问题的解决方案，分治法实现了对数组的高效排序。
 
 # 递归
 
@@ -366,10 +424,66 @@ min_val = heapq.heappop(heap)  # 返回 1
 
 ## 二叉树
 
+### 定义
+
+二叉树是一种树形数据结构，其中每个节点最多有两个子节点，通常分别称为“左子节点”和“右子节点”。二叉树的顶部节点称为“根节点”。
+
+在编程语境中，一个简单的二叉树节点可以用以下结构定义（以Python为例）：
+
+```
+class TreeNode:
+    def __init__(self, value=0, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+```
+
+### 节点的深度（Depth）
+
+在二叉树中，一个节点的“深度”定义为该节点到根节点的最短路径上的边的数量。根据这个定义，根节点的深度为0，其子节点的深度为1，依此类推。
+
+例如，在以下二叉树中：
+
+```
+        A
+       / \
+      B   C
+     / \
+    D   E
+```
+
+- 节点A（根节点）的深度是0
+- 节点B和C的深度是1
+- 节点D和E的深度是2
+
+### 节点的高度（Height）
+
+一个节点的“高度”是从该节点到最远叶子节点的最长路径上的边的数量。在这个定义下，所有叶子节点的高度都是0。
+
+还是以同样的例子为例：
+
+```
+        A
+       / \
+      B   C
+     / \
+    D   E
+```
+
+- 节点D和E（叶子节点）的高度是0
+- 节点B的高度是1（到达叶子节点D或E需要经过一条边）
+- 节点C的高度是0（它自己就是叶子节点）
+- 节点A的高度是2（到达叶子节点D或E需要经过两条边）
+
 ### 遍历方式
 
 在计算机科学中，前序遍历、中序遍历和后序遍历是用于遍历树结构（特别是二叉树）的三种主要方法。下面我会详细解释这三种遍历方法，并给出Python代码示例。
 
+        A
+       / \
+      B   C
+     / \
+    D   E
 **前序遍历（Preorder Traversal）**
 
 前序遍历的顺序是：根节点 -> 左子树 -> 右子树。
@@ -381,6 +495,8 @@ def preorder_traversal(root):
     print(root.val, end=' ')
     preorder_traversal(root.left)
     preorder_traversal(root.right)
+    
+    # 输出：['A', 'B', 'D', 'E', 'C']
 ```
 
 **中序遍历（Inorder Traversal）**
@@ -394,6 +510,8 @@ def inorder_traversal(root):
     inorder_traversal(root.left)
     print(root.val, end=' ')
     inorder_traversal(root.right)
+    
+    # 输出：['D', 'B', 'E', 'A', 'C']
 ```
 
 **后序遍历（Postorder Traversal）**
@@ -407,6 +525,8 @@ def postorder_traversal(root):
     postorder_traversal(root.left)
     postorder_traversal(root.right)
     print(root.val, end=' ')
+    
+    # 输出：['D', 'E', 'B', 'C', 'A']
 ```
 
 **示例代码**

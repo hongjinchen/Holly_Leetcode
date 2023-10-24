@@ -337,8 +337,6 @@ SELECT * FROM student
 
 ![img](https://pic3.zhimg.com/80/v2-f3f027a8b81ed884d5e77a4e989cb44e_1440w.webp)
 
-图片来源：zeroturnaround.com
-
 ```text
 SELECT <列名1>, <列名2>, …
     FROM <表名1>
@@ -679,7 +677,6 @@ CREATE TABLE students (
 
 ## 真题
 
-
 **SQL中，下面对于数据定义语言DDL描述正确的是（）**
 
 A DDL关心的是数据库中的数据
@@ -694,12 +691,19 @@ D 定义数据库的结构
 
 D
 
-（1）数据定义（SQL **DDL**）用于定义SQL模式、基本表、视图和索引的创建和撤消操作。
-（2）数据操纵（SQL **DML**）数据操纵分成数据查询和数据更新两类。数据更新又分成插入、删除、和修改三种操作。
-（3）数据控制（DCL）包括对基本表和视图的授权，完整性规则的描述，事务控制等内容。
+（1）**数据定义**（SQL **DDL**）用于定义SQL模式、基本表、视图和索引的创建和撤消操作。
+
+数据定义一般涉及到数据库模式的创建、修改和删除。在SQL中，常用的数据定义语言（DDL）指令包括 `CREATE`, `ALTER`, 和 `DROP`。
+
+（2）**数据操纵**（SQL **DML**）数据操纵分成数据查询和数据更新两类。数据更新又分成插入、删除、和修改三种操作。
+
+数据操纵主要涉及数据的增加、删除、修改和查询。在SQL中，常用的数据操纵语言（DML）指令包括 `INSERT`, `DELETE`, `UPDATE`, 和 `SELECT`。
+
+（3）**数据控制**（DCL）包括对基本表和视图的授权，完整性规则的描述，事务控制等内容。
+
+数据控制涉及权限和数据安全性的管理。在SQL中，常用的数据控制语言（DCL）指令包括 `GRANT` 和 `REVOKE`。
 
 （4）嵌入式SQL的使用规定（TCL）涉及到SQL语句嵌入在宿主语言程序中使用的规则。
-
 
 
 
@@ -876,6 +880,63 @@ A选项的操作会将该字段所在的列中所有数据替换成别名
 3：高水位线：delete不影响自增ID值，高水线保持原位置不动；trustcate会将高水线复位，自增ID变为1。
 
 
+
+**DROP**
+
+`DROP` 是一种数据定义语言（DDL）命令，用于永久删除数据库对象（如表、索引、视图、序列等）。一旦执行 `DROP` 命令，被删除的对象以及其中的所有数据将无法恢复。
+
+- **删除表**
+
+  ```
+  sqlCopy code
+  DROP TABLE Students;
+  ```
+
+- **删除索引**
+
+  ```
+  sqlCopy code
+  DROP INDEX index_name;
+  ```
+
+**TRUNCATE**
+
+`TRUNCATE` 也是一种DDL命令，用于删除表中的所有行，但不删除表本身或其结构。与 `DELETE` 命令不同，`TRUNCATE` 通常不能被回滚（取决于数据库系统），并且不会触发任何 DELETE 触发器。
+
+- **清空表中的所有数据**
+
+  ```
+  sqlCopy code
+  TRUNCATE TABLE Students;
+  ```
+
+**DELETE**
+
+`DELETE` 是一种数据操纵语言（DML）命令，用于从表中删除数据。与 `TRUNCATE` 命令不同，`DELETE` 命令可以有条件地删除数据，并且可以触发 DELETE 触发器。执行 `DELETE` 命令后，可以使用 `ROLLBACK` 命令来撤销删除。
+
+- **删除所有数据**
+
+  ```
+  sqlCopy code
+  DELETE FROM Students;
+  ```
+
+- **有条件地删除数据**
+
+  ```
+  sqlCopy code
+  DELETE FROM Students WHERE Age < 18;
+  ```
+
+**对比**
+
+- **DROP**: 永久删除整个数据库对象。
+
+- **TRUNCATE**: 删除表中的所有数据，但保留表结构。
+
+- **DELETE**: 可以有条件地删除表中的数据。
+
+  
 
 ![image-20231019171613624](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231019171613624.png)
 

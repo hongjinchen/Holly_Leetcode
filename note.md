@@ -381,38 +381,314 @@ class Stack:
         return len(self.items) == 0
 ```
 
+
+
 ### 堆（Heap）
 
-1. **定义**：堆是一种特殊的完全二叉树，满足堆的性质（最大堆或最小堆）。
-2. **操作**：插入元素、删除最大/最小元素等。
-3. **应用**：优先队列、堆排序、图算法（如 Dijkstra 算法）等。
-4. **存储**：通常使用数组来实现。
-5. **性能**：插入和删除最大/最小元素通常是 �(log⁡�)*O*(log*n*) 的时间复杂度。
+#### **定义**
 
-**示例代码（Python，最小堆）**
+堆是一种特殊的完全二叉树，满足堆的性质（最大堆或最小堆）。
 
-```
-import heapq
+> **完全二叉树；**
+>
+> **定义**
+>
+> 一个二叉树在除了最后一层以外的其余每一层都是完全填充的，并且所有节点都保持向左对齐，这样的二叉树称为完全二叉树。
+>
+> **特性**
+>
+> 1. **结构平衡**：在完全二叉树中，上面的层总是会在添加新节点之前填满。新节点总是从左到右添加。
+> 2. **高度有限制**：对于有 *n* 个节点的完全二叉树，树的高度为 ⌊log2*n*⌋。
+> 3. **叶子节点**：叶子节点只能出现在最后两层。在最后一层中，叶子节点集中在左侧。
+>
+> **应用场景**
+>
+> 1. **堆（Heap）**：堆是一种特殊的完全二叉树，常用于实现优先队列。
+> 2. **二叉树数组表示**：由于完全二叉树的特性，它特别适合用数组来表示。这样做可以节省存储空间，并且方便进行索引操作。
+>
+> **代码示例**
+>
+> 用Python表示一个完全二叉树：
+>
+> ```
+> class TreeNode:
+>     def __init__(self, value=0, left=None, right=None):
+>         self.value = value
+>         self.left = left
+>         self.right = right
+> 
+> # 创建一个完全二叉树
+> #         1
+> #       /   \
+> #      2     3
+> #     / \   / 
+> #    4   5 6  
+> root = TreeNode(1)
+> root.left = TreeNode(2)
+> root.right = TreeNode(3)
+> root.left.left = TreeNode(4)
+> root.left.right = TreeNode(5)
+> root.right.left = TreeNode(6)
+> ```
 
-# 初始化一个空堆
-heap = []
+1. **操作**：插入元素、删除最大/最小元素等。
 
-# 插入元素
-heapq.heappush(heap, 3)
-heapq.heappush(heap, 1)
-heapq.heappush(heap, 4)
+   #### 创建堆
 
-# 删除并返回最小元素
-min_val = heapq.heappop(heap)  # 返回 1
-```
+   创建 堆 指的是初始化一个堆实例。所有堆方法的前提必须是在堆实例上进行操作。换句话说，我们必须要首先创建一个 堆 实例，然后才能使用 堆 的常用方法。在创建 堆 的过程中，我们也可以同时进行 堆化 操作。堆化 就是将一组数据变成 堆 的过程。
+
+   时间复杂度： 
+   O(N)。
+
+   空间复杂度： 
+   O(N)。
+
+   ```python
+   import heapq
+   # 创建一个空的最小堆
+   minHeap = []
+   heapq.heapify(minHeap)
+   
+   # 创建一个空的最大堆
+   # 由于Python中并没有内置的函数可以直接创建最大堆，所以一般我们不会直接创建一个空的最大堆。
+   
+   # 创建带初始值的「堆」， 或者称为「堆化」操作，此时的「堆」为「最小堆」
+   heapWithValues = [3,1,2]
+   heapq.heapify(heapWithValues)
+   
+   # 创建最大堆技巧
+   # Python中并没有内置的函数可以直接创建最大堆。
+   # 但我们可以将[每个元素*-1]，再将新元素集进行「堆化」操作。此时，堆顶元素是新的元素集的最小值，也可以转换成原始元素集的最大值。
+   # 示例
+   maxHeap = [1,2,3]
+   maxHeap = [-x for x in maxHeap]
+   heapq.heapify(maxHeap)
+   # 此时的maxHeap的堆顶元素是-3
+   # 将-3转换为原来的元素3，既可获得原来的maxHeap中最大的值是3
+   ```
+
+   **最小堆转换城最大堆的逻辑**
+
+   **方法 1: 取反（Negation）**
+
+   一种常见的技巧是在插入堆之前取每个元素的负值。因为 `heapq` 是最小堆，所以它会把负数排在最前面。因此，实际上负的负数（即原数）就成了最大数。
+
+   **方法 4: 转换已有的最小堆为最大堆**
+
+   如果你已经有一个最小堆，并且希望将其转换为最大堆，你可以这样做：
+
+   1. 遍历整个最小堆，取每个元素的负值。
+
+   2. 使用 `heapify` 函数重新堆化。
+
+      
+
+   #### 堆的插入步骤
+
+   1. **添加元素**：将新元素添加到完全二叉树的最后一个位置，即数组的最后。这样做会保持完全二叉树的性质。
+   2. **上浮（Heapify Up）**：比较新添加的元素与其父节点的值。
+      - 如果新元素大于其父节点，那么交换它们。
+      - 继续这个过程，直到新元素到达根节点或者其值小于（或等于）其父节点。
+
+   这个过程也称为“堆化”（Heapify），它确保了堆的第二个性质：节点间的大小关系。
+
+   插入操作的时间复杂度是O*(log*n)，这里 n是堆中元素的数量。
+
+   ```
+   def heapify_up(heap):
+       index = len(heap) - 1  # 新元素的索引位置
+       while index > 0:
+           parent_index = (index - 1) // 2  # 找到父节点的索引位置
+           # 如果新元素大于父节点，则交换它们
+           if heap[index] > heap[parent_index]:
+               heap[index], heap[parent_index] = heap[parent_index], heap[index]
+               index = parent_index  # 更新当前节点的索引为父节点的索引，继续上浮
+           else:
+               break  # 如果新元素小于或等于父节点，则停止上浮
+   
+   def insert(heap, value):
+       heap.append(value)  # 在数组最后添加新元素
+       heapify_up(heap)  # 上浮以保持堆的性质
+   
+   # 创建一个空的最大堆
+   max_heap = []
+   
+   # 插入元素
+   insert(max_heap, 3)
+   insert(max_heap, 4)
+   insert(max_heap, 9)
+   insert(max_heap, 5)
+   insert(max_heap, 2)
+   
+   print("Max Heap:", max_heap)  # 输出应该是一个最大堆
+   ```
+
+   
+
+   #### 删除最大/最小元素
+
+   删除操作是指在 **堆** 中删除堆顶元素。元素删除之后，**堆** 依旧需要维持它的特性。
+
+   1. **替换根节点**：用堆的最后一个元素替换根节点。这样做可以轻易地维持堆的完全二叉树性质。
+
+   2. **下沉（Heapify Down）**：从新的根节点开始，与其子节点进行比较：
+
+      - 选取两个子节点中较大（对于最大堆）或较小（对于最小堆）的一个。
+      - 如果该子节点大于（或小于）当前节点，则交换它们。
+      - 继续这个过程，直到当前节点大于（或小于）其任何子节点，或者它成为叶子节点。
+
+   3. **返回被删除的元素**：可选操作，通常是将最初的根节点（即被删除的最大或最小元素）返回给用户。
+
+      
+
+   #### 获取堆顶元素
+
+   最大堆 的堆顶元素是 堆 中的最大值，最小堆 的堆顶元素是 堆 中的最小值。因此，堆顶元素是 堆 中最重要的元素。
+
+   时间复杂度： 
+   O(1)。
+
+   空间复杂度：
+   O(1)。
+
+   ```
+   # 最小堆获取堆顶元素，即最小值
+   minHeap[0]
+   # 最大堆获取堆顶元素，即最大值
+   # 元素乘以 -1 的原因是：我们之前插入元素时，将元素乘以 -1，所以在获取元素时，我们需要乘以 -1还原元素。
+   maxHeap[0]*-1
+   ```
+
+   
+
+   #### 操作的复杂度
+
+   ![image-20231024135350880](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024135350880.png)
+
+   
+
+
+
+
+
+1. **应用**：优先队列、堆排序、图算法（如 Dijkstra 算法）等。
+
+2. **存储**：在堆的数据结构中，我们常用堆的插入、删除、获取堆顶元素的操作。
+
+   我们可以用**数组**实现堆。我们将堆中的元素以二叉树的形式存入在数组中。以下代码将使用数组实现整数类型的「最大堆」和「最小堆」，仅供大家参考（在实际解题或者工作中，一般很少需要自己去实现堆）：
+
+   ```python
+   # 「最小堆」的实现
+   import sys
+   
+   class MinHeap:
+       def __init__(self, heapSize):
+           # heapSize用于数组的大小，因为数组在创建的时候至少需要指明数组的元素个数
+           self.heapSize = heapSize
+           # 使用数组创建完全二叉树的结构，然后使用二叉树构建一个「堆」
+           self.minheap = [0]*(heapSize+1)
+           # realSize用于记录「堆」的元素个数
+           self.realSize = 0
+   
+       #  添加元素函数
+       def add(self, element):
+           self.realSize += 1
+           # 如果「堆」中元素的个数大于一开始设定的数组的个数，则返回「Add too many elements」
+           if self.realSize > self.heapSize:
+               print("Add too many elements!")
+               self.realSize -= 1
+               return
+           # 将添加的元素添加到数组中
+           self.minheap[self.realSize] = element
+           # 新增元素的索引位置
+           index = self.realSize
+           # 新增元素的父节点的索引位置
+           # 注意，如果用数组表示完全二叉树，并且根结点存储在数组的索引1的位置的时候，任何一个节点的父节点索引位置为「该节点的索引位置/2」，任何一个节点的左孩子节点的索引位置为「该节点的索引位置*2」，任何一个节点的右孩子节点的索引位置为「该节点的索引位置*2+1」
+           parent = index // 2
+           # 当添加的元素小于父节点时，需要将父节点的值和新增元素的值交换
+           while (self.minheap[index] < self.minheap[parent] and index > 1):
+               self.minheap[parent], self.minheap[index] = self.minheap[index], self.minheap[parent]
+               index = parent
+               parent = index // 2
+       
+       # 获取堆顶元素函数
+       def peek(self):
+           return self.minheap[1]
+       
+       # 删除堆顶元素函数
+       def pop(self):
+           # 如果当前「堆」的元素个数为0， 则返回「Don't have any element」
+           if self.realSize < 1:
+               print("Don't have any element!")
+               return sys.maxsize
+           else:
+               # 当前「堆」中含有元素
+               # self.realSize >= 1
+               removeElement = self.minheap[1]
+               # 将「堆」中的最后一个元素赋值给堆顶元素
+               self.minheap[1] = self.minheap[self.realSize]
+               self.realSize -= 1
+               index = 1
+               # 当删除的元素不是孩子节点时
+               while (index < self.realSize and index <= self.realSize // 2):
+                   # 被删除节点的左孩子节点
+                   left = index * 2
+                   # 被删除节点的右孩子节点
+                   right = (index * 2) + 1
+                   # 当删除节点的元素大于 左孩子节点或者右孩子节点，代表该元素的值大，此时需要将该元素与左、右孩子节点中最小的值进行交换
+                   if (self.minheap[index] > self.minheap[left] or self.minheap[index] > self.minheap[right]):
+                       if self.minheap[left] < self.minheap[right]:
+                           self.minheap[left], self.minheap[index] = self.minheap[index], self.minheap[left]
+                           index = left
+                       else:
+                           self.minheap[right], self.minheap[index] = self.minheap[index], self.minheap[right]
+                           index = right
+                   else:
+                       break
+               return removeElement
+       
+       # 返回「堆」的元素个数
+       def size(self):
+           return self.realSize
+       
+       def toString(self):
+           print(self.minheap[1 : self.realSize+1])
+   ```
+
+
+   
+
+3. **性能**：插入和删除最大/最小元素通常是 **O*(log*n)** 的时间复杂度。
+
+   
+
+#### **堆的分类**
+
+堆 有两种类型：**最大堆** 和 **最小堆**。
+
+最大堆：**堆中每一个节点的值 都大于等于 其孩子节点的值。所以最大堆的特性是 堆顶元素（根节点）是堆中的最大值。**
+
+最小堆：**堆中每一个节点的值 都小于等于 其孩子节点的值。所以最小堆的特性是 堆顶元素（根节点）是堆中的最小值。**
+
+![image-20231024124548299](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024124548299.png)
+
+
+
+
 
 ### 栈 vs 堆
 
 - **存储方式**：栈通常是连续的内存空间，堆则是动态分配。
+
 - **生命周期**：栈中的数据通常随函数的调用和返回而创建和销毁，而堆中的数据需要手动管理。
+
 - **访问速度**：由于栈使用连续内存空间和局部性原理，通常访问速度更快。
+
 - **灵活性**：堆由于是动态分配，更加灵活，但管理复杂。
+
 - **应用场景**：栈适用于需要快速、临时存储的场景；堆则适用于需要长时间存储或者快速找到最大/最小元素的场景。
+
+  
 
 ## 链表
 

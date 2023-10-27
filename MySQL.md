@@ -922,14 +922,14 @@ A选项的操作会将该字段所在的列中所有数据替换成别名
 - **删除表**
 
   ```
-  sqlCopy code
+  
   DROP TABLE Students;
   ```
 
 - **删除索引**
 
   ```
-  sqlCopy code
+  
   DROP INDEX index_name;
   ```
 
@@ -940,7 +940,7 @@ A选项的操作会将该字段所在的列中所有数据替换成别名
 - **清空表中的所有数据**
 
   ```
-  sqlCopy code
+  
   TRUNCATE TABLE Students;
   ```
 
@@ -951,14 +951,14 @@ A选项的操作会将该字段所在的列中所有数据替换成别名
 - **删除所有数据**
 
   ```
-  sqlCopy code
+  
   DELETE FROM Students;
   ```
 
 - **有条件地删除数据**
 
   ```
-  sqlCopy code
+  
   DELETE FROM Students WHERE Age < 18;
   ```
 
@@ -1167,7 +1167,7 @@ A决定B，B决定C, 但是C不能决定B,B不能决定A,那么存在A到C的依
 一个简单的延时注入示例：
 
 ```
-sqlCopy code
+
 SELECT * FROM users WHERE username = '' OR 1=SLEEP(5) -- ' AND password = 'password';
 ```
 
@@ -1458,3 +1458,77 @@ F) HBase: 是一个开源的、分布式的、版本化的、非关系型的数�
   - CourseID（外键）
 
 这样，一个学生可以选多门课，而一门课也可以被多个学生选。关系表中的每一行都表示一个学生与一门课之间的关系。
+
+
+
+## 基本运算符
+
+1. **选择（Selection）**: 符号为σ（sigma），用于从关系中选出满足某个条件的元组。例如，从“学生”关系中选择年龄大于20的所有元组。
+
+   ```
+   
+   SELECT * FROM 学生 WHERE 年龄 > 20;
+   ```
+
+2. **投影（Projection）**: 符号为π（pi），用于从关系的每个元组中选取某些属性。例如，从“学生”关系中仅选取“姓名”和“年龄”。
+
+   ```
+   
+   SELECT 姓名, 年龄 FROM 学生;
+   ```
+
+3. **并集（Union）**: 符号为 ∪，用于合并两个属性完全相同的关系。
+
+   ```
+   SELECT * FROM 关系1
+   UNION
+   SELECT * FROM 关系2;
+   ```
+
+4. **差集（Difference）**: 符号为 -，用于从一个关系中去掉所有在另一个关系中出现的元组。
+
+   ```
+   SELECT * FROM 关系1
+   MINUS
+   SELECT * FROM 关系2;
+   ```
+
+5. **笛卡尔积（Cartesian Product）**: 符号为 ×，用于组合两个关系中的所有元组。
+
+   ```
+   
+   SELECT * FROM 关系1, 关系2;
+   ```
+
+### 高级运算符
+
+1. **连接（Join）**: 符号为⨝，用于基于共有属性组合两个关系中的元组。
+
+   ```
+   
+   SELECT * FROM 关系1 JOIN 关系2 ON 关系1.属性 = 关系2.属性;
+   ```
+
+2. **除法（Division）**: 符号为 ÷，用于实现更复杂的查询，例如找出满足某些条件的元组。
+
+3. **交集（Intersection）**: 符号为 ∩，用于找出两个关系中都有的元组。
+
+   ```
+   SELECT * FROM 关系1
+   INTERSECT
+   SELECT * FROM 关系2;
+   ```
+
+4. **重命名（Rename）**: 符号为 ρ（rho），用于更改关系或属性的名称。
+
+   ```
+   
+   SELECT * FROM 关系 AS 新名称;
+   ```
+
+5. **聚合函数（Aggregate Functions）**: 虽然不是严格的关系代数运算符，但在 SQL 中常用于进行求和、平均、最大、最小等操作。
+
+   ```
+   
+   SELECT AVG(年龄), MAX(年龄) FROM 学生;
+   ```

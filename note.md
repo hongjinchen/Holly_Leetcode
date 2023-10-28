@@ -264,25 +264,306 @@ https://zhuanlan.zhihu.com/p/338302261
 
 # 排序问题
 
+## 常用的排序算法
 
+1. ### **冒泡排序（Bubble Sort）**
 
-## 冒泡排序
+   #### 基本思路
 
-#### 基本思路
+   1. 遍历整个数组，比较相邻的两个元素，如果它们是逆序的，则交换它们。
+   2. 重复这个过程，每次遍历少看一个元素。
+   3. 如果一次遍历中没有发生任何交换，则数组已经是有序的，可以提前结束算法。
 
-1. 遍历整个数组，比较相邻的两个元素，如果它们是逆序的，则交换它们。
-2. 重复这个过程，每次遍历少看一个元素。
-3. 如果一次遍历中没有发生任何交换，则数组已经是有序的，可以提前结束算法。
+   #### 时间复杂度和空间复杂度
 
-#### 时间复杂度和空间复杂度
+   - 时间复杂度：O(n^2)
+   - 空间复杂度：O(1)
+   - 稳定性：稳定
 
-- 时间复杂度：O(n^2)
-- 空间复杂度：O(1)
-- 稳定性：稳定
+   #### 示例代码（Python）
 
-[75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
+   ```
+   def bubble_sort(arr):
+       n = len(arr)
+       for i in range(n):
+           swapped = False
+           for j in range(0, n-i-1):
+               if arr[j] > arr[j+1]:
+                   arr[j], arr[j+1] = arr[j+1], arr[j]
+                   swapped = True
+           if not swapped:
+               break
+   ```
 
+   #### 例题
 
+   [75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
+
+2. ### **归并排序（Merge Sort）**
+
+   #### 基本思路
+
+   1. 分：将原始数组分成两个或更多的空间。
+   2. 解决：递归地将子数组排序。
+   3. 合并（Merge）：将排序后的子数组合并，形成一个新的排序数组。
+
+   #### 时间复杂度和空间复杂度
+
+   - 时间复杂度：O(n log n)
+   - 空间复杂度：O(n)
+   - 稳定性：稳定
+
+   #### 示例代码（Python）
+
+   ```python
+   def merge_sort(arr):
+       # 如果数组长度小于或等于 1，那么它已经是有序的
+       if len(arr) <= 1:
+           return arr
+       
+       # 计算中点并分割数组为两个子数组
+       mid = len(arr) // 2
+       left_half = arr[:mid]
+       right_half = arr[mid:]
+       
+       # 递归地对两个子数组进行排序
+       sorted_left = merge_sort(left_half)
+       sorted_right = merge_sort(right_half)
+       
+       # 将两个已排序的子数组进行归并
+       return merge(sorted_left, sorted_right)
+   
+   def merge(left, right):
+       result = []
+       i = j = 0
+       
+       # 比较 left 和 right 数组中的元素，并添加到结果数组中
+       while i < len(left) and j < len(right):
+           if left[i] < right[j]:
+               result.append(left[i])
+               i += 1
+           else:
+               result.append(right[j])
+               j += 1
+       
+       # 如果 left 数组还有剩余元素，将其添加到结果数组中
+       while i < len(left):
+           result.append(left[i])
+           i += 1
+       
+       # 如果 right 数组还有剩余元素，将其添加到结果数组中
+       while j < len(right):
+           result.append(right[j])
+           j += 1
+       
+       return result
+   
+   # 测试归并排序函数
+   if __name__ == "__main__":
+       arr = [38, 27, 43, 3, 9, 82, 10]
+       sorted_arr = merge_sort(arr)
+       print("Sorted Array:", sorted_arr)
+   
+   ```
+
+   
+
+3. ### **快速排序（Quick Sort）**
+
+   快速排序（Quick Sort）是一种被广泛应用的排序算法，由英国计算机科学家 Tony Hoare 在1960年提出。它是一种分治法（Divide and Conquer）的应用，能够在平均情况下实现 O(n log n) 的时间复杂度。下面是快速排序的基本思路和详细解释。
+
+   **基本思路**
+
+   1. **选取基准元素（Pivot）**: 在数组中选择一个元素作为基准。
+   2. **分区（Partitioning）**: 重新排列数组，使得比基准元素小的元素在其左侧，比基准元素大的元素在其右侧。在这一过程中，基准元素到达其最终位置。
+   3. **递归排序子数组**: 对基准元素左右两侧的子数组进行同样的操作。
+   4. **结束条件**: 当子数组的大小为 0 或 1 时，该子数组已经是有序的，不需要进一步处理。
+
+   **算法步骤**
+
+   假设我们有一个数组 `arr = [3, 6, 8, 10, 1, 2, 1]`，并且我们选择最后一个元素作为基准元素。
+
+   1. **选取基准元素**:
+      - 我们选择 `1` 作为基准元素。
+   2. **分区**:
+      - 定义两个指针 `i` 和 `j`。其中，`i` 从数组的第一个元素开始，`j` 从数组的倒数第二个元素开始。
+      - 遍历数组，使得所有小于 `1` 的元素都移到它的左侧，所有大于 `1` 的元素都移到它的右侧。
+      - 例如，我们可能得到一个这样的数组：`[1, 1, 8, 10, 3, 6, 2]`。
+      - 现在，基准元素 `1` 已经到达了它应该在的位置。
+   3. **递归排序子数组**:
+      - 对于基准元素左侧的子数组 `[1]` 和右侧的子数组 `[8, 10, 3, 6, 2]`，我们递归地进行快速排序。
+   4. **结束条件**:
+      - 当递归到数组大小为 0 或 1 时，递归结束。
+
+   **代码示例（Python）**
+
+   ```python
+   def quick_sort(arr, low, high):
+       if low < high:
+           # 找到基准元素后的正确位置
+           pivot_index = partition(arr, low, high)
+           
+           # 递归地对基准元素左边和右边的子数组进行快速排序
+           quick_sort(arr, low, pivot_index - 1)
+           quick_sort(arr, pivot_index + 1, high)
+   
+   def partition(arr, low, high):
+       # 选择最右侧的元素作为基准
+       pivot = arr[high]
+       i = low - 1
+       
+       # 将小于基准的元素移动到基准的左侧
+       for j in range(low, high):
+           if arr[j] < pivot:
+               i += 1
+               arr[i], arr[j] = arr[j], arr[i]
+               
+       # 将基准元素移动到正确的位置
+       arr[i + 1], arr[high] = arr[high], arr[i + 1]
+       return i + 1
+   
+   # 测试快速排序函数
+   if __name__ == "__main__":
+       arr = [10, 7, 8, 9, 1, 5]
+       n = len(arr)
+       quick_sort(arr, 0, n - 1)
+       print("Sorted array:", arr)
+   
+   ```
+
+   **时间复杂度和空间复杂度**
+
+   - 时间复杂度
+     - 最好情况：O(n log n)
+     - 平均情况：O(n log n)
+     - 最坏情况：O(n^2)
+   - **空间复杂度**: O(log n) 到 O(n)
+
+   快速排序是不稳定的排序算法，但是它的优点是排序速度快，实现相对简单。希望这个解释有助于你更好地理解快速排序的工作原理。
+
+   
+
+4. ### **选择排序（Selection Sort）**
+
+   **基本思路**
+
+   选择排序（Selection Sort）是一种简单直观的排序算法。它的工作原理是每次从未排序的元素中找出最小（或最大）元素，将其存放到序列的起始（或末尾）位置。这样，每次迭代后，最小（或最大）元素就被放到了它最终排序后应处于的位置。该过程会持续进行，直到所有元素都被正确排序。
+
+   **时间复杂度和空间复杂度**
+
+   - 时间复杂度：O(n^2)
+   - 空间复杂度：O(1)
+   - 稳定性：不稳定
+
+   **示例代码（Python）**
+
+   ```python
+   def selection_sort(arr):
+       n = len(arr)
+       
+       # 遍历整个数组
+       for i in range(n):
+           # 找到从当前位置到数组末尾的最小元素的索引
+           min_index = i
+           for j in range(i + 1, n):
+               if arr[j] < arr[min_index]:
+                   min_index = j
+                   
+           # 交换找到的最小元素和当前位置的元素
+           arr[i], arr[min_index] = arr[min_index], arr[i]
+   
+   # 测试选择排序函数
+   if __name__ == "__main__":
+       arr = [64, 25, 12, 22, 11]
+       selection_sort(arr)
+       print("Sorted array:", arr)
+   
+   ```
+
+5. ### **插入排序（Insertion Sort）**
+
+   #### 基本思路
+
+   1. 从第一个元素开始，该元素可以认为已经被排序。
+   2. 取出下一个元素，在已经排序的元素序列中从后向前扫描。
+   3. 如果该元素（已排序）大于新元素，将该元素移到下一位置。
+   4. 重复步骤3，直到找到已排序的元素小于或等于新元素的位置。
+
+   #### 时间复杂度和空间复杂度
+
+   - 时间复杂度：O(n^2)
+   - 空间复杂度：O(1)
+   - 稳定性：稳定
+
+   #### 示例代码（Python）
+
+   ```
+   def insertion_sort(arr):
+       for i in range(1, len(arr)):
+           key = arr[i]
+           j = i - 1
+           while j >= 0 and key < arr[j]:
+               arr[j + 1] = arr[j]
+               j -= 1
+           arr[j + 1] = key
+   ```
+
+### **合并所有的重叠区间，合并后的区间按照升序排列** 
+
+合并所有重叠区间并按照升序排列是一个经典的算法问题，通常用于间隔调度、时间表生成等场景。这个问题的解决方法一般分为以下几个步骤：
+
+**步骤：**
+
+1. **排序**：首先对给定的区间按照起始点进行排序。
+
+2. **初始化**：将第一个区间添加到结果列表中。
+
+3. 合并
+
+   ：遍历其余的区间，与结果列表中最后一个区间进行比较，看是否有重叠。
+
+   - 如果有重叠，合并它们。
+   - 如果没有重叠，直接将当前区间添加到结果列表中。
+
+4. **输出**：返回合并后的结果列表。
+
+**Python 代码示例：**
+
+```python
+def merge_intervals(intervals):
+    if not intervals:
+        return []
+    
+    # 按区间的起始点进行排序
+    intervals.sort(key=lambda x: x[0])
+    
+    # 初始化结果列表，并将第一个区间添加进去
+    result = [intervals[0]]
+    
+    # 遍历剩下的区间
+    for current in intervals[1:]:
+        # 获取结果列表中最后一个区间
+        last = result[-1]
+        
+        # 检查当前区间和最后一个区间是否有重叠
+        if current[0] <= last[1]:
+            # 合并两个重叠的区间
+            result[-1] = [last[0], max(last[1], current[1])]
+        else:
+            # 如果没有重叠，直接添加到结果列表中
+            result.append(current)
+    
+    return result
+
+# 测试代码
+if __name__ == "__main__":
+    intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
+    print("Merged intervals:", merge_intervals(intervals))
+```
+
+运行这段代码后，输出的合并后的区间应该是 `[[1, 6], [8, 10], [15, 18]]`。
+
+这个算法的时间复杂度是 O*(*n*log*n*)，主要消耗在排序步骤上。空间复杂度则为 O*(*n*)，用于存储结果列表。
 
 # 回溯算法和DFS
 
@@ -342,620 +623,6 @@ https://zhuanlan.zhihu.com/p/338302261
 
 [95. 不同的二叉搜索树 II](https://leetcode.cn/problems/unique-binary-search-trees-ii/)
 
-# 数据结构
-
-### 数组
-
-
-
-![image-20231020215226122](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215226122.png)
-
-<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215700924.png" alt="image-20231020215700924" style="zoom:50%;" />
-
-
-
-
-
-### 栈（Stack）
-
-1. **定义**：栈是一种后进先出（LIFO，Last-In-First-Out）的数据结构。
-2. **操作**：主要有两种基本操作——压栈（push）和弹栈（pop）。
-3. **应用**：函数调用、表达式求值、深度优先搜索等。
-4. **存储**：通常使用数组或链表来实现。
-5. **性能**：压栈和弹栈操作通常是 O(1) 的时间复杂度。
-
-**示例代码（Python）**
-
-```
-class Stack:
-    def __init__(self):
-        self.items = []
-        
-    def push(self, item):
-        self.items.append(item)
-        
-    def pop(self):
-        return self.items.pop() if not self.is_empty() else None
-    
-    def is_empty(self):
-        return len(self.items) == 0
-```
-
-
-
-### 堆（Heap）
-
-#### **定义**
-
-堆是一种特殊的完全二叉树，满足堆的性质（最大堆或最小堆）。
-
-> **完全二叉树；**
->
-> **定义**
->
-> 一个二叉树在除了最后一层以外的其余每一层都是完全填充的，并且所有节点都保持向左对齐，这样的二叉树称为完全二叉树。
->
-> **特性**
->
-> 1. **结构平衡**：在完全二叉树中，上面的层总是会在添加新节点之前填满。新节点总是从左到右添加。
-> 2. **高度有限制**：对于有 *n* 个节点的完全二叉树，树的高度为 ⌊log2*n*⌋。
-> 3. **叶子节点**：叶子节点只能出现在最后两层。在最后一层中，叶子节点集中在左侧。
->
-> **应用场景**
->
-> 1. **堆（Heap）**：堆是一种特殊的完全二叉树，常用于实现优先队列。
-> 2. **二叉树数组表示**：由于完全二叉树的特性，它特别适合用数组来表示。这样做可以节省存储空间，并且方便进行索引操作。
->
-> **代码示例**
->
-> 用Python表示一个完全二叉树：
->
-> ```
-> class TreeNode:
->     def __init__(self, value=0, left=None, right=None):
->         self.value = value
->         self.left = left
->         self.right = right
-> 
-> # 创建一个完全二叉树
-> #         1
-> #       /   \
-> #      2     3
-> #     / \   / 
-> #    4   5 6  
-> root = TreeNode(1)
-> root.left = TreeNode(2)
-> root.right = TreeNode(3)
-> root.left.left = TreeNode(4)
-> root.left.right = TreeNode(5)
-> root.right.left = TreeNode(6)
-> ```
-
-1. **操作**：插入元素、删除最大/最小元素等。
-
-   #### 创建堆
-
-   创建 堆 指的是初始化一个堆实例。所有堆方法的前提必须是在堆实例上进行操作。换句话说，我们必须要首先创建一个 堆 实例，然后才能使用 堆 的常用方法。在创建 堆 的过程中，我们也可以同时进行 堆化 操作。堆化 就是将一组数据变成 堆 的过程。
-
-   时间复杂度： 
-   O(N)。
-
-   空间复杂度： 
-   O(N)。
-
-   ```python
-   import heapq
-   # 创建一个空的最小堆
-   minHeap = []
-   heapq.heapify(minHeap)
-   
-   # 创建一个空的最大堆
-   # 由于Python中并没有内置的函数可以直接创建最大堆，所以一般我们不会直接创建一个空的最大堆。
-   
-   # 创建带初始值的「堆」， 或者称为「堆化」操作，此时的「堆」为「最小堆」
-   heapWithValues = [3,1,2]
-   heapq.heapify(heapWithValues)
-   
-   # 创建最大堆技巧
-   # Python中并没有内置的函数可以直接创建最大堆。
-   # 但我们可以将[每个元素*-1]，再将新元素集进行「堆化」操作。此时，堆顶元素是新的元素集的最小值，也可以转换成原始元素集的最大值。
-   # 示例
-   maxHeap = [1,2,3]
-   maxHeap = [-x for x in maxHeap]
-   heapq.heapify(maxHeap)
-   # 此时的maxHeap的堆顶元素是-3
-   # 将-3转换为原来的元素3，既可获得原来的maxHeap中最大的值是3
-   ```
-
-   **最小堆转换城最大堆的逻辑**
-
-   **方法 1: 取反（Negation）**
-
-   一种常见的技巧是在插入堆之前取每个元素的负值。因为 `heapq` 是最小堆，所以它会把负数排在最前面。因此，实际上负的负数（即原数）就成了最大数。
-
-   **方法 4: 转换已有的最小堆为最大堆**
-
-   如果你已经有一个最小堆，并且希望将其转换为最大堆，你可以这样做：
-
-   1. 遍历整个最小堆，取每个元素的负值。
-
-   2. 使用 `heapify` 函数重新堆化。
-
-      
-
-   #### 堆的插入步骤
-
-   1. **添加元素**：将新元素添加到完全二叉树的最后一个位置，即数组的最后。这样做会保持完全二叉树的性质。
-   2. **上浮（Heapify Up）**：比较新添加的元素与其父节点的值。
-      - 如果新元素大于其父节点，那么交换它们。
-      - 继续这个过程，直到新元素到达根节点或者其值小于（或等于）其父节点。
-
-   这个过程也称为“堆化”（Heapify），它确保了堆的第二个性质：节点间的大小关系。
-
-   插入操作的时间复杂度是O*(log*n)，这里 n是堆中元素的数量。
-
-   ```
-   def heapify_up(heap):
-       index = len(heap) - 1  # 新元素的索引位置
-       while index > 0:
-           parent_index = (index - 1) // 2  # 找到父节点的索引位置
-           # 如果新元素大于父节点，则交换它们
-           if heap[index] > heap[parent_index]:
-               heap[index], heap[parent_index] = heap[parent_index], heap[index]
-               index = parent_index  # 更新当前节点的索引为父节点的索引，继续上浮
-           else:
-               break  # 如果新元素小于或等于父节点，则停止上浮
-   
-   def insert(heap, value):
-       heap.append(value)  # 在数组最后添加新元素
-       heapify_up(heap)  # 上浮以保持堆的性质
-   
-   # 创建一个空的最大堆
-   max_heap = []
-   
-   # 插入元素
-   insert(max_heap, 3)
-   insert(max_heap, 4)
-   insert(max_heap, 9)
-   insert(max_heap, 5)
-   insert(max_heap, 2)
-   
-   print("Max Heap:", max_heap)  # 输出应该是一个最大堆
-   ```
-
-   
-
-   #### 删除最大/最小元素
-
-   删除操作是指在 **堆** 中删除堆顶元素。元素删除之后，**堆** 依旧需要维持它的特性。
-
-   1. **替换根节点**：用堆的最后一个元素替换根节点。这样做可以轻易地维持堆的完全二叉树性质。
-
-   2. **下沉（Heapify Down）**：从新的根节点开始，与其子节点进行比较：
-
-      - 选取两个子节点中较大（对于最大堆）或较小（对于最小堆）的一个。
-      - 如果该子节点大于（或小于）当前节点，则交换它们。
-      - 继续这个过程，直到当前节点大于（或小于）其任何子节点，或者它成为叶子节点。
-
-   3. **返回被删除的元素**：可选操作，通常是将最初的根节点（即被删除的最大或最小元素）返回给用户。
-
-      
-
-   #### 获取堆顶元素
-
-   最大堆 的堆顶元素是 堆 中的最大值，最小堆 的堆顶元素是 堆 中的最小值。因此，堆顶元素是 堆 中最重要的元素。
-
-   时间复杂度： 
-   O(1)。
-
-   空间复杂度：
-   O(1)。
-
-   ```
-   # 最小堆获取堆顶元素，即最小值
-   minHeap[0]
-   # 最大堆获取堆顶元素，即最大值
-   # 元素乘以 -1 的原因是：我们之前插入元素时，将元素乘以 -1，所以在获取元素时，我们需要乘以 -1还原元素。
-   maxHeap[0]*-1
-   ```
-
-   
-
-   #### 操作的复杂度
-
-   ![image-20231024135350880](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024135350880.png)
-
-   
-
-
-
-
-
-1. **应用**：优先队列、堆排序、图算法（如 Dijkstra 算法）等。
-
-2. **存储**：在堆的数据结构中，我们常用堆的插入、删除、获取堆顶元素的操作。
-
-   我们可以用**数组**实现堆。我们将堆中的元素以二叉树的形式存入在数组中。以下代码将使用数组实现整数类型的「最大堆」和「最小堆」，仅供大家参考（在实际解题或者工作中，一般很少需要自己去实现堆）：
-
-   ```python
-   # 「最小堆」的实现
-   import sys
-   
-   class MinHeap:
-       def __init__(self, heapSize):
-           # heapSize用于数组的大小，因为数组在创建的时候至少需要指明数组的元素个数
-           self.heapSize = heapSize
-           # 使用数组创建完全二叉树的结构，然后使用二叉树构建一个「堆」
-           self.minheap = [0]*(heapSize+1)
-           # realSize用于记录「堆」的元素个数
-           self.realSize = 0
-   
-       #  添加元素函数
-       def add(self, element):
-           self.realSize += 1
-           # 如果「堆」中元素的个数大于一开始设定的数组的个数，则返回「Add too many elements」
-           if self.realSize > self.heapSize:
-               print("Add too many elements!")
-               self.realSize -= 1
-               return
-           # 将添加的元素添加到数组中
-           self.minheap[self.realSize] = element
-           # 新增元素的索引位置
-           index = self.realSize
-           # 新增元素的父节点的索引位置
-           # 注意，如果用数组表示完全二叉树，并且根结点存储在数组的索引1的位置的时候，任何一个节点的父节点索引位置为「该节点的索引位置/2」，任何一个节点的左孩子节点的索引位置为「该节点的索引位置*2」，任何一个节点的右孩子节点的索引位置为「该节点的索引位置*2+1」
-           parent = index // 2
-           # 当添加的元素小于父节点时，需要将父节点的值和新增元素的值交换
-           while (self.minheap[index] < self.minheap[parent] and index > 1):
-               self.minheap[parent], self.minheap[index] = self.minheap[index], self.minheap[parent]
-               index = parent
-               parent = index // 2
-       
-       # 获取堆顶元素函数
-       def peek(self):
-           return self.minheap[1]
-       
-       # 删除堆顶元素函数
-       def pop(self):
-           # 如果当前「堆」的元素个数为0， 则返回「Don't have any element」
-           if self.realSize < 1:
-               print("Don't have any element!")
-               return sys.maxsize
-           else:
-               # 当前「堆」中含有元素
-               # self.realSize >= 1
-               removeElement = self.minheap[1]
-               # 将「堆」中的最后一个元素赋值给堆顶元素
-               self.minheap[1] = self.minheap[self.realSize]
-               self.realSize -= 1
-               index = 1
-               # 当删除的元素不是孩子节点时
-               while (index < self.realSize and index <= self.realSize // 2):
-                   # 被删除节点的左孩子节点
-                   left = index * 2
-                   # 被删除节点的右孩子节点
-                   right = (index * 2) + 1
-                   # 当删除节点的元素大于 左孩子节点或者右孩子节点，代表该元素的值大，此时需要将该元素与左、右孩子节点中最小的值进行交换
-                   if (self.minheap[index] > self.minheap[left] or self.minheap[index] > self.minheap[right]):
-                       if self.minheap[left] < self.minheap[right]:
-                           self.minheap[left], self.minheap[index] = self.minheap[index], self.minheap[left]
-                           index = left
-                       else:
-                           self.minheap[right], self.minheap[index] = self.minheap[index], self.minheap[right]
-                           index = right
-                   else:
-                       break
-               return removeElement
-       
-       # 返回「堆」的元素个数
-       def size(self):
-           return self.realSize
-       
-       def toString(self):
-           print(self.minheap[1 : self.realSize+1])
-   ```
-
-
-
-
-3. **性能**：插入和删除最大/最小元素通常是 **O*(log*n)** 的时间复杂度。
-
-   
-
-#### **堆的分类**
-
-堆 有两种类型：**最大堆** 和 **最小堆**。
-
-最大堆：**堆中每一个节点的值 都大于等于 其孩子节点的值。所以最大堆的特性是 堆顶元素（根节点）是堆中的最大值。**
-
-最小堆：**堆中每一个节点的值 都小于等于 其孩子节点的值。所以最小堆的特性是 堆顶元素（根节点）是堆中的最小值。**
-
-![image-20231024124548299](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024124548299.png)
-
-
-
-
-
-### 栈 vs 堆
-
-- **存储方式**：栈通常是连续的内存空间，堆则是动态分配。
-
-- **生命周期**：栈中的数据通常随函数的调用和返回而创建和销毁，而堆中的数据需要手动管理。
-
-- **访问速度**：由于栈使用连续内存空间和局部性原理，通常访问速度更快。
-
-- **灵活性**：堆由于是动态分配，更加灵活，但管理复杂。
-
-- **应用场景**：栈适用于需要快速、临时存储的场景；堆则适用于需要长时间存储或者快速找到最大/最小元素的场景。
-
-  
-
-## 链表
-
-### 相关题目
-
-[82. 删除排序链表中的重复元素 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)
-
-[86. 分隔链表](https://leetcode.cn/problems/partition-list/)
-
-## 二叉树
-
-### 定义
-
-二叉树是一种树形数据结构，其中每个节点最多有两个子节点，通常分别称为“左子节点”和“右子节点”。二叉树的顶部节点称为“根节点”。
-
-在编程语境中，一个简单的二叉树节点可以用以下结构定义（以Python为例）：
-
-```
-class TreeNode:
-    def __init__(self, value=0, left=None, right=None):
-        self.value = value
-        self.left = left
-        self.right = right
-```
-
-### 节点的深度（Depth）
-
-在二叉树中，一个节点的“深度”定义为该节点到根节点的最短路径上的边的数量。根据这个定义，根节点的深度为0，其子节点的深度为1，依此类推。
-
-例如，在以下二叉树中：
-
-```
-        A
-       / \
-      B   C
-     / \
-    D   E
-```
-
-- 节点A（根节点）的深度是0
-- 节点B和C的深度是1
-- 节点D和E的深度是2
-
-### 节点的高度（Height）
-
-一个节点的“高度”是从该节点到最远叶子节点的最长路径上的边的数量。在这个定义下，所有叶子节点的高度都是0。
-
-还是以同样的例子为例：
-
-```
-        A
-       / \
-      B   C
-     / \
-    D   E
-```
-
-- 节点D和E（叶子节点）的高度是0
-- 节点B的高度是1（到达叶子节点D或E需要经过一条边）
-- 节点C的高度是0（它自己就是叶子节点）
-- 节点A的高度是2（到达叶子节点D或E需要经过两条边）
-
-### 遍历方式
-
-在计算机科学中，前序遍历、中序遍历和后序遍历是用于遍历树结构（特别是二叉树）的三种主要方法。下面我会详细解释这三种遍历方法，并给出Python代码示例。
-
-        A
-       / \
-      B   C
-     / \
-    D   E
-**前序遍历（Preorder Traversal）**
-
-前序遍历的顺序是：根节点 -> 左子树 -> 右子树。
-
-```
-def preorder_traversal(root):
-    if root is None:
-        return
-    print(root.val, end=' ')
-    preorder_traversal(root.left)
-    preorder_traversal(root.right)
-    
-    # 输出：['A', 'B', 'D', 'E', 'C']
-```
-
-**中序遍历（Inorder Traversal）**
-
-中序遍历的顺序是：左子树 -> 根节点 -> 右子树。
-
-```
-def inorder_traversal(root):
-    if root is None:
-        return
-    inorder_traversal(root.left)
-    print(root.val, end=' ')
-    inorder_traversal(root.right)
-    
-    # 输出：['D', 'B', 'E', 'A', 'C']
-```
-
-**后序遍历（Postorder Traversal）**
-
-后序遍历的顺序是：左子树 -> 右子树 -> 根节点。
-
-```
-def postorder_traversal(root):
-    if root is None:
-        return
-    postorder_traversal(root.left)
-    postorder_traversal(root.right)
-    print(root.val, end=' ')
-    
-    # 输出：['D', 'E', 'B', 'C', 'A']
-```
-
-**示例代码**
-
-下面是一个完整的Python代码示例，展示了如何定义一个简单的二叉树节点类，并对这个类的实例进行前序、中序和后序遍历。
-
-```
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def preorder_traversal(root):
-    if root is None:
-        return
-    print(root.val, end=' ')
-    preorder_traversal(root.left)
-    preorder_traversal(root.right)
-
-def inorder_traversal(root):
-    if root is None:
-        return
-    inorder_traversal(root.left)
-    print(root.val, end=' ')
-    inorder_traversal(root.right)
-
-def postorder_traversal(root):
-    if root is None:
-        return
-    postorder_traversal(root.left)
-    postorder_traversal(root.right)
-    print(root.val, end=' ')
-
-# 创建一个简单的二叉树
-#        1
-#       / \
-#      2   3
-#     / \
-#    4   5
-
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-root.left.left = TreeNode(4)
-root.left.right = TreeNode(5)
-
-# 执行遍历
-print("前序遍历：", end='')
-preorder_traversal(root)
-print("\n中序遍历：", end='')
-inorder_traversal(root)
-print("\n后序遍历：", end='')
-postorder_traversal(root)
-```
-
-### 二叉树搜索 
-
-根据BST的特性，对于每个节点：
-
-如果目标值等于节点的值，则返回节点；
-如果目标值小于节点的值，则继续在左子树中搜索；
-如果目标值大于节点的值，则继续在右子树中搜索。
-
-![image-20231027164631889](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027164631889.png)
-
-### 二叉树插入
-
-二叉搜索树中的另一个常见操作是插入一个新节点。有许多不同的方法去插入新节点，这篇文章中，我们只讨论一种使整体操作变化最小的经典方法。 它的主要思想是为目标节点找出合适的叶节点位置，然后将该节点作为叶节点插入。 因此，搜索将成为插入的起始。
-
-与搜索操作类似，对于每个节点，我们将：
-
-根据节点值与目标节点值的关系，搜索左子树或右子树；
-重复步骤 1 直到到达外部节点；
-根据节点的值与目标节点的值的关系，将新节点添加为其左侧或右侧的子节点。
-这样，我们就可以添加一个新的节点并依旧维持二叉搜索树的性质。
-
-<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027170558461.png" alt="image-20231027170558461" style="zoom:50%;" />
-
-
-
-### 二叉树删除
-
-删除要比我们前面提到过的两种操作复杂许多。有许多不同的删除节点的方法，这篇文章中，我们只讨论一种使整体操作变化最小的方法。我们的方案是用一个合适的子节点来替换要删除的目标节点。根据其子节点的个数，我们需考虑以下三种情况：
-
-1. 如果目标节点没有子节点，我们可以直接移除该目标节点。
-2. 如果目标节只有一个子节点，我们可以用其子节点作为替换。
-3. 如果目标节点有两个子节点，我们需要用其中序后继节点或者前驱节点来替换，再删除该目标节点。
-
-<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027172446938.png" alt="image-20231027172446938" style="zoom:50%;" />
-
-
-
-
-
-### 二叉树优点
-
-二叉搜索树的有优点是，即便在最坏的情况下，也允许你在**O(n)的时间复杂度**内执行所有的搜索、插入、删除操作。
-
-通常来说，如果你想有序地存储数据或者**需要同时执行搜索、插入、删除等多步操作，**二叉搜索树这个数据结构是一个很好的选择。
-
-> 问题描述：设计一个类，求一个数据流中第k大的数。
->
-> 一个很显而易见的解法是，先将数组降序排列好，然后返回数组中第k个数。
->
-> 但这个解法的缺点在于，为了在O(1)时间内执行搜索操作，每次插入一个新值都需要重新排列元素的位置。从而使得插入操作的解法平均时间复杂度变为O(N)。因此，算法总时间复杂度会变为O(N^2)。
->
-> 鉴于我们同时需要插入和搜索操作，为什么不考虑使用一个二叉搜索树结构存储数据呢？
->
-> 我们知道，对于二叉搜索树的每个节点来说，它的左子树上所有结点的值均小于它的根结点的值，右子树上所有结点的值均大于它的根结点的值。
->
-> 换言之，对于二叉搜索树的每个节点来说，若其左子树共有m个节点，那么该节点是组成二叉搜索树的有序数组中第m + 1个值。
-
-
-
-
-
-### 平衡二叉树
-
-平衡二叉树（Balanced Binary Tree）是一种特别的二叉树，其设计初衷是为了解决普通二叉搜索树在极端情况下可能出现的效率问题（比如，当所有节点都在一侧时，二叉搜索树退化为链表）。
-
-**定义**
-
-平衡二叉树必须满足两个条件：
-
-1. **每个节点的左子树和右子树的高度差（称为平衡因子）不得超过一个给定的常数（通常为 1）**。
-2. **每个节点的左子树和右子树也都必须是平衡二叉树**。
-
-**判断是否为平衡二叉树**
-
-```
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def isBalanced(root):
-    def height(root):
-        if not root:
-            return 0
-        left_height = height(root.left)
-        right_height = height(root.right)
-        
-        # 如果子树是不平衡的，则提前停止
-        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
-            return -1
-        
-        return max(left_height, right_height) + 1
-
-    return height(root) != -1
-```
-
 
 
 
@@ -963,6 +630,10 @@ def isBalanced(root):
 # 双指针法
 
 1.
+
+双指针法（Two-Pointer Technique）是一种常用于解决数组（Array）或链表（Linked List）问题的算法技巧。这种方法通过使用两个指针（或索引），通常从不同的方向遍历数组或链表，从而达到优化时间和/或空间复杂度的目的。
+
+
 
 使用双指针的典型场景之一是你想要
 
@@ -1086,6 +757,962 @@ def is_palindrome(s: str) -> bool:
 # 测试
 print(is_palindrome("A man a plan a canal Panama"))  # 输出应为 True
 print(is_palindrome("race a car"))  # 输出应为 False
+```
+
+
+
+
+
+# 数据结构
+
+## 基础介绍
+
+「线性数据结构」与「非线性数据结构」
+
+<img src="https://pic.leetcode-cn.com/1599638810-SZDwfK-Picture1.png" alt="Picture1.png" style="zoom: 50%;" />
+
+
+
+## 数组
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215226122.png" alt="image-20231020215226122" style="zoom:50%;" />
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231020215700924.png" alt="image-20231020215700924" style="zoom: 33%;" />
+
+数组是将相同类型的元素存储于连续内存空间的数据结构，其长度不可变。
+
+如下图所示，构建此数组需要在初始化时给定长度，并对数组每个索引元素赋值，代码如下：
+
+```java
+// 初始化一个长度为 5 的数组 array
+int[] array = new int[5];
+// 元素赋值
+array[0] = 2;
+array[1] = 3;
+array[2] = 1;
+array[3] = 0;
+array[4] = 2;
+```
+
+或者可以使用直接赋值的初始化方式，代码如下：
+
+```
+int[] array = {2, 3, 1, 0, 2};
+```
+
+
+
+**「可变数组」**是经常使用的数据结构，其基于数组和扩容机制实现，相比普通数组更加灵活。常用操作有：访问元素、添加元素、删除元素。
+
+Java
+
+```java
+// 初始化可变数组
+List<Integer> array = new ArrayList<>();
+
+// 向尾部添加元素
+array.add(2);
+array.add(3);
+array.add(1);
+array.add(0);
+array.add(2);
+```
+
+Python
+
+```python
+# 初始化可变数组
+array = []
+
+# 向尾部添加元素
+array.append(2)
+array.append(3)
+array.append(1)
+array.append(0)
+array.append(2)
+```
+
+
+
+## 链表
+
+链表以节点为单位，每个元素都是一个独立对象，在内存空间的存储是非连续的。链表的节点对象具有两个成员变量：「值 val」，「后继节点引用 next」 。
+
+Java
+
+```java
+class ListNode {
+    int val;       // 节点值
+    ListNode next; // 后继节点引用
+    ListNode(int x) { val = x; }
+}
+```
+
+Python
+
+```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x     # 节点值
+        self.next = None # 后继节点引用
+```
+
+如下图所示，建立此链表需要实例化每个节点，并构建各节点的引用指向。
+
+JAVA
+
+```java
+// 实例化节点
+ListNode n1 = new ListNode(4); // 节点 head
+ListNode n2 = new ListNode(5);
+ListNode n3 = new ListNode(1);
+
+// 构建引用指向
+n1.next = n2;
+n2.next = n3;
+```
+
+
+
+**相关题目**
+
+[82. 删除排序链表中的重复元素 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)
+
+[86. 分隔链表](https://leetcode.cn/problems/partition-list/)
+
+**如何判断链表里有环**---**快慢指针法**
+
+该算法使用两个指针，一个快指针和一个慢指针。快指针每次移动两个节点，而慢指针每次移动一个节点。如果链表中存在环，快慢指针最终会在环内的某个节点相遇。
+
+
+
+**快慢指针法的终止条件：**
+
+该算法有两个主要的终止条件：
+
+1. **相遇条件**：如果快指针和慢指针在链表中的某个点相遇，这意味着链表存在环。
+2. **空指针条件**：如果快指针或其下一个节点成为空指针（`None`），这意味着链表没有环。
+
+**Python 代码示例：**
+
+下面是使用 Python 定义一个简单的链表节点和使用快慢指针法检测链表中是否存在环的代码：
+
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def has_cycle(head):
+    # 初始化慢指针和快指针
+    slow = head
+    fast = head
+    
+    while fast is not None and fast.next is not None:
+        # 慢指针移动一步
+        slow = slow.next
+        # 快指针移动两步
+        fast = fast.next.next
+        
+        # 检查快慢指针是否相遇
+        if slow == fast:
+            return True  # 存在环
+    
+    return False  # 不存在环
+
+# 创建一个没有环的链表
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+
+# 测试函数
+print("Has cycle:", has_cycle(head))  # 输出应为 False
+
+# 创建一个有环的链表
+head.next.next.next = head
+
+# 测试函数
+print("Has cycle:", has_cycle(head))  # 输出应为 True
+```
+
+在这个示例中，`ListNode` 类用于创建链表节点，`has_cycle` 函数则用于检测链表是否包含环。我们首先创建一个没有环的链表进行测试，然后修改链表以形成一个环，并再次进行测试。
+
+这种使用快慢指针的方法时间复杂度为 O*(*n*)，其中 n 是链表中的节点数。空间复杂度为 O*(1)，因为我们只使用了两个指针。
+
+
+
+## 栈（Stack）
+
+1. **定义**：栈是一种**后进先出（LIFO，Last-In-First-Out）**的数据结构。
+2. **操作**：主要有两种基本操作——压栈（push）和弹栈（pop）。
+3. **应用**：函数调用、表达式求值、深度优先搜索等。
+4. **存储**：通常使用数组或链表来实现。
+5. **性能**：压栈和弹栈操作通常是 O(1) 的时间复杂度。
+
+**示例代码（Python）**
+
+```python
+class Stack:
+    def __init__(self):
+        self.items = [] # Python 可将列表作为栈使用
+        
+    def push(self, item):
+        self.items.append(item)
+        
+    def pop(self):
+        return self.items.pop() if not self.is_empty() else None
+    
+    def is_empty(self):
+        return len(self.items) == 0
+```
+
+**JAVA**
+
+```java
+Stack<Integer> stack = new Stack<>();
+
+stack.push(1); // 元素 1 入栈
+stack.push(2); // 元素 2 入栈
+stack.pop();   // 出栈 -> 元素 2
+stack.pop();   // 出栈 -> 元素 1
+
+LinkedList<Integer> stack = new LinkedList<>();
+
+stack.addLast(1);   // 元素 1 入栈
+stack.addLast(2);   // 元素 2 入栈
+stack.removeLast(); // 出栈 -> 元素 2
+stack.removeLast(); // 出栈 -> 元素 1
+```
+
+
+
+## 队列
+
+队列是一种具有 **「先入先出」** 特点的抽象数据结构，可使用链表实现。
+
+Java
+
+```java
+Queue<Integer> queue = new LinkedList<>();
+```
+
+Python
+
+```
+# Python 通常使用双端队列 collections.deque
+from collections import deque
+
+queue = deque()
+```
+
+如下图所示，通过常用操作「入队 push()」,「出队 pop()」，展示了队列的先入先出特性。
+
+Java
+
+```java
+queue.offer(1); // 元素 1 入队
+queue.offer(2); // 元素 2 入队
+queue.poll();   // 出队 -> 元素 1
+queue.poll();   // 出队 -> 元素 2
+```
+
+Python
+
+```
+queue.append(1) # 元素 1 入队
+queue.append(2) # 元素 2 入队
+queue.popleft() # 出队 -> 元素 1
+queue.popleft() # 出队 -> 元素 2
+```
+
+
+
+## 堆（Heap）
+
+#### **定义**
+
+**堆是一种特殊的完全二叉树，满足堆的性质（最大堆或最小堆）。**
+
+> **完全二叉树；**
+>
+> **定义**
+>
+> 一个二叉树在除了最后一层以外的其余每一层都是完全填充的，并且所有节点都保持向左对齐，这样的二叉树称为完全二叉树。
+>
+> **特性**
+>
+> 1. **结构平衡**：在完全二叉树中，上面的层总是会在添加新节点之前填满。新节点总是从左到右添加。
+> 2. **高度有限制**：对于有 *n* 个节点的完全二叉树，树的高度为 ⌊log2*n*⌋。
+> 3. **叶子节点**：叶子节点只能出现在最后两层。在最后一层中，叶子节点集中在左侧。
+>
+> **应用场景**
+>
+> 1. **堆（Heap）**：堆是一种特殊的完全二叉树，常用于实现优先队列。
+> 2. **二叉树数组表示**：由于完全二叉树的特性，它特别适合用数组来表示。这样做可以节省存储空间，并且方便进行索引操作。
+>
+> **代码示例**
+>
+> 用Python表示一个完全二叉树：
+>
+> ```
+> class TreeNode:
+>     def __init__(self, value=0, left=None, right=None):
+>         self.value = value
+>         self.left = left
+>         self.right = right
+> 
+> # 创建一个完全二叉树
+> #         1
+> #       /   \
+> #      2     3
+> #     / \   / 
+> #    4   5 6  
+> root = TreeNode(1)
+> root.left = TreeNode(2)
+> root.right = TreeNode(3)
+> root.left.left = TreeNode(4)
+> root.left.right = TreeNode(5)
+> root.right.left = TreeNode(6)
+> ```
+
+1. **操作**：插入元素、删除最大/最小元素等。
+
+   #### 创建堆
+
+   创建 堆 指的是初始化一个堆实例。所有堆方法的前提必须是在堆实例上进行操作。换句话说，我们必须要首先创建一个 堆 实例，然后才能使用 堆 的常用方法。在创建 堆 的过程中，我们也可以同时进行 堆化 操作。堆化 就是将一组数据变成 堆 的过程。
+
+   时间复杂度： 
+   O(N)。
+
+   空间复杂度： 
+   O(N)。
+
+   ```python
+   import heapq
+   # 创建一个空的最小堆
+   minHeap = []
+   heapq.heapify(minHeap)
+   
+   # 创建一个空的最大堆
+   # 由于Python中并没有内置的函数可以直接创建最大堆，所以一般我们不会直接创建一个空的最大堆。
+   
+   # 创建带初始值的「堆」， 或者称为「堆化」操作，此时的「堆」为「最小堆」
+   heapWithValues = [3,1,2]
+   heapq.heapify(heapWithValues)
+   
+   # 创建最大堆技巧
+   # Python中并没有内置的函数可以直接创建最大堆。
+   # 但我们可以将[每个元素*-1]，再将新元素集进行「堆化」操作。此时，堆顶元素是新的元素集的最小值，也可以转换成原始元素集的最大值。
+   # 示例
+   maxHeap = [1,2,3]
+   maxHeap = [-x for x in maxHeap]
+   heapq.heapify(maxHeap)
+   # 此时的maxHeap的堆顶元素是-3
+   # 将-3转换为原来的元素3，既可获得原来的maxHeap中最大的值是3
+   ```
+
+   **最小堆转换城最大堆的逻辑**
+
+   **方法 1: 取反（Negation）**
+
+   一种常见的技巧是在插入堆之前取每个元素的负值。因为 `heapq` 是最小堆，所以它会把负数排在最前面。因此，实际上负的负数（即原数）就成了最大数。
+
+   **方法 4: 转换已有的最小堆为最大堆**
+
+   如果你已经有一个最小堆，并且希望将其转换为最大堆，你可以这样做：
+
+   1. 遍历整个最小堆，取每个元素的负值。
+
+   2. 使用 `heapify` 函数重新堆化。
+
+      
+
+   #### 堆的插入步骤
+
+   1. **添加元素**：将新元素添加到完全二叉树的最后一个位置，即数组的最后。这样做会保持完全二叉树的性质。
+   2. **上浮（Heapify Up）**：比较新添加的元素与其父节点的值。
+      - 如果新元素大于其父节点，那么交换它们。
+      - 继续这个过程，直到新元素到达根节点或者其值小于（或等于）其父节点。
+
+   这个过程也称为“堆化”（Heapify），它确保了堆的第二个性质：节点间的大小关系。
+
+   插入操作的时间复杂度是O*(log*n)，这里 n是堆中元素的数量。
+
+   ```python
+   def heapify_up(heap):
+       index = len(heap) - 1  # 新元素的索引位置
+       while index > 0:
+           parent_index = (index - 1) // 2  # 找到父节点的索引位置
+           # 如果新元素大于父节点，则交换它们
+           if heap[index] > heap[parent_index]:
+               heap[index], heap[parent_index] = heap[parent_index], heap[index]
+               index = parent_index  # 更新当前节点的索引为父节点的索引，继续上浮
+           else:
+               break  # 如果新元素小于或等于父节点，则停止上浮
+   
+   def insert(heap, value):
+       heap.append(value)  # 在数组最后添加新元素
+       heapify_up(heap)  # 上浮以保持堆的性质
+   
+   # 创建一个空的最大堆
+   max_heap = []
+   
+   # 插入元素
+   insert(max_heap, 3)
+   insert(max_heap, 4)
+   insert(max_heap, 9)
+   insert(max_heap, 5)
+   insert(max_heap, 2)
+   
+   print("Max Heap:", max_heap)  # 输出应该是一个最大堆
+   ```
+
+   
+
+   #### 删除最大/最小元素
+
+   删除操作是指在 **堆** 中删除堆顶元素。元素删除之后，**堆** 依旧需要维持它的特性。
+
+   1. **替换根节点**：用堆的最后一个元素替换根节点。这样做可以轻易地维持堆的完全二叉树性质。
+
+   2. **下沉（Heapify Down）**：从新的根节点开始，与其子节点进行比较：
+
+      - 选取两个子节点中较大（对于最大堆）或较小（对于最小堆）的一个。
+      - 如果该子节点大于（或小于）当前节点，则交换它们。
+      - 继续这个过程，直到当前节点大于（或小于）其任何子节点，或者它成为叶子节点。
+
+   3. **返回被删除的元素**：可选操作，通常是将最初的根节点（即被删除的最大或最小元素）返回给用户。
+
+      
+
+   #### 获取堆顶元素
+
+   最大堆 的堆顶元素是 堆 中的最大值，最小堆 的堆顶元素是 堆 中的最小值。因此，堆顶元素是 堆 中最重要的元素。
+
+   时间复杂度： 
+   O(1)。
+
+   空间复杂度：
+   O(1)。
+
+   ```
+   # 最小堆获取堆顶元素，即最小值
+   minHeap[0]
+   # 最大堆获取堆顶元素，即最大值
+   # 元素乘以 -1 的原因是：我们之前插入元素时，将元素乘以 -1，所以在获取元素时，我们需要乘以 -1还原元素。
+   maxHeap[0]*-1
+   ```
+
+   
+
+   #### 操作的复杂度
+
+   ![image-20231024135350880](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024135350880.png)
+
+   
+
+1. **应用**：优先队列、堆排序、图算法（如 Dijkstra 算法）等。
+
+2. **存储**：在堆的数据结构中，我们常用堆的插入、删除、获取堆顶元素的操作。
+
+   我们可以用**数组**实现堆。我们将堆中的元素以二叉树的形式存入在数组中。以下代码将使用数组实现整数类型的「最大堆」和「最小堆」，仅供大家参考（在实际解题或者工作中，一般很少需要自己去实现堆）：
+
+   ```python
+   # 「最小堆」的实现
+   import sys
+   
+   class MinHeap:
+       def __init__(self, heapSize):
+           # heapSize用于数组的大小，因为数组在创建的时候至少需要指明数组的元素个数
+           self.heapSize = heapSize
+           # 使用数组创建完全二叉树的结构，然后使用二叉树构建一个「堆」
+           self.minheap = [0]*(heapSize+1)
+           # realSize用于记录「堆」的元素个数
+           self.realSize = 0
+   
+       #  添加元素函数
+       def add(self, element):
+           self.realSize += 1
+           # 如果「堆」中元素的个数大于一开始设定的数组的个数，则返回「Add too many elements」
+           if self.realSize > self.heapSize:
+               print("Add too many elements!")
+               self.realSize -= 1
+               return
+           # 将添加的元素添加到数组中
+           self.minheap[self.realSize] = element
+           # 新增元素的索引位置
+           index = self.realSize
+           # 新增元素的父节点的索引位置
+           # 注意，如果用数组表示完全二叉树，并且根结点存储在数组的索引1的位置的时候，任何一个节点的父节点索引位置为「该节点的索引位置/2」，任何一个节点的左孩子节点的索引位置为「该节点的索引位置*2」，任何一个节点的右孩子节点的索引位置为「该节点的索引位置*2+1」
+           parent = index // 2
+           # 当添加的元素小于父节点时，需要将父节点的值和新增元素的值交换
+           while (self.minheap[index] < self.minheap[parent] and index > 1):
+               self.minheap[parent], self.minheap[index] = self.minheap[index], self.minheap[parent]
+               index = parent
+               parent = index // 2
+       
+       # 获取堆顶元素函数
+       def peek(self):
+           return self.minheap[1]
+       
+       # 删除堆顶元素函数
+       def pop(self):
+           # 如果当前「堆」的元素个数为0， 则返回「Don't have any element」
+           if self.realSize < 1:
+               print("Don't have any element!")
+               return sys.maxsize
+           else:
+               # 当前「堆」中含有元素
+               # self.realSize >= 1
+               removeElement = self.minheap[1]
+               # 将「堆」中的最后一个元素赋值给堆顶元素
+               self.minheap[1] = self.minheap[self.realSize]
+               self.realSize -= 1
+               index = 1
+               # 当删除的元素不是孩子节点时
+               while (index < self.realSize and index <= self.realSize // 2):
+                   # 被删除节点的左孩子节点
+                   left = index * 2
+                   # 被删除节点的右孩子节点
+                   right = (index * 2) + 1
+                   # 当删除节点的元素大于 左孩子节点或者右孩子节点，代表该元素的值大，此时需要将该元素与左、右孩子节点中最小的值进行交换
+                   if (self.minheap[index] > self.minheap[left] or self.minheap[index] > self.minheap[right]):
+                       if self.minheap[left] < self.minheap[right]:
+                           self.minheap[left], self.minheap[index] = self.minheap[index], self.minheap[left]
+                           index = left
+                       else:
+                           self.minheap[right], self.minheap[index] = self.minheap[index], self.minheap[right]
+                           index = right
+                   else:
+                       break
+               return removeElement
+       
+       # 返回「堆」的元素个数
+       def size(self):
+           return self.realSize
+       
+       def toString(self):
+           print(self.minheap[1 : self.realSize+1])
+   ```
+
+
+
+
+3. **性能**：插入和删除最大/最小元素通常是 **O*(log*n)** 的时间复杂度。
+
+   
+
+#### **堆的分类**
+
+堆 有两种类型：**最大堆** 和 **最小堆**。
+
+最大堆：**堆中每一个节点的值 都大于等于 其孩子节点的值。所以最大堆的特性是 堆顶元素（根节点）是堆中的最大值。**
+
+最小堆：**堆中每一个节点的值 都小于等于 其孩子节点的值。所以最小堆的特性是 堆顶元素（根节点）是堆中的最小值。**
+
+![image-20231024124548299](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231024124548299.png)
+
+
+
+#### Python中的堆
+
+Python的`heapq`模块提供了一组用于处理堆队列（也称为优先队列）的函数。特别地，`heapq`模块创建的是最小堆。以下是您提到的三个函数的详细介绍：
+
+**1. `heapq.heapify(iterable)`**
+
+这个函数用于将一个可迭代对象（比如列表）转换成一个有效的堆，即重新排列列表中的元素，使其满足堆的性质。堆的性质是指在任意索引`i`处的元素，其值都小于或等于索引`2*i + 1`和`2*i + 2`处的元素的值。
+
+- **时间复杂度**：O(n)
+
+- **参数**：一个可迭代对象（通常是列表）。
+
+- **示例**：
+
+  ```python
+  import heapq
+  
+  nums = [3, 1, 4, 1, 5, 9, 2, 6, 5]
+  heapq.heapify(nums)
+  print(nums)  # 输出：[1, 1, 2, 3, 5, 9, 4, 6, 5]
+  ```
+
+
+
+**2. `heapq.heappushpop(heap, elem)`**
+
+这个函数用于向堆中添加一个新元素并弹出堆顶元素，返回的是添加元素之前的堆顶元素。如果你想添加一个元素同时保持堆的大小不变，这个函数会比先调用`heappush()`再调用`heappop()`更高效。
+
+- **时间复杂度**：O(log n)
+
+- **参数**：
+
+  - `heap`：一个已经是堆的列表。
+  - `elem`：要添加到堆中的元素。
+
+- **示例**：
+
+  ```
+  import heapq
+  
+  heap = [1, 3, 5, 7, 9]
+  smallest = heapq.heappushpop(heap, 4)
+  print(smallest)  # 输出：1
+  print(heap)  # 输出：[3, 4, 5, 7, 9]
+  ```
+
+
+
+**3. `heapq.heappush(heap, elem)`**
+
+这个函数用于向堆中添加一个新元素，同时保证堆的性质仍然满足。
+
+- **时间复杂度**：O(log n)
+
+- **参数**：
+
+  - `heap`：一个已经是堆的列表。
+  - `elem`：要添加到堆中的元素。
+
+- **示例**：
+
+  ```
+  import heapq
+  
+  heap = [1, 3, 5, 7, 9]
+  heapq.heappush(heap, 4)
+  print(heap)  # 输出：[1, 3, 4, 7, 9, 5]
+  ```
+
+
+
+### 栈 vs 堆
+
+- **存储方式**：栈通常是**连续的内存空间**，**堆则是动态分配**。
+
+- **生命周期**：栈中的数据通常随函数的调用和返回而创建和销毁，而堆中的数据需要手动管理。
+
+- **访问速度**：由于栈使用连续内存空间和局部性原理，通常访问速度更快。
+
+- **灵活性**：堆由于是动态分配，更加灵活，但管理复杂。
+
+- **应用场景**：栈适用于**需要快速、临时存储**的场景；堆则适用于需要**长时间存储或者快速找到最大/最小元素的场景**。
+
+  
+
+
+
+## 树
+
+树是一种非线性数据结构，根据子节点数量可分为 「二叉树」 和 「多叉树」，最顶层的节点称为「根节点 root」。以二叉树为例，每个节点包含三个成员变量：「值 val」、「左子节点 left」、「右子节点 right」 。
+
+### 二叉树
+
+二叉树是一种树形数据结构，其中每个节点最多有两个子节点，通常分别称为“左子节点”和“右子节点”。二叉树的顶部节点称为“根节点”。
+
+在编程语境中，一个简单的二叉树节点可以用以下结构定义：
+
+Python
+
+```python
+class TreeNode:
+    def __init__(self, value=0, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+```
+
+### 节点的深度（Depth）
+
+在二叉树中，一个节点的“深度”定义为该节点到根节点的**最短路径上的边的数量**。根据这个定义，根节点的深度为0，其子节点的深度为1，依此类推。
+
+例如，在以下二叉树中：
+
+```
+        A
+       / \
+      B   C
+     / \
+    D   E
+```
+
+- 节点A（根节点）的**深度是0**
+- 节点B和C的**深度是1**
+- 节点D和E的深度是2
+
+### 节点的高度（Height）
+
+一个节点的“高度”是从该节点到最远叶子节点的最长路径上的边的数量。在这个定义下，所有叶子节点的高度都是0。
+
+还是以同样的例子为例：
+
+```
+        A
+       / \
+      B   C
+     / \
+    D   E
+```
+
+- 节点D和E（叶子节点）的高度是0
+- 节点B的高度是1（到达叶子节点D或E需要经过一条边）
+- 节点C的高度是0（它自己就是叶子节点）
+- 节点A的高度是2（到达叶子节点D或E需要经过两条边）
+
+### 遍历方式
+
+在计算机科学中，前序遍历、中序遍历和后序遍历是用于遍历树结构（特别是二叉树）的三种主要方法。下面我会详细解释这三种遍历方法，并给出Python代码示例。
+
+        A
+       / \
+      B   C
+     / \
+    D   E
+**前序遍历（Preorder Traversal）**
+
+前序遍历的顺序是：根节点 -> 左子树 -> 右子树。
+
+```
+def preorder_traversal(root):
+    if root is None:
+        return
+    print(root.val, end=' ')
+    preorder_traversal(root.left)
+    preorder_traversal(root.right)
+    
+    # 输出：['A', 'B', 'D', 'E', 'C']
+```
+
+**中序遍历（Inorder Traversal）**
+
+中序遍历的顺序是：左子树 -> 根节点 -> 右子树。
+
+```
+def inorder_traversal(root):
+    if root is None:
+        return
+    inorder_traversal(root.left)
+    print(root.val, end=' ')
+    inorder_traversal(root.right)
+    
+    # 输出：['D', 'B', 'E', 'A', 'C']
+```
+
+**后序遍历（Postorder Traversal）**
+
+后序遍历的顺序是：左子树 -> 右子树 -> 根节点。
+
+```
+def postorder_traversal(root):
+    if root is None:
+        return
+    postorder_traversal(root.left)
+    postorder_traversal(root.right)
+    print(root.val, end=' ')
+    
+    # 输出：['D', 'E', 'B', 'C', 'A']
+```
+
+**示例代码**
+
+下面是一个完整的Python代码示例，展示了如何定义一个简单的二叉树节点类，并对这个类的实例进行前序、中序和后序遍历。
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def preorder_traversal(root):
+    if root is None:
+        return
+    print(root.val, end=' ')
+    preorder_traversal(root.left)
+    preorder_traversal(root.right)
+
+def inorder_traversal(root):
+    if root is None:
+        return
+    inorder_traversal(root.left)
+    print(root.val, end=' ')
+    inorder_traversal(root.right)
+
+def postorder_traversal(root):
+    if root is None:
+        return
+    postorder_traversal(root.left)
+    postorder_traversal(root.right)
+    print(root.val, end=' ')
+
+# 创建一个简单的二叉树
+#        1
+#       / \
+#      2   3
+#     / \
+#    4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# 执行遍历
+print("前序遍历：", end='')
+preorder_traversal(root)
+print("\n中序遍历：", end='')
+inorder_traversal(root)
+print("\n后序遍历：", end='')
+postorder_traversal(root)
+```
+
+### 搜索 
+
+根据BST的特性，对于每个节点：
+
+如果目标值等于节点的值，则返回节点；
+如果目标值小于节点的值，则继续在左子树中搜索；
+如果目标值大于节点的值，则继续在右子树中搜索。
+
+![image-20231027164631889](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027164631889.png)
+
+### 插入
+
+二叉搜索树中的另一个常见操作是插入一个新节点。有许多不同的方法去插入新节点，这篇文章中，我们只讨论一种使整体操作变化最小的经典方法。 它的主要思想是为目标节点找出合适的叶节点位置，然后将该节点作为叶节点插入。 因此，搜索将成为插入的起始。
+
+与搜索操作类似，对于每个节点，我们将：
+
+根据节点值与目标节点值的关系，搜索左子树或右子树；
+重复步骤 1 直到到达外部节点；
+根据节点的值与目标节点的值的关系，将新节点添加为其左侧或右侧的子节点。
+这样，我们就可以添加一个新的节点并依旧维持二叉搜索树的性质。
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027170558461.png" alt="image-20231027170558461" style="zoom:50%;" />
+
+
+
+### 删除
+
+删除要比我们前面提到过的两种操作复杂许多。有许多不同的删除节点的方法，这篇文章中，我们只讨论一种使整体操作变化最小的方法。我们的方案是用一个合适的子节点来替换要删除的目标节点。根据其子节点的个数，我们需考虑以下三种情况：
+
+1. 如果目标节点没有子节点，我们可以直接移除该目标节点。
+2. 如果目标节只有一个子节点，我们可以用其子节点作为替换。
+3. 如果目标节点有两个子节点，我们需要用其中序后继节点或者前驱节点来替换，再删除该目标节点。
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231027172446938.png" alt="image-20231027172446938" style="zoom:50%;" />
+
+
+
+
+
+### 优点
+
+二叉搜索树的有优点是，即便在最坏的情况下，也允许你在**O(n)的时间复杂度**内执行所有的搜索、插入、删除操作。
+
+通常来说，如果你想有序地存储数据或者**需要同时执行搜索、插入、删除等多步操作，**二叉搜索树这个数据结构是一个很好的选择。
+
+> 问题描述：设计一个类，求一个数据流中第k大的数。
+>
+> 一个很显而易见的解法是，先将数组降序排列好，然后返回数组中第k个数。
+>
+> 但这个解法的缺点在于，为了在O(1)时间内执行搜索操作，每次插入一个新值都需要重新排列元素的位置。从而使得插入操作的解法平均时间复杂度变为O(N)。因此，算法总时间复杂度会变为O(N^2)。
+>
+> 鉴于我们同时需要插入和搜索操作，为什么不考虑使用一个二叉搜索树结构存储数据呢？
+>
+> 我们知道，对于二叉搜索树的每个节点来说，它的左子树上所有结点的值均小于它的根结点的值，右子树上所有结点的值均大于它的根结点的值。
+>
+> 换言之，对于二叉搜索树的每个节点来说，若其左子树共有m个节点，那么该节点是组成二叉搜索树的有序数组中第m + 1个值。
+
+
+
+
+
+### 平衡二叉树
+
+平衡二叉树（Balanced Binary Tree）是一种特别的二叉树，其设计初衷是为了解决普通二叉搜索树在极端情况下可能出现的效率问题（比如，当所有节点都在一侧时，二叉搜索树退化为链表）。
+
+**定义**
+
+平衡二叉树必须满足两个条件：
+
+1. **每个节点的左子树和右子树的高度差（称为平衡因子）不得超过一个给定的常数（通常为 1）**。
+2. **每个节点的左子树和右子树也都必须是平衡二叉树**。
+
+**判断是否为平衡二叉树**
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def isBalanced(root):
+    def height(root):
+        if not root:
+            return 0
+        left_height = height(root.left)
+        right_height = height(root.right)
+        
+        # 如果子树是不平衡的，则提前停止
+        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
+            return -1
+        
+        return max(left_height, right_height) + 1
+
+    return height(root) != -1
+```
+
+
+
+## 图
+
+图是一种非线性数据结构，由「节点（顶点）**vertex**」和「边 **edge**」组成，每条边连接一对顶点。根据边的方向有无，图可分为「有向图」和「无向图」。本文 以无向图为例 开展介绍。
+
+如下图所示，此无向图的 顶点 和 边 集合分别为：
+
+- 顶点集合： vertices = {1, 2, 3, 4, 5}
+- 边集合： edges = {(1, 2), (1, 3), (1, 4), (1, 5), (2, 4), (3, 5), (4, 5)}
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231028230151220.png" alt="image-20231028230151220" style="zoom: 33%;" />
+
+## 散列表
+
+散列表是一种非线性数据结构，通过利用 Hash 函数将指定的**「键 key」映射至对应的「值 value」**，以实现高效的元素查找。
+
+设想一个简单场景：小力、小特、小扣的学号分别为 10001, 10002, 10003 。
+现需求从「姓名」查找「学号」。
+
+则可通过建立姓名为 key ，学号为 value 的散列表实现此需求，代码如下：
+
+```java
+// 初始化散列表
+Map<String, Integer> dic = new HashMap<>();
+
+// 添加 key -> value 键值对
+dic.put("小力", 10001);
+dic.put("小特", 10002);
+dic.put("小扣", 10003);
+
+// 从姓名查找学号
+dic.get("小力"); // -> 10001
+dic.get("小特"); // -> 10002
+dic.get("小扣"); // -> 10003
+```
+
+```python
+# 初始化散列表
+dic = {}
+
+# 添加 key -> value 键值对
+dic["小力"] = 10001
+dic["小特"] = 10002
+dic["小扣"] = 10003
+
+# 从姓名查找学号
+dic["小力"] # -> 10001
+dic["小特"] # -> 10002
+dic["小扣"] # -> 10003
 ```
 
 

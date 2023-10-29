@@ -1717,3 +1717,327 @@ dic["小扣"] # -> 10003
 
 
 
+# 算法复杂度
+
+### 时间复杂度
+
+时间复杂度（Time Complexity）描述的是执行算法所需要的计算工作量，通常是随着输入大小的增加而增加。常用的表示方法包括：
+
+- **常数时间（O(1)）**：无论输入多大，算法所需时间都是常数。
+
+- **对数时间（O(log n)）**：每一步算法都会大幅减少问题的规模。二分查找是典型的对数时间复杂度算法。
+
+- **线性时间（O(n)）**：算法的运行时间与输入规模成正比。例如，简单搜索算法通常具有线性时间复杂度。
+
+- **线性对数时间（O(n log n)）**：许多高效的排序算法，如归并排序、快速排序等，具有线性对数时间复杂度。
+
+- **平方时间（O(n^2)）或多项式时间（O(n^k)）**：嵌套循环或递归算法通常具有这种复杂度。例如，冒泡排序具有平方时间复杂度。
+
+- **指数时间（O(2^n)）**：某些递归算法，如计算斐波那契数列的暴力解法，具有指数时间复杂度。
+
+- **阶乘时间（O(n!)）**：旅行商问题的暴力解法就是一个阶乘时间复杂度的例子。
+
+  
+
+**示例 1：常数时间复杂度 O(1)**
+
+```
+def constant_example(arr):
+    return arr[0] if arr else None
+
+# 调用
+result = constant_example([1, 2, 3])
+```
+
+无论数组 `arr` 的大小如何，这个函数都只返回数组的第一个元素，因此其时间复杂度为 O(1)。
+
+**示例 2：线性时间复杂度 O(n)**
+
+```
+def linear_example(arr):
+    for item in arr:
+        print(item)
+
+# 调用
+linear_example([1, 2, 3, 4])
+```
+
+这个函数遍历整个数组并打印每个元素。因此，其时间复杂度是 O(n)，其中 n 是数组的长度。
+
+**示例 3：对数时间复杂度 O(log n)**
+
+```
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+# 调用
+result = binary_search([1, 2, 3, 4, 5, 6], 3)
+```
+
+二分查找每次迭代都会将搜索范围减小一半，因此其时间复杂度是 O(log n)。
+
+**示例 4：线性对数时间复杂度 O(n log n)**
+
+```
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    mid = len(arr) // 2
+    left = arr[:mid]
+    right = arr[mid:]
+
+    merge_sort(left)
+    merge_sort(right)
+
+    i = j = k = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            arr[k] = left[i]
+            i += 1
+        else:
+            arr[k] = right[j]
+            j += 1
+        k += 1
+
+    while i < len(left):
+        arr[k] = left[i]
+        i += 1
+        k += 1
+
+    while j < len(right):
+        arr[k] = right[j]
+        j += 1
+        k += 1
+
+    return arr
+
+# 调用
+result = merge_sort([38, 27, 43, 3, 9, 82, 10])
+```
+
+归并排序的时间复杂度是 O(n log n)，因为它每次都把问题规模减小到一半（log n），并且每次都需要处理 n 个元素。
+
+
+
+**示例 5：平方时间复杂度 O(n^2)**
+
+```
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+
+# 调用
+bubble_sort([64, 34, 25, 12, 22, 11, 90])
+```
+
+在这个冒泡排序的示例中，有两个嵌套的循环，每个循环都遍历数组一次。因此，时间复杂度是 O(n^2)。
+
+**示例 6：指数时间复杂度 O(2^n)**
+
+```
+def fibonacci(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+# 调用
+print(fibonacci(10))
+```
+
+
+
+#### 特殊的内置函数
+
+**Python**
+
+- `list.sort()` 或 `sorted()`: 内置排序通常具有 O(n log n) 的时间复杂度。
+- `list.append()`：平均时间复杂度为 O(1)，但如果涉及到动态数组的扩容，则可能会达到 O(n)。
+- `list.pop(0)`: 删除列表的第一个元素需要 O(n) 的时间。
+
+**Java**
+
+- **集合操作**
+
+1. **ArrayList.remove(int index)**：删除指定索引处的元素需要 O(n) 的时间，因为这涉及到移动所有后续元素。
+2. **LinkedList.get(int index)**：在 LinkedList 中通过索引查找一个元素需要 O(n) 的时间。
+
+- **字符串操作**
+
+1. **String.concat(String str)**：字符串连接在 Java 中通常需要 O(n+m) 的时间，其中 n 和 m 是两个字符串的长度。
+
+2. **String.substring(int beginIndex, int endIndex)**：这个操作在 Java 6 以前是 O(1)，但在更高版本中由于改变了内部实现，现在是 O(n)。
+
+   
+
+### 空间复杂度
+
+空间复杂度（Space Complexity）描述的是算法在运行过程中临时占用存储空间的大小。常见的空间复杂度包括：
+
+- **常数空间（O(1)）**：算法使用固定量的额外内存空间。
+- **线性空间（O(n)）**：动态数组或列表可能需要线性大小的额外空间。
+
+空间复杂度涉及的空间类型有：
+
+- 输入空间： 存储输入数据所需的空间大小；
+- 暂存空间： 算法运行过程中，存储所有中间变量和对象等数据所需的空间大小；
+- 输出空间： 算法运行返回时，存储输出数据所需的空间大小；
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029014703649.png" alt="image-20231029014703649" style="zoom:50%;" />
+
+- **Python 代码示例**
+
+**常数空间复杂度 O(1)**
+
+```
+def find_max(arr):
+    max_val = float('-inf')
+    for num in arr:
+        if num > max_val:
+            max_val = num
+    return max_val
+
+# 调用
+print(find_max([1, 2, 3, 4]))
+```
+
+这个函数使用了一个额外的变量 `max_val` 来存储最大值，因此其空间复杂度为 O(1)。
+
+**线性空间复杂度 O(n)**
+
+```
+def reverse_array(arr):
+    reversed_arr = []
+    for i in range(len(arr)-1, -1, -1):
+        reversed_arr.append(arr[i])
+    return reversed_arr
+
+# 调用
+print(reverse_array([1, 2, 3, 4]))
+```
+
+这个函数创建了一个新数组，其长度与输入数组相同，因此空间复杂度为 O(n)。
+
+- **Java 代码示例**
+
+**常数空间复杂度 O(1)**
+
+```
+public class Main {
+    public static int findMin(int[] arr) {
+        int minVal = Integer.MAX_VALUE;
+        for(int num : arr) {
+            if(num < minVal) {
+                minVal = num;
+            }
+        }
+        return minVal;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 1, 4, 1, 5, 9};
+        System.out.println(findMin(arr));
+    }
+}
+```
+
+这个 Java 函数同样只使用了一个额外的变量来存储最小值，因此空间复杂度也是 O(1)。
+
+**线性空间复杂度 O(n)**
+
+```
+public class Main {
+    public static int[] duplicateArray(int[] arr) {
+        int[] duplicatedArr = new int[arr.length];
+        for(int i = 0; i < arr.length; i++) {
+            duplicatedArr[i] = arr[i];
+        }
+        return duplicatedArr;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4};
+        int[] duplicatedArr = duplicateArray(arr);
+        for(int num : duplicatedArr) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
+
+
+
+- **常数 O(1) ：**
+
+  普通常量、变量、对象、元素数量与输入数据大小 N 无关的集合，皆使用常数大小的空间。
+
+Python
+
+```Python
+def algorithm(N):
+    num = 0
+    nums = [0] * 10000
+    node = Node(0)
+    dic = { 0: '0' }
+```
+
+如以下代码所示，虽然函数 test() 调用了 N 次，但每轮调用后 test() 已返回，无累计栈帧空间使用，因此空间复杂度仍为 O(1) 。
+
+Python
+
+```Python
+def algorithm(N):
+    for _ in range(N):
+        test()
+```
+
+线性 O(N) ：
+元素数量与 N 呈线性关系的任意类型集合（常见于一维数组、链表、哈希表等），皆使用线性大小的空间。
+
+Python
+
+```python
+def algorithm(N):
+    nums_1 = [0] * N
+    nums_2 = [0] * (N // 2)
+    nodes = [Node(i) for i in range(N)]
+
+    dic = {}
+    for i in range(N):
+        dic[i] = str(i)
+```
+
+如下图与代码所示，此递归调用期间，会同时存在 N 个未返回的 algorithm() 函数，因此使用 **O(N)** 大小的栈帧空间。
+
+Python
+
+```Python
+def algorithm(N):
+    if N <= 1: return 1
+    return algorithm(N - 1) + 1
+```
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029015711413.png" alt="image-20231029015711413" style="zoom:50%;" />
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029020645535.png" alt="image-20231029020645535" style="zoom: 67%;" />
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029020715109.png" alt="image-20231029020715109" style="zoom:67%;" />
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029020734544.png" alt="image-20231029020734544" style="zoom:67%;" />

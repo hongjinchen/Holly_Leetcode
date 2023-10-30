@@ -1,6 +1,6 @@
 
 
-# MySQL
+# SQL
 
 ## **数据库事务的特性**
 
@@ -118,7 +118,7 @@ CREATE TABLE <表名> (
 
 例子：
 
-```text
+```sql
 CREATE TABLE instructor (
     ID CHAR(5),
     name VARCHAR(20) NOT NULL,

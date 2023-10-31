@@ -368,7 +368,7 @@ https://zhuanlan.zhihu.com/p/338302261
 
    
 
-3. ### **快速排序（Quick Sort）**
+   ### **快速排序（Quick Sort）**
 
    快速排序（Quick Sort）是一种被广泛应用的排序算法，由英国计算机科学家 Tony Hoare 在1960年提出。它是一种分治法（Divide and Conquer）的应用，能够在平均情况下实现 O(n log n) 的时间复杂度。下面是快速排序的基本思路和详细解释。
 

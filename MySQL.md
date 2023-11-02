@@ -295,6 +295,40 @@ SELECT * FROM course ORDER BY credits DESC;
 
 ![img](https://pic2.zhimg.com/80/v2-6671d510a7597957436428001436d695_1440w.webp)
 
+> 要查询成绩前三的学生的名字，首先需要有两个表：一个是学生信息表，另一个是成绩表。然后，可以使用SQL语言中的JOIN来合并表，并使用ORDER BY来排序成绩，LIMIT来限制结果数量。
+>
+> 假设学生信息表叫做 `students`，有 `student_id` 和 `name` 两个字段；成绩表叫做 `grades`，有 `student_id` 和 `score` 两个字段。以下是一个可能的SQL查询：
+>
+> ```sql
+> SELECT s.name
+> FROM students s
+> JOIN grades g ON s.student_id = g.student_id
+> ORDER BY g.score DESC
+> LIMIT 3;
+> ```
+>
+> 在这个查询中：
+>
+> - `JOIN grades g ON s.student_id = g.student_id` 语句用于连接两个表，基于学生ID匹配记录。
+> - `ORDER BY g.score DESC` 语句将结果按成绩降序排列，这样最高的成绩就会出现在结果列表的顶部。
+> - `LIMIT 3` 语句限制了结果只显示前三行，这样你就得到了成绩最高的三个学生的名字。
+>
+> 请注意，如果多名学生有相同的成绩并且都是第三名，这个查询只会返回结果中的前三行，可能不会包括所有并列的学生。如果你想要返回所有并列第三的学生，你可能需要使用更复杂的SQL查询，例如使用子查询或者窗口函数（如果你的数据库管理系统支持）。如果使用MySQL或PostgreSQL等数据库，可以利用窗口函数（如 `ROW_NUMBER()` 或 `RANK()`）来实现：
+>
+> ```sql
+> SELECT s.name
+> FROM (
+>     SELECT s.student_id, s.name, RANK() OVER (ORDER BY g.score DESC) as rank
+>     FROM students s
+>     JOIN grades g ON s.student_id = g.student_id
+> ) as ranked_students
+> WHERE rank <= 3;
+> ```
+>
+> 这里，`RANK() OVER (ORDER BY g.score DESC)` 会对每一行分配一个等级，相同成绩的学生会得到相同的等级。外层查询选择等级小于或等于3的所有学生。这样，即使有多名学生成绩并列，也会全部选择出来。
+
+
+
 **19. BETWEEN**
 
 **BETWEEN**语句用于**指定区间**。

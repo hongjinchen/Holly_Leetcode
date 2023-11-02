@@ -1,5 +1,122 @@
 # JAVA
 
+## Java 基础语法
+
+一个 Java 程序可以认为是一系列对象的集合，而这些对象通过调用彼此的方法来协同工作。下面简要介绍下类、对象、方法和实例变量的概念。
+
+- **对象**：对象是类的一个实例，有状态和行为。例如，一条狗是一个对象，它的状态有：颜色、名字、品种；行为有：摇尾巴、叫、吃等。
+- **类**：类是一个模板，它描述一类对象的行为和状态。
+- **方法**：方法就是行为，一个类可以有很多方法。逻辑运算、数据修改以及所有动作都是在方法中完成的。
+- **实例变量**：每个对象都有独特的实例变量，对象的状态由这些实例变量的值决定。
+
+
+
+<img src="https://www.runoob.com/wp-content/uploads/2013/12/662E827A-FA32-4464-B0BD-40087F429E98.jpg" alt="img" style="zoom: 67%;" />
+
+
+
+### 基本语法
+
+编写 Java 程序时，应注意以下几点：
+
+- **大小写敏感**：Java 是大小写敏感的，这就意味着标识符 Hello 与 hello 是不同的。
+- **类名**：对于所有的类来说，类名的首字母应该大写。如果类名由若干单词组成，那么每个单词的首字母应该大写，例如 **MyFirstJavaClass** 。
+- **方法名**：所有的方法名都应该以小写字母开头。如果方法名含有若干单词，则后面的每个单词首字母大写。
+- **源文件名**：源文件名必须和类名相同。当保存文件的时候，你应该使用类名作为文件名保存（切记 Java 是大小写敏感的），文件名的后缀为 **.java**。（如果文件名和类名不相同则会导致编译错误）。
+- **主方法入口**：所有的 Java 程序由 **public static void main(String[] args)** 方法开始执行。
+
+
+
+### Java 标识符
+
+Java 所有的组成部分都需要名字。类名、变量名以及方法名都被称为标识符。
+
+关于 Java 标识符，有以下几点需要注意：
+
+- 所有的标识符都应该以**字母（A-Z 或者 a-z）,美元符（$）、或者下划线（_）开始**
+
+- 首字符之后可以是**字母（A-Z 或者 a-z）,美元符（$）、下划线（_）或数字的任何字符组合**
+
+- **关键字不能用作标识符**
+
+- 标识符是**大小写敏感的**
+
+- 合法标识符举例：age、$salary、_value、__1_value
+
+- 非法标识符举例：123abc、-salary
+
+  
+
+### Java修饰符
+
+像其他语言一样，Java可以使用修饰符来修饰类中方法和属性。主要有两类修饰符：
+
+- 访问控制修饰符 : default, public , protected, private
+
+- 非访问控制修饰符 : final, abstract, static, synchronized
+
+  
+
+### Java 变量
+
+Java 中主要有如下几种类型的变量
+
+- 局部变量
+- 类变量（静态变量）
+- 成员变量（非静态变量）
+
+成员变量（Member Variables），也称为字段（Fields），是定义在类中的变量，用于存储对象的状态信息。在面向对象编程（OOP）中，成员变量对应着对象的属性。
+
+以下是关于成员变量的一些关键点：
+
+1. **作用域**：成员变量通常有类级别的作用域。这意味着它们可以被类中的所有方法访问，也可以被类的对象访问，具体取决于它们的访问修饰符（如 `private`, `protected`, `public`）。
+2. **初始化**：在Java中，如果你没有显式地为成员变量赋值，它们会被自动初始化为默认值（例如，数值类型默认为0，布尔类型默认为`false`，对象引用默认为`null`）。
+3. **实例变量与类变量**：
+   - **实例变量**：没有用 `static` 修饰的成员变量称为实例变量。每个对象有自己的一套实例变量副本。
+   - **类变量**：用 `static` 修饰的成员变量称为类变量或静态变量。类的所有实例共享同一份类变量副本。
+4. **生命周期**：实例变量的生命周期与对象的生命周期一致，而类变量的生命周期从它被加载到内存开始直到程序结束。
+5. **访问控制**：可以使用访问修饰符控制其他类对成员变量的访问。例如，使用 `private` 修饰符使成员变量仅在定义它的类内部可见，这是封装的一部分。
+
+下面是一个Java类示例，展示了实例变量和类变量的使用：
+
+```java
+public class Person {
+    // 实例变量
+    private String name;
+    private int age;
+
+    // 类变量
+    public static int numberOfPeople = 0;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+        Person.numberOfPeople++; // 更新类变量
+    }
+
+    // 方法可以访问成员变量
+    public void sayHello() {
+        System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person alice = new Person("Alice", 25);
+        Person bob = new Person("Bob", 30);
+
+        alice.sayHello(); // 使用Alice的实例变量
+        bob.sayHello(); // 使用Bob的实例变量
+
+        System.out.println(Person.numberOfPeople); // 输出类变量，显示创建了多少个Person对象
+    }
+}
+```
+
+在上面的例子中，`name` 和 `age` 是实例变量，每个 `Person` 对象都有自己的 `name` 和 `age` 副本。`numberOfPeople` 是一个类变量，由 `Person` 类的所有实例共享。
+
+
+
 ## Java 数据类型
 
 Java 的数据类型可以分为两大类：基本数据类型（Primitive Data Types）和引用数据类型（Reference Data Types）。
@@ -28,11 +145,286 @@ Java 的数据类型可以分为两大类：基本数据类型（Primitive Data 
 
 1. **对象（Object）**: 任何继承自 `Object` 类的类型。
 
-2. **数组（Array）**: 一个存储同类型数据的连续空间。
+2. **数组（Array）**: 一个**存储同类型数据的连续空间**。
 
-3. **枚举（Enum）**: 一种特殊的类，它可以有一组预定义的常量。
+   - **固定大小**：数组的大小在初始化时被确定，之后不能更改。
 
-4. **接口（Interface）**: 一种定义方法但不实现的类型。
+   - **类型严格**：数组可以**持有原始数据类型**（如 `int[]`, `double[]`）或对象（如 `String[]`），但创建后，类型就固定了。
+
+   - **性能高**：由于大小固定和直接索引访问，数组在性能上有优势。
+
+   - **多维数组**：Java支持多维数组。
+
+   - **语法**：使用方括号定义和访问数组，例如 `int[] array = new int[10];`，`int firstItem = array[0];`。
+
+     
+
+3. **ArrayList（动态数组）**
+
+   - **动态大小**：`ArrayList`是一个实现了 `List` 接口的动态数组类，可以在运行时调整大小。`ArrayList` 是一个可以动态增长和缩减的索引序列，它内部使用数组来存储元素。
+
+   - **仅对象类型**：`ArrayList`只能持有对象类型（如 `Integer`, `String`），**不能持有原始数据类型。**
+
+   - **性能较低**：由于需要动态扩容和数据移动，`ArrayList`在某些操作上比数组慢。
+
+   - **泛型支持**：可以定义持有特定类型对象的 `ArrayList`，如 `ArrayList<String>`。
+
+   - **数组扩容**：当添加元素超出当前数组容量时，`ArrayList` 会创建一个新的更大的数组，并将旧数组的内容复制到新数组中。
+
+     
+
+4. **LinkedList**: `LinkedList` 在 Java 中是一个双向链表的实现，它实现了 `List` 接口和 `Deque` 接口，这意味着它既可以作为列表也可以作为双端队列使用。
+
+   ###### 数据结构
+
+   - **双向链表**：`LinkedList` 的每个元素（节点）都包含了对前一个和后一个元素的引用，这允许双向遍历。
+   - **节点**：链表中的数据被存储在“节点”中，节点封装了元素值以及前后节点的链接。
+
+   ###### 性能特点
+
+   - **动态大小**：与数组不同，`LinkedList` 的大小是动态的，它可以根据需要增长或缩减。
+
+   - **元素访问**：访问链表中的元素是线性时间复杂度，因为要从头（或尾）开始遍历列表直到找到目标位置。
+
+   - **插入和删除**：在链表中添加或删除元素是非常快的（理论上是常数时间O(1)），因为这些操作只涉及改变节点的链接，而不需要像数组那样移动其他元素。
+
+     
+
+5. **HashMap**: `HashMap` 存储键值对（key-value pairs），允许使用键（key）来快速检索值（value）。它使用哈希表（hash table）来存储这些键值对，因此提供了常数时间的复杂度（O(1)）来插入和查找元素，前提是哈希函数将元素均匀地分布在桶中。
+
+   下面是一个简单的`HashMap`例子：
+
+   ```
+   javaCopy codimport java.util.HashMap;
+   import java.util.Map;
+   
+   public class Example {
+       public static void main(String[] args) {
+           Map<String, Integer> ageMap = new HashMap<>();
+           ageMap.put("Alice", 25);
+           ageMap.put("Bob", 30);
+           ageMap.put("Charlie", 35);
+   
+           // 通过键检索值
+           Integer age = ageMap.get("Alice");
+           System.out.println("Alice's age: " + age); // 输出 "Alice's age: 25"
+       }
+   }
+   ```
+
+   在这个例子中，`ageMap` 是一个引用变量，它指向 `HashMap` 实例。在Java中，除了原始数据类型（如 `int`, `char`, `double` 等）之外，所有的类和数组都是引用类型，包括`HashMap`。当你创建一个`HashMap`对象时，你实际上是在堆上创建了一个对象，并且`ageMap`变量保存了指向那个对象的引用。
+
+   
+
+   在 Java 的 `HashMap` 中，数据是以键值对的形式存储的。以下是其实现的主要特点：
+
+   - **散列和桶**：每个键通过散列函数转换成一个散列码（hash code），该散列码决定了键值对存储的桶（bucket）位置。桶通常是数组的索引。
+
+   - **碰撞处理**：如果两个不同的键产生了相同的散列码，会发生碰撞。`HashMap` 使用链表或红黑树来处理碰撞，也就是说，相同桶内的元素会形成一个链表或树结构。当链表长度超过一定阈值时，链表会转换成红黑树，以改善搜索性能。
+
+   - **动态重哈希**：当`HashMap`中的元素数量达到一定比例时（即装载因子阈值），`HashMap` 会动态地重新分配内存空间，进行扩容和重哈希以保持操作的效率。
+
+     
+
+6. **枚举（Enum）**: 一种特殊的类，它可以有**一组预定义的常量。**(类似python中生成器)
+
+   **生活中的枚举**
+   「枚举」语义上表示「有限个」「离散的」「可以罗列」的值，在生活中表示「有限个」「离散的」「可以罗列」的例子有很多，例如：
+
+   性别：男、女；
+   一年四季：春、夏、秋、冬；
+   一年有 12 个月：1 月、2 月、3 月、4 月、5 月、6 月、7 月、8 月、9 月、10 月、11 月、12 月；
+   一周有 7 天：星期一、星期二、星期三、星期四、星期五、星期六、星期天；
+   交通工具：自行车、骑车、公交、地铁、轮船、飞机（可能还有，但是数量有限，它们就可以使用枚举类来表示）；
+   「力扣」的问题等级：简单、中等、困难；
+   「力扣」一次提交的结果：通过、超时、超出内存、编译不能通过、错误答案；
+   一个 Web 后台系统自定义的状态码：有限个，可以罗列的，正确的状态码一般用 200，重定向码 3xx（以 3 开头）、客户端错误状态码 4xx（以 4 开头）、 服务端错误状态码 5xx（以 5 开头）。
+
+   
+
+   **Java 中已经有的枚举类**
+
+   其实在 Java 中，有很多状态是使用枚举来定义的，例如：
+
+   线程的状态。在 Java 的标准库中表现为 java.lang.Thread 内部的枚举类：
+
+   State：NEW、RUNNABLE、BLOCKED、WAITING、TIMED_WAITING、TERMINATED；
+   Spring 框架支持标准的数据库事务隔离级别，体现在类 org.springframework.transaction.annotation.Isolation：DEFAULT、READ_UNCOMMITTED、READ_COMMITTED、REPEATABLE_READ、SERIALIZABLE。
+
+   
+
+   **没有枚举类的时候我们怎么做**
+
+   如果没有枚举类，我们这样表示「有限」「可以罗列」。众所周知，「力扣」目前对问题难度的等级划分有 「简单」「中等」「困难」，如果没有枚举类，我们可以使用 0、1、2 来表示这三个等级。
+
+
+   
+
+   ```java
+   public class LeetCodeProblemLevel {
+       public static final int EASY = 0;
+   
+   	public static final int MEDIUM = 1;
+   
+   	public static final int HARD = 2;
+    }
+   ```
+
+
+   问题是：如果我们需要把「力扣问题的难度等级」作为参数传递给某个方法的参数，该方法可以接受任意值的整数，例如传入 4 都是可以的。
+
+   ```java
+   public class Solution {
+       public void dealWithLevel(int leetCodeProblemLevel) {
+           // 需要校验 leetCodeProblemLevel 的值只能为 0、1、2
+       }
+   }
+   ```
+
+
+   如果我们需要记录日志、进行打印，程序输出的还是整数值：
+
+   ```java
+   public static void main(String[] args) {
+       // 0
+       System.out.println(LeetCodeProblemLevel.EASY);
+   
+       // 1
+       System.out.println(LeetCodeProblemLevel.MEDIUM);
+   
+       // 2
+       System.out.println(LeetCodeProblemLevel.HARD);
+   }
+   ```
+
+   所以上面的代码实际上还是 Java 规定的类型：整型。可以将它们参与「加」「减」「乘」「除」运算，虽然没有人会这么做。这种做法相当于只是给 0、1、2 起了一个别名。
+
+   Java 的设计者们设计了枚举类，来表示有限、离散这样的概念，并且枚举类是一个自定义的类型。可以自定义类型，就可以让编译器帮助我们进行类型检查（表现为：如果在 IDE 中类型不匹配，编译就不能通过）。
+
+   
+
+   **枚举是只有有限个对象的自定义类型**
+   可以使用关键字 enum 定义枚举类，枚举类的命名规则和类的命名规则是一样的，枚举类编译以后是 .class 文件。在以前没有枚举的时候，我们一般使用常量来表示枚举。枚举对象的命名，一般也使用常量的命名方式：全用大写字母。
+
+   ```java
+   public enum LeetCodeProblemLevel {
+       // EASY、MEDIUM、HARD 分别表示 3 个唯一的对象，使用英文逗号隔开，最后使用英文分号
+       EASY, MEDIUM, HARD;
+   }
+   ```
+
+   **说明：**
+
+   使用 enum 代替 class 关键字，表示这是一个枚举类。事实上「枚举类」设计出来就是为了 表示一个特别的类型，这个类型里只有有限个对象，因此如果我们在同一个包下创建一个名为 LeetCodeProblemLevel 的 Java 类是不被允许的；
+
+   这个类里只有三个对象，这三个对象分别是 EASY 、MEDIUM、HARD 。可以认为 LeetCodeProblemLevel 这个类只需要创建三个对象，这三个对象分别使用 EASY 、MEDIUM、HARD 表示。
+   此时打印枚举，输出的就是我们写在枚举类里的大写字母：
+
+   ```java
+   public static void main(String[] args) {
+       // EASY
+       System.out.println(LeetCodeProblemLevel.EASY);
+       // MEDIUM
+       System.out.println(LeetCodeProblemLevel.MEDIUM);
+       // HARD
+       System.out.println(LeetCodeProblemLevel.HARD);
+   }
+   ```
+
+
+   枚举类在编译后会生成一个继承自 java.lang.Enum 的子类，这个子类会为每个枚举常量创建一个静态实例，并放入一个静态数组中。即所有的枚举类默认继承了 java.base 模块下的 java.lang.Enum 。
+
+   
+
+   大家可以点开源码看一下：
+
+   ```java
+   public abstract class Enum<E extends Enum<E>>
+       implements Constable, Comparable<E>, Serializable {
+       /**
+        * The name of this enum constant, as declared in the enum declaration.
+        * Most programmers should use the {@link #toString} method rather than
+        * accessing this field.
+        */
+       private final String name;
+       // 省略
+   
+       public String toString() {
+           return name;
+       }
+    
+   // 省略
+   
+   }
+   ```
+
+   这里的 name 就是我们定义的 enum 类里的大写字母，**toString() 直接返回了 name。**
+
+   
+
+   **枚举类表示了唯一性**
+
+   枚举类被设计出来，是为了表示某个系统里的 唯一性。例如我们说到春季，大家的意识里只会有一个春暖花开的春季。在没有枚举类的时候，要保证唯一性，需要严格编码与测试。而枚举类重写了 equals() 和 hashCode() 方法，以及实现了 Serializable 接口，保证了枚举对象的唯一性和序列化一致性。
+
+   
+
+   **设计枚举类的好处**
+
+   **有了枚举类：**
+
+   编辑器会帮助我们进行参数类型检查，在编译期就会检查代码是否正确；
+   有了更明确的语义，记录日志、打印枚举值输出的时候就容易被人们理解。
+
+   **总结**
+
+   枚举类反映了现实生活中一个事物只有 **有限个** 状态；
+   枚举类可以让编译器帮助我们执行 **类型检查**，避免传递**错误的参数值**；
+   每一个枚举类里面第一行用大写字母表示的就是枚举类里的有限个对象。
+
+
+
+```java
+public enum LeetCodeProblemLevel {
+
+    EASY("简单", "不需要专门学习算法，或者刚开始学习就可以解决的问题"), MEDIUM("中等", "常规问题，考查了常见的数据结构，题型相对单一"), HARD("困难", "需要一些技巧，如果缺少训练，以前没有做过，不容易做出来");
+
+    private String name;
+
+    private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    LeetCodeProblemLevel(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+}
+```
+
+**说明：**
+
+EASY("简单", "不需要专门学习算法，或者刚开始学习就可以解决的问题"), MEDIUM("中等", "常规问题，考查了常见的数据结构，题型相对单一"), HARD("困难", "需要一些技巧，如果缺少训练，以前没有做过，不容易做出来"); 这一行表示了这个枚举类只有 3 个对象，这 3 个对象分别用 EASY、MEDIUM 和 HARD 来表示；
+
+这里 name 和 description 就是我们上面说的对于枚举类的**唯一对象的附加信息**，所以我们需要在枚举类的对象后面使用 (属性值 1, 属性值 2,...) 这样的方式给属性**赋值**，这其实就是在调用构造函数，通过构造函数给每一个对象的成员变量赋值；
+
+
+
+1. **接口（Interface）**: 一种**定义方法但不实现的类型。**
 
    
 
@@ -72,58 +464,81 @@ Java 的数据类型可以分为两大类：基本数据类型（Primitive Data 
 
   
 
-## **Java的回收机制（Garbage Collection）**
+## 类（Class）
 
-- Java的垃圾回收（Garbage Collection, GC）是自动内存管理的一个过程。Java虚拟机（JVM）中的垃圾回收器负责查找并删除内存中不再使用的对象，以释放和重用资源。
+在Java中，类（Class）是一种用户定义的蓝图或原型，从中创建对象。类表示在创建对象时封装数据的属性和行为的方法的组合。每个对象都是其父类的实例，具有该类定义的状态（属性）和行为（方法）。
 
-  垃圾回收的基本原理是确定哪些内存是“可达”的，即哪些内存仍被程序中的引用变量所引用，哪些是“不可达”的。不可达的内存认为是垃圾，可以被回收。
+- ### 类的基本概念
 
-  ### 垃圾回收机制主要步骤：
 
-  1. **标记（Mark）**：
-     - 这一步涉及到识别那些仍然被程序中的引用变量所引用的对象。任何无法到达的对象都被视为垃圾。
-  2. **删除/回收（Sweep）**：
-     - 这一步涉及到实际清理那些标记为垃圾的对象，并回收它们所占用的内存空间。
+- **属性（Fields or Members）**: 类中的属性是用来存储对象的状态信息的变量。属性可以有各种数据类型，如int, String等。
+  
+- **方法（Methods）**: 方法定义了类的行为。它们是在类的上下文中执行的函数，可以修改类的内部状态或执行操作。
 
-  ### 垃圾回收算法：
+- **构造函数（Constructors）**: 构造函数是一种特殊类型的方法，用于初始化新创建的对象。它可以设置对象的初始状态。
 
-  1. **标记-清除（Mark and Sweep）**：
-     - 最基本的收集算法，它分为“标记”和“清除”两个阶段：首先标记出所有活动的对象，然后清除所有未标记的对象。
-  2. **复制（Copying）**：
-     - 将存活的对象从当前内存区域复制到另一个，清除所有剩余的垃圾对象，这种方式适用于新生代（Young Generation）。
-  3. **标记-整理（Mark and Compact）**：
-     - 类似于标记-清除算法，但在清除结束后，它会移动所有存活的对象，将它们压缩到内存的一端，以解决内存碎片问题。
-  4. **分代收集（Generational Collection）**：
-     - JVM的堆内存被分成新生代和老年代。大多数对象在新生代中创建并很快死去。分代收集算法根据对象的存活周期的不同，在不同的区域采用不同的垃圾收集策略，以提高垃圾收集的效率。
-  5. **增量收集（Incremental Collection）**：
-     - 不是一次性回收所有的垃圾，而是分多次小步骤进行，减少程序的停顿时间。
+- **封装（Encapsulation）**: Java通过将属性和实现细节隐藏在类内部，并通过公共方法（getter和setter）提供属性的访问，从而实现封装。
 
-  ### 垃圾回收器类型：
+- **继承（Inheritance）**: Java支持基于类的**继承**，允许一个类继承另一个类的属性和方法，从而实现代码重用。
 
-  - **串行回收器（Serial GC）**：
-    - 对于单线程环境，适用于小型数据处理。
-  - **并行回收器（Parallel GC）**：
-    - 利用多个CPU核心同时进行垃圾回收，减少停顿时间，适用于多核服务器。
-  - **并发标记清除（CMS GC）**：
-    - 最小化程序停顿，适用于那些对响应时间有很高要求的应用。
-  - **G1回收器（G1 GC）**：
-    - 针对具有大内存空间的多处理器机器，以高概率满足垃圾收集的暂停时间目标（Pause Time Goal）。
-  - **ZGC和Shenandoah GC**（较新）：
-    - 目标是为了进一步减少暂停时间，并且适用于大堆内存。
+- **多态性（Polymorphism）**: Java通过方法**重载和重写支持多态性**，允许使用统一接口访问不同的底层形式（例如，同一个方法名称可以用于不同类型的对象调用不同的方法）。
 
-  ### 重要概念：
+  
 
-  - **停顿时间（Pause Time）**：
+- ### 类的声明
 
-    - 收集垃圾时程序的执行会被暂停，优化垃圾收集的一个关键点就是减少这种停顿。
 
-  - **内存泄漏（Memory Leak）**：
+下面是一个简单的Java类声明的例子：
 
-    - 即使有自动垃圾回收，不当的编码实践仍然可能导致内存泄漏，这些通常是由于长生命周期对象持有短生命周期对象的引用造成的。
+```java
+public class Animal {
+    // 属性（成员变量）
+    String name;
+    
+    // 构造函数
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    // 方法
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+```
 
-      
+在这个例子中，`Animal` 类有一个属性 `name` 和一个方法 `eat()`。还有一个构造函数，用于创建 `Animal` 对象的实例。
 
-## **java多态**
+
+
+- ### 创建对象
+
+
+你可以使用 `new` 关键字和构造函数创建类的实例：
+
+```java
+Animal myDog = new Animal("Rover");
+```
+
+这行代码创建了一个 `Animal` 类型的对象，并将其赋值给变量 `myDog`。
+
+
+
+- ### 类的访问级别
+
+
+- **public**: 如果一个类被声明为public，那么这个类可以被任何其他类访问。
+- **默认（无修饰符）**: 如果类没有修饰符（即默认访问级别），它只能被同一个包中的类访问。
+- **private**: 类不可以声明为private。
+- **protected**: 类也不可以声明为protected。
+
+类还可以包含静态（static）变量和方法，这些变量和方法属于类本身，而不是类的任何实例。
+
+Java类是Java编程语言的核心，因为Java是一种面向对象的语言，所以几乎所有的功能都是通过类和对象来实现的。
+
+
+
+### **java多态**
 
 多态（Polymorphism）是面向对象编程中的一个重要概念，**它允许你使用一个接口来表示多种数据类型**。在 Java 中，多态主要通过**接口、继承和方法重载来实现**。下面我会详细解释这个概念。
 
@@ -136,9 +551,9 @@ Java 的数据类型可以分为两大类：基本数据类型（Primitive Data 
 
 **编译时多态**
 
-方法重载是一种**编译时多态**。同一个类中可以有多个同名但参数列表不同的方法。
+方法重载是一种**编译时多态**。同一个类中可以有**多个同名但参数列表不同的方法。**
 
-```
+```java
 public class Calculator {
     public int add(int a, int b) {
         return a + b;
@@ -156,7 +571,7 @@ public class Calculator {
 
 1. **继承**：**子类继承父类**，子类对象可以赋**值给父类引用**。
 
-   ```
+   ```java
    class Animal {
        void makeSound() {
            System.out.println("Animal makes a sound");
@@ -175,7 +590,7 @@ public class Calculator {
 
 2. **接口**：一个类可以实现多个接口，接口的实例可以指向实现该接口的任何类的对象。
 
-   ```
+   ```java
    interface Drawable {
        void draw();
    }
@@ -267,14 +682,6 @@ public class Dog extends Animal {
 
 
 
-**访问修饰符和继承**
-
-- `private` 成员不会被继承。
-- `public` 和 `protected` 成员会被继承，并且在子类中是可访问的。
-- 默认（package-private）成员会被继承，但只在同一个包中的子类中是可访问的。
-
-
-
 **final 关键字**
 
 如果一个类用 `final` 关键字标记，那么它不能被继承。
@@ -298,7 +705,10 @@ public final class ImmutableClass {
 **抽象类和接口**
 
 - **抽象类**: 定义了一些方法但没有完全实现的类。这些类通常包含抽象方法（没有实现的方法），子类必须提供实现。
+
 - **接口**: 是一种完全抽象的类，它只定义（而不实现）方法。Java 支持多接口继承。
+
+  
 
 #### 覆盖（Override）和重载（Overload）
 
@@ -306,9 +716,9 @@ public final class ImmutableClass {
 
 **覆盖（Override）**
 
-1. **定义**: 子类提供了一个与父类方法签名（方法名和参数类型）完全相同的方法。
+1. **定义**: 子类提供了一个**与父类方法签名（方法名和参数类型）完全相同的方法。**
 
-2. **目的**: 为了改变继承自父类的同名方法的行为。
+2. **目的**: 为了**改变继承自父类的同名方法的行为。**
 
 3. **修饰符**: 必须与父类方法的修饰符相同或更为宽松。例如，如果父类方法是 `protected`，则子类覆盖的方法可以是 `protected` 或 `public`。
 
@@ -318,7 +728,7 @@ public final class ImmutableClass {
 
 6. **运行时行为**: Java 使用**运行时多态性**来选择要执行的方法版本，即它执行的是对象实际类的方法版本。
 
-   ```
+   ```java
    class Animal {
        void makeSound() {
            System.out.println("Animal sound");
@@ -413,17 +823,156 @@ public class Inherit {
 
 ```
 
+在这段代码中，我们有一个抽象类 `Speaker` 和两个继承自 `Speaker` 的子类 `Cat` 和 `Dog`。每个子类都提供了 `speak` 方法的具体实现。`Cat` 类的 `speak` 方法打印 `"Woof!"`，而 `Dog` 类的 `speak` 方法打印 `"Meow!"`。
+
+在 `Inherit` 类的构造函数中，我们创建了一个 `Dog` 类型的对象 `d` 和一个 `Cat` 类型的对象 `c`，并调用了它们的 `speak` 方法。尽管它们被声明为 `Speaker` 类型的引用，但由于Java中的动态绑定，调用的将是实际对象类型的 `speak` 方法。
+
+因此，以下输出将被产生：
+
+```
+Meow!Woof!
+```
+
+这里 `Dog` 类的实例 `d` 先调用了 `speak` 方法，打印了 `"Meow!"`，然后 `Cat` 类的实例 `c` 调用了 `speak` 方法，打印了 `"Woof!"`。
 
 
-#### Java多线程的实现
+
+#### This
+
+在Java中，`this` 是一个引用变量，指向当前对象。这个关键字在几种不同的上下文中使用，但是它主要被用来：
+
+1. **区分实例变量和参数**：当方法参数与类的实例变量同名时，可以使用 `this` 来解决命名冲突。
+2. **在构造器中调用另一个构造器**：可以用 `this()` 调用同一个类中的另一个构造器。
+3. **传递当前对象**：可以传递当前对象给方法或者构造器。
+4. **返回当前类的实例**：可以从方法中返回当前类的实例。
+
+下面是 `this` 关键字使用的示例：
+
+```
+javaCopy codepublic class MyClass {
+    private int value;
+
+    public MyClass(int value) {
+        // 使用 this 关键字区分实例变量和参数
+        this.value = value;
+    }
+
+    public void setValue(int value) {
+        // 再次使用 this 关键字区分实例变量和参数
+        this.value = value;
+    }
+
+    public void print() {
+        // 使用 this 传递当前对象
+        printValue(this);
+    }
+
+    public void printValue(MyClass obj) {
+        System.out.println(obj.value);
+    }
+}
+```
+
+
+
+## **Java的回收机制（Garbage Collection）**
+
+- Java的垃圾回收（Garbage Collection, GC）是自动内存管理的一个过程。Java虚拟机（JVM）中的垃圾回收器负责查找并删除内存中不再使用的对象，以释放和重用资源。
+
+  垃圾回收的基本原理是确定哪些内存是“可达”的，即哪些内存仍被程序中的引用变量所引用，哪些是“不可达”的。不可达的内存认为是垃圾，可以被回收。
+
+  ### 垃圾回收机制主要步骤：
+
+  1. **标记（Mark）**：
+     - 这一步涉及到识别那些仍然被程序中的引用变量所引用的对象。任何无法到达的对象都被视为垃圾。
+  2. **删除/回收（Sweep）**：
+     - 这一步涉及到实际清理那些标记为垃圾的对象，并回收它们所占用的内存空间。
+
+  ### 垃圾回收算法：
+
+  1. **标记-清除（Mark and Sweep）**：
+     - 最基本的收集算法，它分为“标记”和“清除”两个阶段：首先标记出所有活动的对象，然后清除所有未标记的对象。
+  2. **复制（Copying）**：
+     - 将存活的对象从当前内存区域复制到另一个，清除所有剩余的垃圾对象，这种方式适用于新生代（Young Generation）。
+  3. **标记-整理（Mark and Compact）**：
+     - 类似于标记-清除算法，但在清除结束后，它会移动所有存活的对象，将它们压缩到内存的一端，以解决内存碎片问题。
+  4. **分代收集（Generational Collection）**：
+     - JVM的堆内存被分成新生代和老年代。大多数对象在新生代中创建并很快死去。分代收集算法根据对象的存活周期的不同，在不同的区域采用不同的垃圾收集策略，以提高垃圾收集的效率。
+  5. **增量收集（Incremental Collection）**：
+     - 不是一次性回收所有的垃圾，而是分多次小步骤进行，减少程序的停顿时间。
+
+  ### 垃圾回收器类型：
+
+  - **串行回收器（Serial GC）**：
+    - 对于单线程环境，适用于小型数据处理。
+  - **并行回收器（Parallel GC）**：
+    - 利用多个CPU核心同时进行垃圾回收，减少停顿时间，适用于多核服务器。
+  - **并发标记清除（CMS GC）**：
+    - 最小化程序停顿，适用于那些对响应时间有很高要求的应用。
+  - **G1回收器（G1 GC）**：
+    - 针对具有大内存空间的多处理器机器，以高概率满足垃圾收集的暂停时间目标（Pause Time Goal）。
+  - **ZGC和Shenandoah GC**（较新）：
+    - 目标是为了进一步减少暂停时间，并且适用于大堆内存。
+
+  ### 重要概念：
+
+  - **停顿时间（Pause Time）**：
+
+    - 收集垃圾时程序的执行会被暂停，优化垃圾收集的一个关键点就是减少这种停顿。
+
+  - **内存泄漏（Memory Leak）**：
+
+    - 即使有自动垃圾回收，不当的编码实践仍然可能导致内存泄漏，这些通常是由于长生命周期对象持有短生命周期对象的引用造成的。
+
+      
+
+
+
+## Java多线程的实现
 
 在Java中，多线程主要可以通过以下几种方式实现：
 
 **1. 继承 `Thread` 类**
 
-你可以创建一个新类，继承自 `Thread` 类，并重写 `run()` 方法。然后通过创建该类的实例并调用其 `start()` 方法来创建并启动新线程。
+你可以创建一个新类，继承自 `Thread` 类在Java中，**`this`** 是一个引用变量，指向当前对象。这个关键字在几种不同的上下文中使用，但是它主要被用来：
 
+1. **区分实例变量和参数**：当方法参数与类的实例变量同名时，可以使用 `this` 来解决命名冲突。
+2. **在构造器中调用另一个构造器**：可以用 `this()` 调用同一个类中的另一个构造器。
+3. **传递当前对象**：可以传递当前对象给方法或者构造器。
+4. **返回当前类的实例**：可以从方法中返回当前类的实例。
+
+
+
+下面是 `this` 关键字使用的示例：
+
+```java
+public class MyClass {
+    private int value;
+
+    public MyClass(int value) {
+        // 使用 this 关键字区分实例变量和参数
+        this.value = value;
+    }
+
+    public void setValue(int value) {
+        // 再次使用 this 关键字区分实例变量和参数
+        this.value = value;
+    }
+
+    public void print() {
+        // 使用 this 传递当前对象
+        printValue(this);
+    }
+
+    public void printValue(MyClass obj) {
+        System.out.println(obj.value);
+    }
+}
 ```
+
+，并重写 `run()` 方法。然后通过创建该类的实例并调用其 `start()` 方法来创建并启动新线程。
+
+```java
 class MyThread extends Thread {
     public void run() {
         // 代码逻辑
@@ -438,11 +987,13 @@ public class Main {
 }
 ```
 
+
+
 **2. 实现 `Runnable` 接口**
 
 你也可以通过实现 `Runnable` 接口来创建多线程。这种方法更为灵活，因为Java不支持多重继承，所以实现接口是一种更好的选择。
 
-```
+```java
 class MyRunnable implements Runnable {
     public void run() {
         // 代码逻辑
@@ -457,24 +1008,29 @@ public class Main {
 }
 ```
 
-**3. 使用 `Executor` 框架**
+**3. 使用 线程池`Executor` 框架**
 
-Java的 `java.util.concurrent` 包提供了更高级的多线程支持，包括线程池。
+Java还提供了线程池管理机制，可以通过 `Executors` 类和 `ExecutorService` 接口来创建线程池，以便更有效地管理线程资源。
 
-```
+```java
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-
-        executorService.execute(new MyRunnable());
+        ExecutorService executor = Executors.newFixedThreadPool(5);
         
-        executorService.shutdown();
+        for (int i = 0; i < 10; i++) {
+            Runnable worker = new MyRunnable();
+            executor.execute(worker);
+        }
+        
+        executor.shutdown(); // 终止线程池
     }
 }
 ```
+
+在上面的例子中，我们创建了一个固定大小为5的线程池，并提交了10个任务。线程池内部管理着线程的创建、执行和回收。
 
 **4. 使用 `Callable` 和 `Future`**
 
@@ -513,7 +1069,7 @@ public class Main {
 
 
 
-#### 守护线程和非守护线程
+## 守护线程和非守护线程
 
 守护线程（Daemon Thread）和非守护线程（Non-daemon Thread）是编程中多线程概念的一部分，特别是在Java和Python这样的编程语言中比较常见。这两种线程的主要区别在于程序是否等待它们执行完成。
 
@@ -528,6 +1084,23 @@ public class Main {
 1. **生命周期**：非守护线程是程序的主要工作线程，用于执行核心任务。
 2. **程序退出**：程序会等待所有的非守护线程执行完毕才会退出。
 3. **用例**：主程序逻辑、用户交互等。
+
+
+
+### 注解是给代码加上的标记
+
+我们最早接触的注解可能是 **@Override** ，它修饰在方法上，被注解 @Override 修饰的方法表示：方法覆盖了父类（或者父类的父类）的某个方法。有了 @Override 注解，如果父类的方法名、参数个数、参数类型、返回值类型和当前方法不一致，编译器就会报错。所以注解在这里有两个作用：
+
+- 给人看：父类也有这个方法，在子类被重写了；
+- 给编译器看：帮我检查一下，我是不是重写对了。
+
+因此，注解是给代码加上的标记，是对代码内容的说明。设计注解是为了设计更通用的功能，我们先来看看注解有什么用。
+
+**注解有什么作用**
+
+- 增强语义：上面说了，注解有一部分功能是写给人看的，向看代码的人说明这个方法不是当前类就有的，而是父类就有的，在我这里我重新定义了。有人说，注释是代码的一部分。因此注解更是代码的一部分，也起到了自解释的功能；
+- 增强功能：在任何需要的地方加上一个 标记，增强原有的功能。我们在学习 Java 框架的时候会遇到大量的注解，使用这些注解大大简化了我们的开发；
+
 
 
 
@@ -671,3 +1244,233 @@ throw ae;
 总结一下，机器语言是处理器可以直接执行的指令集，汇编语言是这些指令的符号表示，而高级语言则提供了更高层次的抽象，使得编程更加容易，同时使得程序更具有可移植性。
 
 <img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231102234736491.png" alt="image-20231102234736491" style="zoom: 67%;" />
+
+
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103001447546.png" alt="image-20231103001447546" style="zoom:67%;" />
+
+在Java中，比较两个字符串时主要使用 `equals()` 方法和 `compareTo()` 方法。
+
+- ### `equals()` 方法
+
+`equals()` 方法用于比较字符串的内容是否相等。这个方法比较的是字符串的值，而不是引用。
+
+```
+javaCopy codeString str1 = "Hello";
+String str2 = "Hello";
+String str3 = "hello";
+
+boolean result1 = str1.equals(str2); // 返回 true，因为内容完全相同
+boolean result2 = str1.equals(str3); // 返回 false，因为大小写不同
+```
+
+如果你想要忽略大小写进行比较，你可以使用 `equalsIgnoreCase()` 方法：
+
+```
+
+boolean result3 = str1.equalsIgnoreCase(str3); // 返回 true，因为这里忽略了大小写
+```
+
+- ### `compareTo()` 方法
+
+`compareTo()` 方法比较字符串的字典顺序。它返回一个整数，该整数表示调用者字符串和参数字符串在字典顺序上的差异。
+
+- 如果两个字符串相等，`compareTo()` 返回 `0`。
+- 如果调用者字符串在字典顺序上排在参数字符串之前，返回一个负数。
+- 如果调用者字符串在字典顺序上排在参数字符串之后，返回一个正数。
+
+```
+javaCopy codeint result4 = str1.compareTo(str2); // 返回 0，因为两个字符串相等
+int result5 = str1.compareTo(str3); // 返回一个正数，因为"Hello"字典顺序上排在"hello"之前
+```
+
+与 `equalsIgnoreCase()` 方法类似，如果你想在比较时忽略大小写，可以使用 `compareToIgnoreCase()` 方法：
+
+```
+
+int result6 = str1.compareToIgnoreCase(str3); // 返回 0，因为忽略大小写后两者相等
+```
+
+- ### 总结
+
+- 使用 `equals()` 或 `equalsIgnoreCase()` 来检查两个字符串是否相等。
+- 使用 `compareTo()` 或 `compareToIgnoreCase()` 来比较两个字符串的字典顺序。
+
+不要使用 `==` 操作符来比较字符串，因为 `==` 比较的是对象引用是否指向堆内存中的同一位置，而不是比较字符串的内容。
+
+
+
+- ### Python和Java的数据比较不同
+
+在Python和Java中，比较不同数据类型的变量的方法和规则有所不同，因为这两种语言在类型系统和类型转换方面的设计哲学不同。
+
+- #### Python中的比较方法：
+
+Python是动态类型语言，它允许你比较不同类型的变量。比较操作通常是基于一组规则的，例如数字和字符串之间的比较，或者在Python 2中，不同类型的比较通常会考虑它们的类型名（但这在Python 3中已经不再允许，会引发TypeError）。
+
+```python
+pythonCopy code# 在Python 3.x中，直接比较不同类型将会引发错误
+1 < '2'  # TypeError: '<' not supported between instances of 'int' and 'str'
+
+# 如果有逻辑上的比较方式，比如不同类型的数字，Python将正常比较
+1 < 2.5  # True，因为这两个可以按数值比较
+
+# 对于完全不同的类型，你通常会将它们转换为共同类型
+str(1) < '2'  # True，因为这里都是字符串的比较
+```
+
+在Python中，推荐在进行比较之前明确地将变量转换为相同类型，除非比较的是同一类型的不同实例。
+
+- #### Java中的比较方法：
+
+Java是静态类型语言，类型在编译时就已确定，你不能直接比较不兼容的类型。如果尝试这样做，编译器会报错。
+
+```java
+javaCopy codeint a = 1;
+String b = "2";
+
+// a < b; // 编译错误：不兼容的类型
+
+// 必须先将int转换为String，或者将String转换为int
+boolean result = Integer.toString(a).compareTo(b) < 0; // 将int转换为String再比较
+// 或者
+boolean result = a < Integer.parseInt(b); // 将String转换为int再比较
+```
+
+在Java中，如果想要比较不同类型的变量，你必须先进行显式类型转换或者调用适当的方法，将变量转换为可以比较的类型。对于原始数据类型，可以进行类型提升（例如，将`int`转换为`double`再进行比较）。对于对象，可以调用相应的方法，例如比较字符串和数字时，可以使用字符串的 `compareTo()` 方法或将字符串解析为一个数字。
+
+类型的转换和比较必须是有意义的，你不能将一个字符串转换为数字进行比较，除非字符串确实表示一个数字。
+
+总结一下，在Python中，尽管可以直接比较不同类型，但推荐转换为相同类型进行比较。在Java中，你必须将不同类型的变量转换为相同类型才能进行比较，否则会有编译时错误。
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103005000468.png" alt="image-20231103005000468" style="zoom:67%;" />
+
+要避免在 `while` 循环中产生无限循环，你需要确保循环最终能够达到其结束条件。这通常涉及到以下几个方面：
+
+A - **初始化循环控制变量**：你需要在循环开始前正确设置循环控制变量的初始值，这样它才能在测试表达式中被正确评估。
+
+B - **循环控制变量需要在 while-loop 语句中进行测试**：`while` 循环的条件检查必须能够因循环控制变量的改变而最终评估为 `false`，以便退出循环。
+
+C - **循环控制变量需要在循环主体内部更新**：确保循环体内有代码能改变循环控制变量的值，这样条件检查最终就能失败，循环就会停止。
+
+D - **改成其他的循环形式**：虽然改变循环的形式可能帮助逻辑更清晰，但它本身并不直接阻止无限循环。无论使用哪种循环形式（`for`，`while`，`do-while`），都必须确保满足上述A、B和C点以避免无限循环。
+
+
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103005150622.png" alt="image-20231103005150622" style="zoom: 67%;" />
+
+在编程中，**方法签名**定义了方法的名称和参数列表。对于不同的编程语言，方法签名的定义有细微的差别，但一般情况下，以下部分被认为构成了方法签名：
+
+1. **方法名称**: 方法的名字是其标识，是调用方法时使用的标识符。
+2. **参数列表**: 包括参数的类型、顺序、数量和参数名（在某些语言中）。这是方法签名非常重要的一部分，因为即使两个方法具有相同的名字，只要它们的参数列表不同，它们也是不同的方法。
+
+不属于方法签名的部分包括方法的返回类型、访问修饰符（如 `public`、`private` 等）和抛出的异常（在某些语言中）。
+
+- ##### 例如，在Java中：
+
+```
+javaCopy codepublic int add(int a, int b) {
+    return a + b;
+}
+```
+
+在这个例子中，方法签名是 `add(int, int)`。它由方法名称 `add` 和参数列表 `int a, int b` 组成。注意，虽然Java的方法重载考虑参数列表，但不考虑返回类型。
+
+- ##### 另一个例子，在Python中：
+
+```
+pythonCopy codedef add(a, b):
+    return a + b
+```
+
+在Python中，方法签名通常只考虑方法名称 `add` 和参数列表 `(a, b)`。Python不支持传统意义上的重载，因此参数名和类型不像在Java中那样被严格考虑为方法签名的一部分。然而，参数的数量和顺序确实很重要。
+
+
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103005453320.png" alt="image-20231103005453320" style="zoom:67%;" />
+
+以下是基于Java的语法：
+
+A - `int 1_Number=1` 变量名不能以数字开头。因此，这个声明是错误的。
+
+B - `boolean answer="false"` 在Java中，布尔值应该是没有引号的 `true` 或 `false`，而不是字符串。因此，这个声明也是错误的。
+
+C - `char answer="Y"` 在Java中，字符字面量应该用单引号 `'` 而不是双引号 `"`。双引号用于字符串字面量。因此，这个声明也是错误的。正确的声明应该是 `char answer='Y';`。
+
+D - `int number$copies=10` 在Java中，变量名中可以包含美元符号（`$`），尽管这不是最佳实践。因此，这个声明是正确的。
+
+
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103013107465.png" alt="image-20231103013107465" style="zoom:67%;" />
+
+A - **可以创建多个随机数生成器**： 确实，使用 `Random` 类，你可以创建多个随机数生成器实例，每个实例都有自己的种子和状态。这对于需要在不同的上下文中生成不同随机数序列的场景很有用。例如，在多线程应用程序中，每个线程可以有自己的 `Random` 实例，以避免竞争条件。
+
+B - **随机中的生成器比 Math.random 中的生成器更有效**： 这个说法通常是不成立的。`Math.random()` 内部也使用了 `Random` 类的实例（静态实例），所以它们的效率是相似的。实际效率取决于具体实现，但并没有根本性的差异。
+
+C - **可以在一个范围内生成随机整数、浮点数和整数**： `Random` 类提供了多种方法来生成不同类型和范围的随机数，比如 `nextInt()`, `nextFloat()`, `nextDouble()`, `nextLong()` 等，可以指定范围。而 `Math.random()` 只能生成一个在0.0到1.0之间的随机 `double` 值，如果你想要其他类型或者范围，需要进行额外的计算。
+
+D - **可以初始化和重新初始化随机生成器**： `Random` 类允许你在创建随机数生成器实例时指定种子，也可以通过 `setSeed()` 方法重新设置种子。这允许你在需要时重现一个随机数序列。`Math.random()` 没有提供直接的方法来设置种子，因为它使用的是静态 `Random` 实例。
+
+综上，正确答案是：
+
+- A：正确，`Random` 类允许创建多个随机数生成器实例。
+- B：错误，效率大致相当，并没有明显优势。
+- C：正确，`Random` 类提供了更多方法来生成不同类型和范围的随机数。
+- D：正确，`Random` 类允许初始化和重新初始化随机数生成器的种子。
+
+
+
+
+
+
+
+**在 Java 中，如果在初始化变量之前尝试使用该变量，会发生什么情况？**
+
+在Java中，如果你在初始化一个变量之前尝试使用它，那么会发生编译时错误。Java编译器要求变量在使用之前必须被初始化，否则编译器将无法编译代码，并会给出一个错误消息，如“变量可能尚未初始化”。
+
+这种规则适用于局部变量。对于局部变量，编译器不会给它们赋予默认值，所以你必须在使用它们之前明确地初始化它们：
+
+```java
+int value;
+System.out.println(value); // 错误：变量 value 可能尚未初始化
+```
+
+但是，类的成员变量（字段）和数组的情况有所不同。如果你声明一个类的成员变量但没有显式初始化它，那么它会被自动初始化为该类型的默认值（例如，数值类型的默认值是0，布尔类型的默认值是false，对象类型的默认值是null）。例如：
+
+```java
+public class MyClass {
+    private int value; // 自动初始化为0
+
+    public void printValue() {
+        System.out.println(value); // 将打印出0，没有编译错误
+    }
+}
+```
+
+同样地，数组也会在创建时自动被初始化为它们各自类型的默认值：
+
+```java
+int[] array = new int[5]; // 所有元素自动初始化为0
+System.out.println(array[0]); // 将打印出0，没有编译错误
+```
+
+总结一下，如果在初始化变量之前尝试使用局部变量，Java编译器会报错。对于类的字段和数组，Java会自动将它们初始化为默认值。
+
+
+
+
+
+<img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231103013450097.png" alt="image-20231103013450097" style="zoom: 67%;" />
+
+在Java中，点运算符（`.`）主要用于访问对象的成员，无论是字段（属性）、方法还是内部类。它用于引用变量和后面的属性或方法。因此，以下是点运算符的功能：
+
+A - 错误。点运算符不是用来分隔浮点数的整数部分与小数部分的。这是小数点的功能。
+
+B - 正确。点运算符允许通过对象引用来访问对象内的数据成员（字段或属性）。
+
+C - 正确。点运算符同样允许通过对象引用来调用对象内的方法。
+
+D - 错误。点运算符不是用来终止命令的；在Java中，命令（语句）通常以分号（`;`）终止。
+
+
+

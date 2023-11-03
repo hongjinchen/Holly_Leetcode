@@ -20,7 +20,7 @@
 
 多个事务可能会并发地执行。隔离性确保每个事务在执行时，其操作对其他事务是不可见的，即一个事务的中间状态不应该被其他事务看到。这是通过各种锁机制和时间戳来实现的。
 
-数据库系统通常提供不同级别的隔离，包括读未提交（Read Uncommitted）、读已提交（Read Committed）、可重复读（Repeatable Read）和串行化（Serializable）。
+数据库系统通常提供不同级别的隔离，包括**读未提交（Read Uncommitted）、读已提交（Read Committed）、可重复读（Repeatable Read）和串行化（Serializable）。**
 
 > **1. 读未提交（Read Uncommitted）**
 >
@@ -450,7 +450,7 @@ SELECT course.course_id, title, dept_name, credits, prereq_id
 
 创建视图：
 
-```text
+```sql
 CREATE VIEW <视图名> AS
     SELECT <列名1>, <列名2>, …
     FROM <表名>
@@ -461,13 +461,13 @@ CREATE VIEW <视图名> AS
 
 删除视图：
 
-```text
+```sql
 DROP VIEW <视图名>;
 ```
 
 例如，创建3学分的课程视图：
 
-```text
+```sql
 CREATE VIEW my_view AS
     SELECT * FROM course
     WHERE credits=3;
@@ -497,7 +497,7 @@ CREATE VIEW my_view AS
 
 例如，查找2009年秋、2010年春都开的课程：
 
-```text
+```sql
 SELECT DISTINCT course_id 
     FROM section 
     WHERE semester = ‘Fall’ AND year= 2009 AND course_id IN (
@@ -527,7 +527,7 @@ https://www.runoob.com/sql/sql-select.html
 
 **SQL，“在一列数据中，找出存在重复的数据”**
 
-```
+```sql
 SELECT my_column, COUNT(*)
 FROM my_table
 GROUP BY my_column
@@ -589,7 +589,7 @@ SELECT id, name, age FROM employees WHERE age BETWEEN 26 AND 49;
 
 #### **Index**
 
-在 MySQL 中，索引（Index）是一种数据结构，用于提高数据检索的速度。索引可以被认为是一种“快速查找表”，它包含一个指向数据表中每一行数据的指针。使用索引可以大大减少数据查找所需的时间，尤其是在大型数据集中。
+**在 MySQL 中，索引（Index）是一种数据结构，用于提高数据检索的速度。索引可以被认为是一种“快速查找表”，它包含一个指向数据表中每一行数据的指针。使用索引可以大大减少数据查找所需的时间，尤其是在大型数据集中。**
 
 **常见类型的索引**
 

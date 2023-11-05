@@ -266,111 +266,134 @@ https://zhuanlan.zhihu.com/p/338302261
 
 ## 常用的排序算法
 
-1. ### **冒泡排序（Bubble Sort）**
+### **冒泡排序（Bubble Sort）**
 
-   #### 基本思路
+- #### 基本思路
 
-   1. 遍历整个数组，比较相邻的两个元素，如果它们是逆序的，则交换它们。
-   2. 重复这个过程，每次遍历少看一个元素。
-   3. 如果一次遍历中没有发生任何交换，则数组已经是有序的，可以提前结束算法。
 
-   #### 时间复杂度和空间复杂度
+1. 遍历整个数组，**比较相邻的两个元素，如果它们是逆序的，则交换它们。**
 
-   - 时间复杂度：O(n^2)
-   - 空间复杂度：O(1)
-   - 稳定性：稳定
+2. 重复这个过程，**每次遍历少看一个元素。**
 
-   #### 示例代码（Python）
-
-   ```
-   def bubble_sort(arr):
-       n = len(arr)
-       for i in range(n):
-           swapped = False
-           for j in range(0, n-i-1):
-               if arr[j] > arr[j+1]:
-                   arr[j], arr[j+1] = arr[j+1], arr[j]
-                   swapped = True
-           if not swapped:
-               break
-   ```
+3. **如果一次遍历中没有发生任何交换，则数组已经是有序的，可以提前结束算法。**
 
    
 
-   #### 例题
+- #### 时间复杂度和空间复杂度
 
-   [75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
 
-   
+- 时间复杂度：O(n^2)
 
-2. ### **归并排序（Merge Sort）**
+- 空间复杂度：O(1)
 
-   #### 基本思路
+- 稳定性：稳定
 
-   1. 分：将原始数组分成两个或更多的空间。
-   2. 解决：递归地将子数组排序。
-   3. 合并（Merge）：将排序后的子数组合并，形成一个新的排序数组。
+  
 
-   #### 时间复杂度和空间复杂度
+- #### 示例代码（Python）
 
-   - 时间复杂度：O(n log n)
-   - 空间复杂度：O(n)
-   - 稳定性：稳定
 
-   #### 示例代码（Python）
+```java
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+```
 
-   ```python
-   def merge_sort(arr):
-       # 如果数组长度小于或等于 1，那么它已经是有序的
-       if len(arr) <= 1:
-           return arr
-       
-       # 计算中点并分割数组为两个子数组
-       mid = len(arr) // 2
-       left_half = arr[:mid]
-       right_half = arr[mid:]
-       
-       # 递归地对两个子数组进行排序
-       sorted_left = merge_sort(left_half)
-       sorted_right = merge_sort(right_half)
-       
-       # 将两个已排序的子数组进行归并
-       return merge(sorted_left, sorted_right)
-   
-   def merge(left, right):
-       result = []
-       i = j = 0
-       
-       # 比较 left 和 right 数组中的元素，并添加到结果数组中
-       while i < len(left) and j < len(right):
-           if left[i] < right[j]:
-               result.append(left[i])
-               i += 1
-           else:
-               result.append(right[j])
-               j += 1
-       
-       # 如果 left 数组还有剩余元素，将其添加到结果数组中
-       while i < len(left):
-           result.append(left[i])
-           i += 1
-       
-       # 如果 right 数组还有剩余元素，将其添加到结果数组中
-       while j < len(right):
-           result.append(right[j])
-           j += 1
-       
-       return result
-   
-   # 测试归并排序函数
-   if __name__ == "__main__":
-       arr = [38, 27, 43, 3, 9, 82, 10]
-       sorted_arr = merge_sort(arr)
-       print("Sorted Array:", sorted_arr)
-   ```
-   
+
+
+- #### 例题
+
+
+[75. 颜色分类](https://leetcode.cn/problems/sort-colors/)
+
+
+
+### **归并排序（Merge Sort）**
+
+- #### 基本思路
+
+
+1. 分：将原始数组分成**两个或更多的空间。**
+
+2. 解决：递归地将子数组排序。
+
+3. 合并（Merge）：将排序后的子数组合并，形成一个新的排序数组。
 
    
+
+- #### 时间复杂度和空间复杂度
+
+
+- 时间复杂度：O(n log n)
+
+- 空间复杂度：O(n)
+
+- 稳定性：稳定
+
+  
+
+- #### 示例代码（Python）
+
+
+```python
+def merge_sort(arr):
+    # 如果数组长度小于或等于 1，那么它已经是有序的
+    if len(arr) <= 1:
+        return arr
+    
+    # 计算中点并分割数组为两个子数组
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+    
+    # 递归地对两个子数组进行排序
+    sorted_left = merge_sort(left_half)
+    sorted_right = merge_sort(right_half)
+    
+    # 将两个已排序的子数组进行归并
+    return merge(sorted_left, sorted_right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    # 比较 left 和 right 数组中的元素，并添加到结果数组中
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    
+    # 如果 left 数组还有剩余元素，将其添加到结果数组中
+    while i < len(left):
+        result.append(left[i])
+        i += 1
+    
+    # 如果 right 数组还有剩余元素，将其添加到结果数组中
+    while j < len(right):
+        result.append(right[j])
+        j += 1
+    
+    return result
+
+# 测试归并排序函数
+if __name__ == "__main__":
+    arr = [38, 27, 43, 3, 9, 82, 10]
+    sorted_arr = merge_sort(arr)
+    print("Sorted Array:", sorted_arr)
+```
+
+
+
 ### **快速排序（Quick Sort）**
 
 **快速排序（Quick Sort）**是一种被广泛应用的排序算法，由英国计算机科学家 Tony Hoare 在1960年提出。它是一种分治法（Divide and Conquer）的应用，能够在平均情况下实现 O(n log n) 的时间复杂度。下面是快速排序的基本思路和详细解释。
@@ -388,7 +411,8 @@ https://zhuanlan.zhihu.com/p/338302261
 假设我们有一个数组 `arr = [3, 6, 8, 10, 1, 2, 1]`，并且我们选择最后一个元素作为基准元素。
 
 1. **选取基准元素**:
-      - 我们选择 `1` 作为基准元素。
+      
+   - 我们选择 `1` 作为基准元素。
    2. **分区**:
       - 定义两个指针 `i` 和 `j`。其中，`i` 从数组的第一个元素开始，`j` 从数组的倒数第二个元素开始。
       - 遍历数组，使得所有小于 `1` 的元素都移到它的左侧，所有大于 `1` 的元素都移到它的右侧。
@@ -449,72 +473,120 @@ https://zhuanlan.zhihu.com/p/338302261
 
 
 
-4. ### **选择排序（Selection Sort）**
+### **选择排序（Selection Sort）**
 
-   **基本思路**
+**基本思路**
 
-   选择排序（Selection Sort）是一种简单直观的排序算法。它的工作原理是每次从未排序的元素中找出最小（或最大）元素，将其存放到序列的起始（或末尾）位置。这样，每次迭代后，最小（或最大）元素就被放到了它最终排序后应处于的位置。该过程会持续进行，直到所有元素都被正确排序。
+选择排序（Selection Sort）是一种简单直观的排序算法。它的工作原理是每次从**未排序的元素中找出最小（或最大）元素**，将其**存放到序列的起始（或末尾）位置**。这样，每次迭代后，**最小（或最大）元素就被放到了它最终排序后应处于的位置**。该过程会持续进行，直到所有元素都被正确排序。
 
-   **时间复杂度和空间复杂度**
+**时间复杂度和空间复杂度**
 
-   - 时间复杂度：O(n^2)
-   - 空间复杂度：O(1)
-   - 稳定性：不稳定
+- 时间复杂度：O(n^2)
+- 空间复杂度：O(1)
+- 稳定性：不稳定
 
-   **示例代码（Python）**
+**示例代码（Python）**
 
-   ```python
-   def selection_sort(arr):
-       n = len(arr)
-       
-       # 遍历整个数组
-       for i in range(n):
-           # 找到从当前位置到数组末尾的最小元素的索引
-           min_index = i
-           for j in range(i + 1, n):
-               if arr[j] < arr[min_index]:
-                   min_index = j
-                   
-           # 交换找到的最小元素和当前位置的元素
-           arr[i], arr[min_index] = arr[min_index], arr[i]
+```python
+def selection_sort(arr):
+    n = len(arr)
+    
+    # 遍历整个数组
+    for i in range(n):
+        # 找到从当前位置到数组末尾的最小元素的索引
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+                
+        # 交换找到的最小元素和当前位置的元素
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+
+# 测试选择排序函数
+if __name__ == "__main__":
+    arr = [64, 25, 12, 22, 11]
+    selection_sort(arr)
+    print("Sorted array:", arr)
+
+```
+
+
+
+### **插入排序（Insertion Sort）**
+
+- #### 基本思路
+
+
+1. 从第一个元素开始，该元素可以认为已经被排序。
+
+2. **取出下一个元素，在已经排序的元素序列中从后向前扫描。**
+
+3. 如果该元素（已排序）大于新元素，**将该元素移到下一位置。**
+
+4. 重复步骤3，直到找到已排序的元素小于或等于新元素的位置。
+
    
-   # 测试选择排序函数
-   if __name__ == "__main__":
-       arr = [64, 25, 12, 22, 11]
-       selection_sort(arr)
-       print("Sorted array:", arr)
-   
-   ```
 
-5. ### **插入排序（Insertion Sort）**
+- #### 时间复杂度和空间复杂度
 
-   #### 基本思路
 
-   1. 从第一个元素开始，该元素可以认为已经被排序。
-   2. 取出下一个元素，在已经排序的元素序列中从后向前扫描。
-   3. 如果该元素（已排序）大于新元素，将该元素移到下一位置。
-   4. 重复步骤3，直到找到已排序的元素小于或等于新元素的位置。
+- 时间复杂度：O(n^2)
 
-   #### 时间复杂度和空间复杂度
+- 空间复杂度：O(1)
 
-   - 时间复杂度：O(n^2)
-   - 空间复杂度：O(1)
-   - 稳定性：稳定
+- 稳定性：稳定
 
-   #### 示例代码（Python）
+  
 
-   ```
-   def insertion_sort(arr):
-       for i in range(1, len(arr)):
-           key = arr[i]
-           j = i - 1
-           while j >= 0 and key < arr[j]:
-               arr[j + 1] = arr[j]
-               j -= 1
-           arr[j + 1] = key
-   ```
+- #### 示例代码（Python）
 
-### **合并所有的重叠区间，合并后的区间按照升序排列** 
+
+```java
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+```
+
+
+
+## 稳定性
+
+在讨论排序算法时，“稳定性”是一个重要的特性。稳定排序算法与不稳定排序算法的区别主要在于它们**是否保持相等元素的相对顺序。**
+
+- #### **稳定排序算法**
+
+如果一个排序算法能够**保证两个相等的元素在排序前后的相对顺序不变，那么这个排序算法就是稳定的**。在稳定排序算法中，如果元素A在元素B之前，并且A = B，那么排序后A仍然在B之前。
+
+稳定排序的例子：
+- **插入排序**：在将元素插入已排序的部分时，插入排序总是将当前元素放在相等元素的后面，从而保持了元素间的相对顺序。
+- **冒泡排序**：每次通过交换相邻的元素来“冒泡”最大（或最小）的元素到序列的一端，这个过程保持了相等元素的相对位置。
+- **归并排序**：在合并两个已排序数组的时候，如果出现相等的元素，总是先拷贝前面数组（左边数组）的元素，这样保持了元素的相对顺序。
+- **计数排序**：由于它是通过计数而非比较来确定元素的最终位置，计数排序也能保持相等元素的原始顺序。
+
+
+
+- #### 不稳定排序算法
+
+不稳定排序算法**不能保证两个相等的元素在排序前后的相对顺序不变**。这意味着如果有两个相等的元素A和B，且在排序前A在B前面，排序后B可能会在A前面。
+
+不稳定排序的例子：
+- **选择排序**：在每次找到最小（或最大）元素时，选择排序会直接将它与序列中当前位置的元素交换，不考虑这个元素之前是否有相等的元素。
+- **希尔排序**：作为插入排序的一种变体，希尔排序通过比较相隔一定间隔的元素来进行排序，这可能会打乱相等元素的初始顺序。
+- **堆排序**：堆排序通过构建堆结构来排序，由于堆的性质，当调整堆时可能会改变相等元素的相对顺序。
+- **快速排序**：在分区过程中，相等的元素可能会根据它们的位置不同而被移动到枢轴的任一侧，从而导致它们的相对顺序发生变化。
+
+在某些应用场景下，稳定性可能是一个重要的要求。例如，**在处理具有多个字段的数据时，可能需要保持前一个排序操作的结果，这时稳定排序就显得尤为重要。如果算法不稳定，可能需要采用额外的逻辑来保持所需的顺序。**
+
+
+
+## 例题
+
+- #### **合并所有的重叠区间，合并后的区间按照升序排列** 
 
 合并所有重叠区间并按照升序排列是一个经典的算法问题，通常用于间隔调度、时间表生成等场景。这个问题的解决方法一般分为以下几个步骤：
 
@@ -602,7 +674,7 @@ if __name__ == "__main__":
    
       **模板**
    
-     ```
+     ```java
      void backtracking(参数) {
          if (终止条件) {
              存放结果;

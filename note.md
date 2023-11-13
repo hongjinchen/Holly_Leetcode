@@ -2061,6 +2061,72 @@ def isBalanced(root):
 
 
 
+### 例题--求二叉树的公共祖先
+
+要实现二叉树的公共祖先查找，首先我们需要定义二叉树的结构。然后，可以使用递归的方式来找到两个节点的最近公共祖先。
+
+下面是一个步骤分解：
+
+1. **定义二叉树节点类**：这个类将包含一个值，以及指向左子节点和右子节点的指针。
+
+2. **实现查找公共祖先的函数**：
+   - 如果当前节点为空或等于任一目标节点，返回当前节点。
+   - 对左右子树递归调用这个函数。
+   - 如果一个节点在左子树，另一个在右子树，那么这个节点就是最近的公共祖先。
+   - 如果两个节点都在左子树或右子树，那么左子树或右子树的返回值就是最近的公共祖先。
+
+3. **测试函数**：创建一个二叉树并测试函数是否正确。
+
+下面是具体的实现代码：
+
+```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def lowestCommonAncestor(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    left = lowestCommonAncestor(root.left, p, q)
+    right = lowestCommonAncestor(root.right, p, q)
+    
+    if left and right:
+        return root
+    return left if left else right
+
+# 测试
+# 构建一个示例二叉树
+#       3
+#      / \
+#     5   1
+#    / \ / \
+#   6  2 0  8
+#     / \
+#    7   4
+
+root = TreeNode(3)
+root.left = TreeNode(5)
+root.right = TreeNode(1)
+root.left.left = TreeNode(6)
+root.left.right = TreeNode(2)
+root.right.left = TreeNode(0)
+root.right.right = TreeNode(8)
+root.left.right.left = TreeNode(7)
+root.left.right.right = TreeNode(4)
+
+# 查找节点5和节点1的最近公共祖先
+ancestor = lowestCommonAncestor(root, root.left, root.right)
+print('LCA of 5 and 1:', ancestor.val)
+
+# 查找节点6和节点4的最近公共祖先
+ancestor = lowestCommonAncestor(root, root.left.left, root.left.right.right)
+print('LCA of 6 and 4:', ancestor.val)
+```
+
+
+
 ## 图
 
 图是一种非线性数据结构，由「节点（顶点）**vertex**」和「边 **edge**」组成，每条边连接一对顶点。根据边的方向有无，图可分为「有向图」和「无向图」。本文 以无向图为例 开展介绍。

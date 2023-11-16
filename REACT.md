@@ -4,7 +4,7 @@ React是一个用于构建用户界面的JavaScript库，特别适用于构建�
 
 ### JSX（JavaScript XML）
 
-JSX是一种JavaScript的语法扩展，它允许你在JavaScript代码中编写类似HTML的标记语言。它让创建React元素变得更直观。
+JSX是一种JavaScript的语法扩展，它允许你**在JavaScript代码中编写类似HTML的标记语言**。它让创建React元素变得更直观。
 
 ```jsx
 const element = <h1>Hello, world!</h1>;
@@ -65,7 +65,7 @@ class MyComponent extends React.Component {
 
 #### 函数组件
 
-函数组件是更简单的组件类型，通常用于不包含状态和生命周期方法的UI。
+函数组件是更简单的组件类型，通常用于**不包含状态和生命周期方法**的UI。
 
 ```jsx
 function Welcome(props) {
@@ -73,7 +73,7 @@ function Welcome(props) {
 }
 ```
 
-函数组件是使用**普通JavaScript函数创建的组件**。随着React Hooks的引入，它们也可以使用状态和其他React特性。
+函数组件是使用**普通JavaScript函数创建的组件**。随着React Hooks的引入，**它们也可以使用状态和其他React特性。**
 
 **特点**
 
@@ -87,11 +87,9 @@ function Welcome(props) {
 ```js
 function MyComponent() {
   const [count, setCount] = useState(0);
-
   const incrementCount = () => {
     setCount(count + 1);
   };
-
   return (
     <div>
       <p>You clicked {count} times</p>
@@ -107,7 +105,7 @@ function MyComponent() {
 
 ### 状态（State）
 
-状态是一个组件可以管理的数据，它可以随时间变化，并影响组件的渲染输出。在类组件中，状态是一个对象，通过`this.setState`方法更新。
+状态是一个**组件可以管理的数据，它可以随时间变化，并影响组件的渲染输出**。在类组件中，状态是一个对象，**通过`this.setState`方法更新。**
 
 ```jsx
 class Counter extends React.Component {
@@ -115,7 +113,6 @@ class Counter extends React.Component {
     super(props);
     this.state = { count: 0 };
   }
-
   render() {
     return (
       <div>
@@ -129,14 +126,13 @@ class Counter extends React.Component {
 }
 ```
 
-在函数组件中，可以使用**`useState` Hook**来添加状态。
+在**函数组件**中，可以使用**`useState` Hook**来添加状态。
 
 ```jsx
 import React, { useState } from 'react';
 
 function Counter() {
   const [count, setCount] = useState(0);
-
   return (
     <div>
       <p>You clicked {count} times</p>
@@ -150,19 +146,20 @@ function Counter() {
 
 ### 属性（Props）
 
-Props是从父组件传递到子组件的只读数据。它们在组件内部不应该被修改。
+**Props是从父组件传递到子组件的只读数据**。它们**在组件内部不应该被修改。**
 
 ```jsx
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
-
 const element = <Welcome name="Sara" />;
 ```
 
+
+
 ### 钩子（Hooks）
 
-Hooks是React 16.8引入的新特性，它允许你在函数组件中使用状态和其他React特性，如生命周期、上下文（context）等。
+**Hooks**是React 16.8引入的新特性，它允许你在函数组件中使用状态和其他React特性，如**生命周期**、上下文（context）等。
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -218,7 +215,6 @@ React元素可以有事件处理器，它们的命名遵循camelCase约定，而
 
 ```jsx
 <button
-
  onClick={activateLasers}>
   Activate Lasers
 </button>
@@ -288,7 +284,7 @@ class NameForm extends React.Component {
 
 ### 上下文（Context）
 
-Context提供了一种在组件间共享此类值的方式，而不必显式地通过组件树的每个层级传递props。
+Context提供了一种在**组件间共享此类值的方式**，**而不必显式地通过组件树的每个层级传递props**。
 
 ```jsx
 // 创建一个 Context
@@ -340,7 +336,7 @@ function withSubscription(WrappedComponent, selectData) {
 
 ### 状态管理
 
-在更复杂的应用中，状态管理可能会变得复杂，这时候可以使用Redux或Context API等库来管理应用的状态。
+在更复杂的应用中，状态管理可能会变得复杂，这时候可以使用**Redux**或**Context API**等库来管理应用的状态。
 
 ```jsx
 import { createStore } from 'redux';

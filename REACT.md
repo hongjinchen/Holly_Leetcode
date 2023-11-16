@@ -183,11 +183,52 @@ function Example() {
 }
 ```
 
+#### 常用的React Hooks
+
+1. **useState**
+   - `useState` 用于在函数组件中添加状态。它返回一个状态变量和一个用于更新这个状态的函数。
+   - 示例：`const [count, setCount] = useState(0);`
+
+2. **useEffect**
+   - `useEffect` 用于处理函数组件中的副作用，类似于类组件中的 `componentDidMount`、`componentDidUpdate` 和 `componentWillUnmount` 生命周期方法的组合。
+   - 示例：`useEffect(() => { document.title = `You clicked ${count} times`; });`
+
+3. **useContext**
+   - `useContext` 用于让你在函数组件中可以方便地使用React Context API。
+   - 示例：`const value = useContext(MyContext);`
+
+4. **useReducer**
+   - `useReducer` 用于在组件中引入更复杂的状态逻辑。它通常用于管理组件的多个状态。
+   - 示例：`const [state, dispatch] = useReducer(reducer, initialState);`
+
+5. **useCallback**
+   - `useCallback` 返回一个记忆化的回调函数，只有当它的依赖发生变化时才会更新。
+   - 示例：`const memoizedCallback = useCallback(() => { doSomething(a, b); }, [a, b]);`
+
+6. **useMemo**
+   - `useMemo` 返回一个记忆化的值，只有当依赖项改变时才会重新计算。
+   - 示例：`const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);`
+
+7. **useRef**
+   - `useRef` 返回一个可变的ref对象，其`.current`属性被初始化为传入的参数（initialValue）。返回的对象在组件的整个生命周期内保持不变。
+   - 示例：`const myRef = useRef(initialValue);`
+
+#### 使用上的限制
+1. **只在顶层调用Hooks**：不要在循环、条件或嵌套函数中调用Hooks。这是为了确保Hooks在每次渲染时都以相同的顺序被调用。
+
+2. **只在React函数中调用Hooks**：不要在普通的JavaScript函数中调用Hooks。你可以在React的函数组件或自定义Hook中调用它们。
+
+3. **使用规范**：正确使用依赖数组。例如，在 `useEffect`、`useCallback` 和 `useMemo` 中，你需要正确地指定依赖项数组，以避免不必要的重新渲染或遗漏更新。
+
+4. **避免过度使用useCallback和useMemo**：滥用这些可以创建记忆化值和函数的Hooks可能会导致性能问题，因为它们需要在内存中保存旧的值和函数。
+
+5. **清理副作用**：在使用 `useEffect` 时，如果你的副作用函数返回了一个函数，那么这个返回的函数将在组件卸载时被调用，用于清理副作用。
+
 
 
 ### 生命周期方法
 
-生命周期方法是类组件中的特殊方法，它们在组件的生命周期的特定时刻被调用，例如组件创建、更新和销毁时。
+生命周期方法是**类组件**中的特殊方法，**它们在组件的生命周期的特定时刻被调用，例如组件创建、更新和销毁时。**
 
 ```jsx
 class MyComponent extends React.Component {
@@ -208,6 +249,8 @@ class MyComponent extends React.Component {
   }
 }
 ```
+
+
 
 ### 事件处理
 

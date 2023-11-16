@@ -188,12 +188,12 @@ const store = new Vuex.Store({
 
 当然，我很乐意为您详细介绍 Vuex。
 
-### Vuex 是什么？
+- #### Vuex 是什么？
+
 
 Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式和库。它作为一个集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。Vuex 非常适合用于中大型单页应用（SPA），因为这类应用通常需要在多个组件间共享状态。
 
 - #### Vuex 的核心概念
-
 
 **Vuex 的设计和 Redux 类似**，但它利用了 Vue.js 的细粒度数据响应机制来进行高效的状态更新。以下是 Vuex 的一些核心概念：
 
@@ -225,7 +225,7 @@ Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式和库。它�
    - Store 是存储应用状态的地方。你需要定义一个新的 Vuex Store，并将其状态和 mutations 定义好。
 
 3. **在 Vue 组件中使用 Store**:
-   - 组件通过 `this.$store` 访问 Vuex store，从 store 的 state 中读取状态，通过 mutations 更改状态。
+   - 组件通过 **`this.$store` 访问 Vuex store，从 store 的 state 中读取状态，通过 mutations 更改状态。**
 
 4. **在根实例中注入 Store**:
    - 创建 Vue 根实例时，将 store 注入，这样所有的子组件都可以使用 store。
@@ -262,7 +262,9 @@ new Vue({
 });
 ```
 
-Vuex 提供了一种集中式存储管理应用的所有组件状态的方法，并以特定的规则保证状态以可预测的方式发生变化。这对于在多个组件之间共享状态的复杂应用来说，是非常有用的。通过使用 Vuex，Vue 应用程序的代码和组件可以更加高效和有序。
+**Vuex 提供了一种集中式存储管理应用的所有组件状态的方法，并以特定的规则保证状态以可预测的方式发生变化**。这对于在多个组件之间共享状态的复杂应用来说，是非常有用的。通过使用 Vuex，Vue 应用程序的代码和组件可以更加高效和有序。
+
+
 
 ### 模板语法和数据绑定
 
@@ -409,6 +411,115 @@ Vue.component('async-webpack-example', function (resolve, reject) {
 
 
 
+### 生命周期钩子
+
+Vue.js是一个流行的JavaScript框架，它为开发者提供了一系列的生命周期钩子（也称为生命周期方法）。这些钩子在Vue组件的不同阶段被自动调用，允许**开发者在特定时刻添加他们自己的代码，进行状态管理、DOM操作、数据获取等任务。**
+
+以下是Vue组件的主要生命周期钩子及其用途的详细介绍：
+
+**1. `beforeCreate`**
+
+- 在实例初始化之后、数据观测 (data observation) 和事件/侦听器配置之前被调用。
+- 在这个阶段，data、computed、methods、watch等还没有被设置。
+
+**2. `created`**
+
+- 在实例创建完成后被立即调用。
+- 在这个阶段，Vue实例已完成数据观测、属性和方法的运算、watch/event事件回调的配置。
+- 这个钩子在服务端渲染期间也会被调用。
+
+**3. `beforeMount`**
+
+- 在挂载开始之前被调用：相关的`render`函数首次被调用。
+- 这是在模板编译成HTML后、挂载DOM之前的最后一刻，可以对数据进行最后的更改。
+
+**4. `mounted`**
+
+- `el` 被新创建的 `vm.$el` 替换，并挂载到实例上去之后调用该钩子。
+- 在这个阶段，你可以访问到完整的渲染DOM。
+- 这个钩子在服务端渲染期间不会被调用。
+
+**5. `beforeUpdate`**
+
+- 在数据变化后、DOM被重新渲染和更新之前调用。
+- 这个钩子可以用来在当前的DOM更新之前执行依赖于DOM的操作。
+
+**6. `updated`**
+
+- 在由于**数据更改导致的虚拟DOM重新渲染和打补丁之后调用。**
+- 当这个钩子被调用时，组件DOM已经更新，因此你可以执行依赖于DOM的操作。
+- 然而，这个时期可能会在某些子组件还没更新完成时就被调用。
+
+**7. `beforeDestroy`**
+
+- 在实例销毁之前调用。在这一步，实例仍然完全可用。
+- 这是清理事件监听器、定时器或执行其他清理任务的好时机。
+
+**8. `destroyed`**
+
+- 在实例销毁后调用。调用后，Vue实例指示的所有东西都会解绑定，所有的事件监听器被移除，所有的子实例也都会被销毁。
+- 这个钩子在服务端渲染期间不会被调用。
+
+**9. `activated` 和 `deactivated`**
+
+- 用于`<keep-alive>`包裹的动态组件。
+- `activated` 在组件被激活时调用，`deactivated` 在组件被停用时调用。
+
+```vue
+<template>
+  <div>
+    <h1>{{ message }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      message: "Hello Vue!",
+    };
+  },
+  // beforeCreate
+  beforeCreate() {
+    console.log("beforeCreate: 组件实例刚被创建，属性和方法尚未初始化");
+  },
+  // created
+  created() {
+    console.log("created: 组件实例已创建，属性和方法已初始化");
+    // 此时可以进行数据请求或开始定时任务
+  },
+  // beforeMount
+  beforeMount() {
+    console.log("beforeMount: 模板编译/挂载之前");
+  },
+  // mounted
+  mounted() {
+    console.log("mounted: 组件已挂载到DOM，可以进行DOM操作");
+  },
+  // beforeUpdate
+  beforeUpdate() {
+    console.log("beforeUpdate: 组件更新之前");
+  },
+  // updated
+  updated() {
+    console.log("updated: 组件更新之后");
+  },
+  // beforeDestroy
+  beforeDestroy() {
+    console.log("beforeDestroy: 组件销毁之前");
+    // 清理工作，如清除定时器或解绑事件监听器
+  },
+  // destroyed
+  destroyed() {
+    console.log("destroyed: 组件销毁之后");
+  },
+};
+</script>
+
+```
+
+
+
 ### 提供/注入机制
 
 提供/注入机制是一种高级的用于跨多个组件传递数据的方式，通常在深层嵌套的组件中使用，作为传递props的替代方案。
@@ -417,9 +528,7 @@ Vue.component('async-webpack-example', function (resolve, reject) {
 // 父组件提供 'foo'
 var Provider = {
   provide: {
-    foo
-
-: 'bar'
+    foo: 'bar'
   },
   // ...
 }
@@ -805,3 +914,49 @@ export default {
 - **适用场景**：选项式 API 适合于简单或中等复杂度的应用，而组合式 API 适合于需要更复杂逻辑组织的大型应用。
 
 理解这两种 API 的不同之处不仅有助于更好地使用 Vue.js，还能帮助你根据项目需求选择最合适的方法来构建你的应用。
+
+
+
+## VUE和REACT的优势与劣势
+
+### React
+
+- #### 技术特性
+
+1. **虚拟DOM**：React使用虚拟DOM来优化DOM操作，提高渲染效率。
+2. **组件化结构**：React强调可复用的组件，使得代码更加模块化和易于维护。
+3. **JSX**：React使用JSX语法，允许在JavaScript代码中写入HTML结构。
+4. **单向数据流**：React采用单向数据流，这使得数据状态管理更加清晰。
+5. **Hooks**：React引入Hooks使得在函数组件中使用状态和其他React特性变得可能，极大地提高了函数组件的能力。
+
+- #### 技术优势
+
+1. **高效的更新机制**：虚拟DOM的使用可以减少对实际DOM的操作，提高应用性能。
+2. **丰富的生态系统**：有大量的第三方库和工具可供选择。
+3. **强大的社区支持**：由于Facebook的支持，React有着非常活跃的社区和良好的维护。
+
+- #### 技术局限性
+
+1. **JSX的学习曲线**：JSX混合了HTML和JavaScript，对于初学者可能稍显复杂。
+2. **状态管理**：在大型应用中，状态管理（如使用Redux）可能会变得复杂。
+
+### Vue
+
+- #### 技术特性
+
+1. **响应式系统**：Vue的响应式系统可以自动追踪依赖关系并在数据变化时更新视图。
+2. **模板语法**：Vue使用基于HTML的模板语法，易于学习和使用。
+3. **组件化**：Vue同样强调组件化，促进了代码的复用和模块化。
+4. **单文件组件**：Vue的单文件组件（.vue文件）将模板、脚本和样式封装在一起，便于组织代码。
+5. **Vue CLI**：提供了强大的命令行工具，用于快速生成项目模板。
+
+- #### 技术优势
+
+1. **易于上手**：相对简洁的API和HTML模板使得Vue容易学习和使用。
+2. **轻量级**：Vue的核心库较小，对初期加载性能影响较小。
+3. **细粒度的响应式系统**：允许更精细地控制数据和视图的更新。
+
+- #### 技术局限性
+
+1. **生态系统规模**：虽然生态系统正在迅速增长，但与React相比仍然较小。
+2. **企业接受度**：在全球范围内，特别是西方国家，Vue的企业接受度相对较低。

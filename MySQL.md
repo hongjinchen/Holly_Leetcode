@@ -442,6 +442,8 @@ SELECT course.course_id, title, dept_name, credits, prereq_id
 
 ![img](https://pic3.zhimg.com/80/v2-4ca21be6eb7f2009ab3789554d4026ca_1440w.webp)
 
+
+
 **23. 视图**
 
 视图（view）是**虚拟的SQL表。它包含行和列，和一般的SQL表格很类似。视图总是显示数据库中的最新数据。**
@@ -509,7 +511,55 @@ SELECT DISTINCT course_id
 
 ![img](https://pic1.zhimg.com/80/v2-e70916f1c617bafc28d1f2ab68e936a4_1440w.webp)
 
-https://www.runoob.com/sql/sql-select.html
+- #### Limit
+
+在 MySQL 中，`LIMIT` 子句常用于**限制查询结果的数量**，它是 SQL 语句的一部分，用于指定要返回的记录数。`LIMIT` 子句非常有用，尤其是在处理大量数据时，可以帮助减少数据传输量，提高查询性能。
+
+**基本用法**
+
+1. **限制返回的记录数**:
+   
+   ```sql
+   SELECT column1, column2, ...
+   FROM table_name
+   LIMIT number;
+   ```
+这里的 `number` 指定了从查询结果中返回的最大记录数。
+   
+2. **指定偏移量**:
+   ```sql
+   SELECT column1, column2, ...
+   FROM table_name
+   LIMIT offset, count;
+   ```
+   - `offset` 指定从哪个位置开始返回记录（从 0 开始计数）。
+   - `count` 是返回的记录数量。
+   - 这个形式的 `LIMIT` 子句在分页查询中特别有用，可以用来返回查询结果的一个子集。
+
+**示例**
+
+1. **返回前 N 条记录**:
+   ```sql
+   SELECT * FROM employees
+   LIMIT 5;
+   ```
+   这个查询将返回 `employees` 表中的前 5 条记录。
+
+2. **分页查询**:
+   ```sql
+   SELECT * FROM employees
+   LIMIT 10, 5;
+   ```
+   这个查询将从 `employees` 表中的第 11 条记录开始（因为偏移量是 10），返回接下来的 5 条记录。这在实现结果分页时非常有用。
+
+**注意事项**
+
+- 在使用 `LIMIT` 时，最好配合 `ORDER BY` 子句一起使用，以确保结果的顺序是确定的，尤其是在进行分页查询时。
+- `LIMIT` 子句中的数值必须是非负整数。
+- 如果 `offset` 未指定，默认为 0，即从第一条记录开始。
+- 如果 `offset` 设置的值大于总记录数，将不会返回任何记录。
+
+
 
 ### **数据库左连接和右连接的区别**
 
@@ -826,6 +876,8 @@ SQL慢查询是指**在数据库中执行速度较慢的查询请求**。这些�
 - **外键（Foreign Key）**: 是在一个关系中用于引用另一个关系的主键或候选键的属性集合。外键用于建立关系之间的连接。
 - **复合键（Composite Key）**: 是由两个或更多的属性组成的键。
 
+
+
 ## 实体之间的关系
 
 **一对一（1:1）关系**
@@ -895,6 +947,8 @@ SQL慢查询是指**在数据库中执行速度较慢的查询请求**。这些�
    ```
    SELECT * FROM 关系1, 关系2;
    ```
+
+
 
 ### 高级运算符
 

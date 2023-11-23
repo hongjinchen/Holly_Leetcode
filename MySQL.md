@@ -252,6 +252,16 @@ SELECT COUNT(course_id), dept_name
 
 ![img](https://pic2.zhimg.com/80/v2-b98b02a2e727819e0bb393dd39ea6609_1440w.webp)
 
+**数据库中有一个表格，专门用于记录软件的 bug。这个表中至少包含用户 ID 和 bug 类型两个字段。我希望查询能够为每个用户提取出他们报告的每种 bug 类型的数量。**
+
+```sql
+SELECT user_id, bug_type, COUNT(*) as bug_count
+FROM bugs
+GROUP BY user_id, bug_type;
+```
+
+
+
 **17. HAVING**
 
 乍看起来，**HAVING**和**WHERE**很像：

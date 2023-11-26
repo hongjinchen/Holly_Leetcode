@@ -324,6 +324,7 @@ float("3.14")  # 输出: 3.14
    ```python
    str(10)  # 输出: "10"
    str([1, 2, 3])  # 输出: "[1, 2, 3]"
+   ```
 ```
    
 4. `bool(x)`：将x转换为Boolean类型，如果x是非零数值、非空字符串、非空对象等，返回`True`，否则返回`False`。
@@ -333,7 +334,7 @@ float("3.14")  # 输出: 3.14
    bool("")  # 输出: False
    bool("Some string")  # 输出: True
 ```
-   
+
 5. `list(x)`：将序列x转换为一个列表。
    
    ```python
@@ -347,15 +348,17 @@ float("3.14")  # 输出: 3.14
 ```
 
 7. `dict(d)`：创建一个字典。d必须是一个序列 (key,value)元组。
+   
    ```python
    dict([(1, 'one'), (2, 'two')])  # 输出: {1: 'one', 2: 'two'}
-   ```
-
+```
+   
 8. `set(x)`：转换为可变集合。
+   
    ```python
    set([1, 2, 3, 1])  # 输出: {1, 2, 3}
-   ```
-
+```
+   
 9. `frozenset(x)`：转换为不可变集合。
    ```python
    frozenset([1, 2, 3, 1])  # 输出: frozenset({1, 2, 3})
@@ -365,15 +368,15 @@ float("3.14")  # 输出: 3.14
     
     ```python
     bytes("hello", "utf-8")  # 输出: b'hello'
+    ```
+    
+    11. `bytearray(x[, encoding[, errors]])`：将x转换为bytearray类型。
 ```
-    
-11. `bytearray(x[, encoding[, errors]])`：将x转换为bytearray类型。
-    
-    ```python
     bytearray("hello", "utf-8")  # 输出: bytearray(b'hello')
 ```
-    
+
 12. `complex(real[, imag])`：创建一个复数。
+    
     ```python
     complex(1, 2)  # 输出: (1+2j)
     ```
@@ -515,6 +518,8 @@ Python 的内存管理机制综合了引用计数和垃圾回收，以达到高�
    deep_copied_object = copy.deepcopy(original_object)
    ```
 
+
+
 #### 深拷贝示例
 
 ```python
@@ -538,7 +543,10 @@ print("Deep Copied:", deep_copied_list)  # Output: [1, [2, 3], 4]
 
 装饰器是 Python 的一种高级特性，用于修改或增强函数或方法的行为。**它们通常用于代码重用或者功能抽象。**装饰器是一种特殊类型的函数，**它接受一个函数作为输入，然后返回一个新的函数。**
 
+
+
 #### 定义装饰器
+
 一个简单的装饰器示例如下：
 
 ```python
@@ -557,7 +565,10 @@ def say_hello():
 say_hello()
 ```
 
+
+
 #### 使用装饰器
+
 装饰器通常使用 `@` 符号和装饰器函数名来应用，紧跟在被装饰函数的定义之前。
 
 ```python

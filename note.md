@@ -2617,3 +2617,37 @@ def algorithm(N):
 <img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029020715109.png" alt="image-20231029020715109" style="zoom:67%;" />
 
 <img src="C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20231029020734544.png" alt="image-20231029020734544" style="zoom:67%;" />
+
+
+
+# 面试手撕题
+
+- ### 判断三条边能否构成三角形
+
+要判断三条边是否能构成一个三角形，我们需要遵循三角形的基本规则：任意两边之和必须大于第三边。这个规则适用于所有三边，即：
+
+1. 边 A + 边 B > 边 C
+2. 边 B + 边 C > 边 A
+3. 边 C + 边 A > 边 B
+
+如果这三个条件都满足，则这三条边可以构成一个三角形。现在，让我们编写一个简单的程序来实现这个判断逻辑。我们将使用 Python 语言，因为它简洁且易于理解。
+
+下面是实现这一功能的 Python 代码示例：
+
+```python
+def can_form_triangle(a, b, c):
+    # 检查三边之和是否大于第三边
+    return (a + b > c) and (b + c > a) and (c + a > b)
+
+# 测试函数
+a = 3
+b = 4
+c = 5
+
+if can_form_triangle(a, b, c):
+    print("这三条边可以构成三角形")
+else:
+    print("这三条边不能构成三角形")
+```
+
+在这个例子中，`can_form_triangle` 函数接收三个参数：a、b 和 c，分别代表三角形的三条边。该函数返回一个布尔值，表明这三条边是否能构成一个三角形。然后，我们用一组具体的边长值来测试这个函数。

@@ -325,11 +325,9 @@ float("3.14")  # 输出: 3.14
    str(10)  # 输出: "10"
    str([1, 2, 3])  # 输出: "[1, 2, 3]"
    ```
-```
    
-4. `bool(x)`：将x转换为Boolean类型，如果x是非零数值、非空字符串、非空对象等，返回`True`，否则返回`False`。
-   
-   ```python
+   4. `bool(x)`：将x转换为Boolean类型，如果x是非零数值、非空字符串、非空对象等，返回`True`，否则返回`False`。
+```python
    bool(0)  # 输出: False
    bool("")  # 输出: False
    bool("Some string")  # 输出: True
@@ -351,14 +349,13 @@ float("3.14")  # 输出: 3.14
    
    ```python
    dict([(1, 'one'), (2, 'two')])  # 输出: {1: 'one', 2: 'two'}
-```
+   ```
    
-8. `set(x)`：转换为可变集合。
-   
-   ```python
+   8. `set(x)`：转换为可变集合。
+```python
    set([1, 2, 3, 1])  # 输出: {1, 2, 3}
 ```
-   
+
 9. `frozenset(x)`：转换为不可变集合。
    ```python
    frozenset([1, 2, 3, 1])  # 输出: frozenset({1, 2, 3})
@@ -371,7 +368,7 @@ float("3.14")  # 输出: 3.14
     ```
     
     11. `bytearray(x[, encoding[, errors]])`：将x转换为bytearray类型。
-```
+```python
     bytearray("hello", "utf-8")  # 输出: bytearray(b'hello')
 ```
 
@@ -505,7 +502,7 @@ Python 的内存管理机制综合了引用计数和垃圾回收，以达到高�
 
 #### python深拷贝（Deep Copy）
 
-深拷贝会复制对象以及其包含的所有嵌套对象。这意味着，生成的新对象是原始对象的完全独立副本。
+深拷贝会复制对象以及其包含的所有嵌套对象。这意味着，**生成的新对象是原始对象的完全独立副本。**
 
 1. 使用 模块的  函数。
 

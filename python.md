@@ -227,20 +227,21 @@
   True
   
   >>> print(c is e)
+  
   False
   
   >>> print(c == e)
   True
-  ```
-
-  只有 `id`一致时，`is`比较才会返回 `True`，而当 `value`一致时，`==` 比较就会返回 `True`。
-
+```
+  
+只有 `id`一致时，`is`比较才会返回 `True`，而当 `value`一致时，`==` 比较就会返回 `True`。
   
 
-  `*arg` 和 `**kwarg` 作用
-
-  允许我们在调用函数的时候传入**多个实参**
-
+  
+`*arg` 和 `**kwarg` 作用
+  
+允许我们在调用函数的时候传入**多个实参**
+  
   ```python
   >>> def test(*arg, **kwarg):
   ...     if arg:
@@ -251,20 +252,20 @@
   >>> test('ni', 'hao', key='world')
   arg: ('ni', 'hao')
   kearg: {'key': 'world'}
-  ```
-
+```
   
 
-  **[lambda x:i*x for i in range(4)]**
-
+  
+**[lambda x:i*x for i in range(4)]**
+  
   ```python
   >>> def num():
   ...     return [lambda x:i*x for i in range(4)]
   ...
   >>> [m(1) for m in num()]
   [3, 3, 3, 3]
-  ```
-
+```
+  
   
 
 ### 6. 数组（Array）
@@ -357,10 +358,11 @@ float("3.14")  # 输出: 3.14
 ```
 
 9. `frozenset(x)`：转换为不可变集合。
+   
    ```python
    frozenset([1, 2, 3, 1])  # 输出: frozenset({1, 2, 3})
-   ```
-
+```
+   
 10. `bytes(x[, encoding[, errors]])`：将x转换为bytes类型。
     
     ```python

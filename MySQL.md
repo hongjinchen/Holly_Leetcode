@@ -2,7 +2,9 @@
 
 # SQL
 
-## **数据库事务的特性**
+## **数据库事务**
+
+### 特性
 
 **原子性（Atomicity）**
 
@@ -53,6 +55,50 @@
 持久性确保一旦事务被提交，其对数据库的更改就是永久性的，即使在系统崩溃或故障后也不会丢失。
 
 通常，这是通过将事务日志持久化到磁盘来实现的。在系统恢复后，这些日志用于将数据库恢复到一致的状态。
+
+
+
+### 实现步骤
+
+1. **开始事务**：
+   - 在数据库操作开始前，声明一个事务的开始。这通常通过一个特定的命令或API调用实现，如SQL中的 `BEGIN TRANSACTION`。
+2. **执行操作**：
+   - 在事务中执行一系列的数据库操作。这些操作可以包括插入、更新、删除等。
+3. **检查一致性**：
+   - 在提交事务之前，确保所有的数据库操作都符合业务规则和逻辑，保证了数据的一致性。
+4. **提交或回滚事务**：
+   - **提交**：如果所有操作都成功完成，提交事务，使得所有更改永久生效。使用 `COMMIT` 命令。
+   - **回滚**：如果任何操作失败或发生错误，回滚事务，撤销所有更改。使用 `ROLLBACK` 命令。
+
+> #### 示例：处理订单的数据库事务
+>
+> 假设你正在处理一个在线购物的订单，需要更新库存数量并记录订单信息。下面是使用SQL的一个简化示例：
+>
+> ```
+> sqlCopy codeBEGIN TRANSACTION;
+> 
+> -- 假设 'product_id' 是购买的商品ID
+> SELECT stock FROM inventory WHERE product_id = 123 FOR UPDATE;
+> 
+> -- 检查库存是否足够
+> IF stock < required_quantity THEN
+>     -- 库存不足，回滚事务
+>     ROLLBACK TRANSACTION;
+>     RETURN "Out of Stock";
+> ELSE
+>     -- 更新库存
+>     UPDATE inventory SET stock = stock - required_quantity WHERE product_id = 123;
+> 
+>     -- 插入订单记录
+>     INSERT INTO orders (product_id, quantity, customer_id) VALUES (123, required_quantity, customer_id);
+> 
+>     -- 提交事务
+>     COMMIT TRANSACTION;
+>     RETURN "Order Successful";
+> END IF;
+> ```
+>
+> 在这个例子中，事务开始于 `BEGIN TRANSACTION`，随后进行库存检查。如果库存足够，它更新库存并插入订单记录。最后，使用 `COMMIT` 来确认更改，或在发现问题时使用 `ROLLBACK` 来撤销所有更改。
 
 
 
@@ -1061,6 +1107,64 @@ SQL慢查询是指**在数据库中执行速度较慢的查询请求**。这些�
    ```
    SELECT AVG(年龄), MAX(年龄) FROM 学生;
    ```
+
+
+
+# Python和数据库
+
+可以按照以下步骤使用`PyMySQL`来连接MySQL数据库、执行SQL命令等：
+
+**示例代码：使用 PyMySQL**
+
+```python
+import pymysql
+from pymysql import Error
+
+try:
+    # 连接到MySQL数据库
+    connection = pymysql.connect(
+        host='your_host',        # 数据库主机地址
+        database='your_database',# 数据库名称
+        user='your_username',    # 数据库用户名
+        password='your_password' # 数据库密码
+    )
+
+    # 使用 cursor() 方法创建一个游标对象
+    cursor = connection.cursor()
+
+    # 创建表
+    cursor.execute("CREATE TABLE IF NOT EXISTS inventory (product_id INT PRIMARY KEY, stock INT);")
+
+    # 插入数据
+    cursor.execute("INSERT INTO inventory (product_id, stock) VALUES (101, 200);")
+
+    # 查询数据
+    cursor.execute("SELECT * FROM inventory;")
+    records = cursor.fetchall()
+    for row in records:
+        print("Product ID:", row[0], "Stock:", row[1])
+
+    # 提交事务
+    connection.commit()
+
+except Error as e:
+    print("Error while connecting to MySQL", e)
+finally:
+    # 关闭游标和连接
+    if connection:
+        cursor.close()
+        connection.close()
+        print("MySQL connection is closed")
+```
+
+**注意事项**
+
+1. **异常处理**：使用`try-except`来处理可能的数据库连接错误和SQL执行错误。
+2. **安全性**：避免SQL注入攻击，使用参数化查询。
+3. **事务管理**：对于影响数据库状态的操作（如INSERT、UPDATE、DELETE），确保在操作完成后提交事务。
+4. **资源管理**：在操作完成后，确保关闭游标和数据库连接。
+
+`PyMySQL`是一个纯Python实现的MySQL客户端，因此在不同的环境中安装和使用通常比较简单。它支持大多数MySQL特性和命令，并且可以很容易地与现有的Python代码集成。对于Python开发者来说，它提供了一个方便的方式来与MySQL数据库进行交互。
 
 
 

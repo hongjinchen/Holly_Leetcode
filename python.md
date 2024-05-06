@@ -418,16 +418,20 @@ a = [1, 2, 3]
 # 引用同一对象（引用计数增加到 2）
 b = a
 
-# 解除一个引用（引用计数减少到 1）
+# 解除一个引用（引用计数减少到 1） ,del语句删除了变量名，而不是对象本身。所以，即使使用del a删除了变量 a，对象本身仍然存在，只是失去了通过变量 a 直接访问的途径。下面仍然可以通过b去得到a元素的引用。
 del a
 
 # 解除另一个引用（引用计数减少到 0，对象被删除）
 del b
 ```
 
+在Python中，可以使用`sys.getrefcount()`函数来查看对象的引用计数。但需要注意的是，`sys.getrefcount()`返回的是对象的引用计数加一，因为在函数调用的过程中，会产生一个额外的引用。因此，如果一个对象的引用计数是 n，则实际的引用计数为 n-1。
+
+
+
 **垃圾回收（Garbage Collection）**
 
-引用计数有一些局限性，尤其是不能处理引用循环。垃圾回收机制可以检测到这样的循环，并将其打破。
+引用计数有一些局限性，尤其是**不能处理引用循环**。垃圾回收机制可以检测到这样的循环，并将其打破。
 
 ```python
 # 创建引用循环
@@ -491,6 +495,8 @@ Python 的内存管理机制综合了引用计数和垃圾回收，以达到高�
 
 #### python浅拷贝（Shallow Copy）
 
+浅拷贝创建一个新的对象，但是只复制了原始对象的顶层元素，而不是嵌套的子对象。这意味着，如果原始对象包含可变对象（例如列表或字典），则新对象中的这些子对象将与原始对象共享引用。浅拷贝可以使用语言内置函数或者特定库的函数来执行。
+
 1. 使用切片操作（只适用于列表和其他序列类型）。
 
    ```python
@@ -523,7 +529,7 @@ Python 的内存管理机制综合了引用计数和垃圾回收，以达到高�
 
 #### python深拷贝（Deep Copy）
 
-深拷贝会复制对象以及其包含的所有嵌套对象。这意味着，**生成的新对象是原始对象的完全独立副本。**
+深拷贝会复制对象以及其包含的所有嵌套对象。这意味着，**生成的新对象是原始对象的完全独立副本。** 深拷贝通常比浅拷贝更耗费资源，并且可能需要更多的时间来完成，特别是对于大型或嵌套的数据结构。
 
 1. 使用 模块的  函数。
 
@@ -559,27 +565,93 @@ print("Deep Copied:", deep_copied_list)  # Output: [1, [2, 3], 4]
 
 # 异步编程
 
-在Python中实现异步编程，主要依赖于 `asyncio` 库和 `async`/`await` 语法。
+在Python中实现**异步编程**，主要依赖于 **`asyncio` 库和 `async`/`await` 语法。**
 
 1. **asyncio 库**：
+   
    - 标准库，专为编写单线程的并发代码而设计。
+   
    - 提供了创建和管理事件循环的工具，允许运行异步任务和协程。
+   
    - 支持异步IO操作、网络连接、并发运行Python协程、控制子进程等。
+   
+     ```python
+     import asyncio
+     
+     async def say_hello(delay, name):
+         await asyncio.sleep(delay)
+         print(f"Hello, {name}!")
+     
+     async def main():
+         # 创建一个事件循环
+         loop = asyncio.get_event_loop()
+     
+         # 定义任务
+         task1 = loop.create_task(say_hello(3, "Alice"))
+         task2 = loop.create_task(say_hello(2, "Bob"))
+     
+         # 并发执行任务
+         await asyncio.gather(task1, task2)
+     
+     # 运行主程序
+     asyncio.run(main())
+     ```
+   
+     定义了一个异步函数 `say_hello()`，它会打印一条问候信息，并在指定的延迟之后完成。然后，定义了一个主函数 `main()`，在其中创建了两个任务 `task1` 和 `task2`，分别代表向Alice和Bob打招呼。最后，使用 `asyncio.gather()` 函数并发执行这两个任务。
 2. **async/await 语法**：
+   
    - `async def` 定义一个协程（coroutine），这是执行异步操作的函数。
+   
    - `await` 用于协程内部，暂停协程的执行，等待异步操作完成。
+   
+     ```python
+     import asyncio
+     
+     async def fetch_data(url):
+         print(f"Fetching data from {url}")
+         await asyncio.sleep(2)  # 模拟网络请求延迟
+         print(f"Data fetched from {url}")
+         return f"Data from {url}"
+     
+     async def main():
+         urls = ["https://example.com/data1", "https://example.com/data2", "https://example.com/data3"]
+     
+         # 并发执行多个异步任务
+         tasks = [fetch_data(url) for url in urls]
+         results = await asyncio.gather(*tasks)
+     
+         # 打印结果
+         for result in results:
+             print(result)
+     
+     # 运行主程序
+     asyncio.run(main())
+     ```
+   
+     
 3. **异步迭代器（Async Iterators）和异步生成器（Async Generators）**：
+   
    - 异步迭代器允许对象在异步操作完成时产生值。
+   
    - 异步生成器是一种特殊的迭代器，可以在 `async def` 函数中使用 `yield`。
+   
+     
 4. **Futures 和 Tasks**：
+   
    - `Future` 对象代表最终会完成的异步操作。
+   
    - `Task` 是 `Future` 的子类，用于封装和管理协程的执行。
+   
+     
 5. **线程和进程池**：
+   
    - `asyncio` 可以与 `concurrent.futures` 模块一起使用，后者提供了线程池（ThreadPoolExecutor）和进程池（ProcessPoolExecutor）。
    - 可以在协程中运行同步的代码片段，而不会阻塞事件循环。
 6. **异步网络编程**：
+   
    - 使用 `asyncio` 提供的网络功能，如 `asyncio.open_connection` 和 `asyncio.start_server`。
 7. **异步文件操作**：
+   
    - 第三方库如 `aiofiles` 提供了异步读写文件的能力。
 8. **集成其他异步框架**：
    - 如使用 `aiohttp` 进行异步HTTP请求。
@@ -675,7 +747,10 @@ def thread_function():
 ### 注意事项
 
 - **全局解释器锁（GIL）**：Python（特别是CPython实现）的一个特性是全局解释器锁（GIL），它保证了同一时刻只有一个线程在执行Python字节码。虽然GIL简化了多线程编程，但也限制了程序在多核处理器上的并行执行。因此，对于计算密集型任务，使用多进程而不是多线程可能是一个更好的选择。
+
 - **设计考虑**：在多线程环境中，合理设计和谨慎地管理线程间的交互非常重要，以避免死锁、竞态条件、资源饥饿等问题。
+
+  
 
 # 装饰器
 
@@ -759,7 +834,11 @@ my_function = my_decorator(my_function)
 
 # 生成器
 
-生成器是一种用于创建迭代器的简单而强大的工具。与普通函数不同，生成器函数允许你使用 `yield` 语句暂停函数的执行，并在稍后恢复。
+生成器是一种用于创建迭代器的简单而强大的工具（一种特殊的迭代器）。与普通函数不同，生成器函数允许你使用 `yield` 语句暂停函数的执行，并在稍后恢复。
+
+
+
+生成器函数会返回一个迭代器对象，它可以像普通迭代器一样使用。但是，生成器函数中的 `yield` 语句会将函数的执行状态保存下来，以便下次调用时继续执行。
 
 #### 创建生成器
 
@@ -832,14 +911,18 @@ class MyIterator:
 iter = MyIterator()
 print(next(iter))  # 输出 1
 print(next(iter))  # 输出 2
+print(next(iter))  # 输出 3
+print(next(iter))  # 输出 StopIteration 
 ```
+
+![image-20240507005617058](C:\Users\hongj\AppData\Roaming\Typora\typora-user-images\image-20240507005617058.png)
 
 **主要区别总结：**
 
 - **定义方式不同**：生成器是用函数定义的，而迭代器是用类定义的。
 - **简洁与灵活性的权衡**：生成器通常代码更少、更简洁，但迭代器更灵活。
-- **内存效率**：生成器通常更内存高效，因为它们不需要一次性加载整个序列到内存。
-- **用途**：生成器通常用于一次性遍历数据，迭代器更适用于需要多次遍历或手动控制遍历过程的场合。
+- **内存效率**：**生成器通常更内存高效，因为它们不需要一次性加载整个序列到内存。**
+- **用途**：生成器通常用于一次性遍历数据，迭代器更适用于需要多次遍历或手动控制遍历过程的场合。虽然生成器通常用于一次性遍历数据，但仍然可以多次调用生成器对象的 `next()` 方法来获取下一个元素，而不会抛出 `StopIteration` 异常。
 
 
 
@@ -860,14 +943,52 @@ Magic methods，也被称**作特殊方法或双下方法**，是Python中的特
 - `__iter__(self)`: 定义迭代器协议的 `iter()` 方法。
 - `__next__(self)`: 定义迭代器协议的 `next()` 方法。
 
-通过实现这些 magic methods，您可以定义自定义类型的行为，使其更接近内置类型的行为。
+通过实现这些 magic methods，可以定义自定义类型的行为，使其更接近内置类型的行为。
+
+
+
+```python
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Vector(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, scalar):
+        return Vector(self.x * scalar, self.y * scalar)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+# 创建两个向量
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+
+# 演示向量加法、减法和乘法
+print("v1 =", v1)
+print("v2 =", v2)
+print("v1 + v2 =", v1 + v2)
+print("v1 - v2 =", v1 - v2)
+print("v1 * 2 =", v1 * 2)
+
+# 演示相等性检查
+print("v1 == v2:", v1 == v2)
+```
 
 
 
 ### 私有变量和受保护变量
 
-- `__name`：双下划线前缀的变量被视为类的私有变量。Python会对这样的变量名称进行改写（name mangling），在类的内部可以访问，但在类的外部不可直接访问。它用于当你想避免子类重写这些变量时。
-- `_value`：单下划线前缀的变量通常被视为受保护的变量（protected），这是一个约定俗成的规则，意味着它只应该被类本身和子类访问，但实际上它是可访问的，这依赖于程序员的遵守。
+- `__name`：**双下划线前缀**的变量被视为类的私有变量。Python会对这样的变量名称进行改写（name mangling），在类的内部可以访问，但在类的外部不可直接访问。它用于当你想避免子类重写这些变量时。
+- `_value`：**单下划线前缀**的变量通常被视为受保护的变量（protected），这是一个约定俗成的规则，意味着它只应该被类本身和子类访问，但实际上它是可访问的，这依赖于程序员的遵守。
 
 例如：
 
@@ -886,7 +1007,7 @@ print(obj._protected_var)  # 这通常不推荐，但是是可能的
 
 ## 栈和堆
 
-在Python中，栈（Stack）和堆（Heap）是两种用于内存分配的数据结构，它们在内存管理中扮演不同的角色。理解它们之间的区别对于编写高效和优化的Python代码非常重要。下面是栈和堆的主要区别：
+在Python中，**栈（Stack）和堆（Heap）**是两种用于内存分配的数据结构，它们在内存管理中扮演不同的角色。理解它们之间的区别对于编写高效和优化的Python代码非常重要。下面是栈和堆的主要区别：
 
 - #### 栈（Stack）
 
@@ -900,11 +1021,18 @@ print(obj._protected_var)  # 这通常不推荐，但是是可能的
 - #### 堆（Heap）
 
 1. **内存分配**：堆用于**动态内存分配**，**内存的分配和释放是在程序运行时进行的**。
+
 2. **访问速度**：**堆上的内存分配和回收速度相对较慢，因为涉及到更复杂的内存管理系统。**
+
 3. **存储内容**：通常用于存储需要长时间存活或大小不确定的数据，如动态分配的数组、对象等。
+
 4. **生命周期**：堆中的数据生命周期较长，直到被垃圾回收或程序结束。
+
 5. **大小限制**：堆的大小受限于计算机系统中的可用内存，通常比栈大得多。
+
 6. **管理方式**：需要程序员或垃圾回收机制来手动管理。
+
+   
 
 - #### 在Python中的应用
 

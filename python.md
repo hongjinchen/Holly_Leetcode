@@ -163,7 +163,51 @@
 
 - **主要操作**: `add`, `remove`, `union`, `intersection`等。
 
+  1. **去除重复元素**：当你有一个列表，并且想要去除其中的重复元素时，可以将列表转换为集合。
   
+     ```
+     my_list = [1, 2, 2, 3, 4, 4, 5]
+     my_set = set(my_list)
+     print(my_set)  # 输出: {1, 2, 3, 4, 5}
+     ```
+  
+  2. **集合操作**：集合支持多种操作，如并集、交集、差集和对称差集。
+  
+     ```
+     set1 = {1, 2, 3}
+     set2 = {3, 4, 5}
+     
+     union_set = set1.union(set2)  # 并集 {1, 2, 3, 4, 5}
+     intersection_set = set1.intersection(set2)  # 交集 {3}
+     difference_set = set1.difference(set2)  # 差集 {1, 2}
+     symmetric_difference_set = set1.symmetric_difference(set2)  # 对称差集 {1, 2, 4, 5}
+     ```
+  
+  3. **测试成员资格**：你可以快速检查一个元素是否在集合中。
+  
+     ```
+     my_set = {1, 2, 3}
+     if 2 in my_set:
+         print("2 is in the set")
+     ```
+  
+  4. **集合推导式**：使用集合推导式可以创建集合，这在某些情况下比列表推导式更高效。
+  
+     ```
+     squares = {x**2 for x in range(10)}
+     print(squares)  # 输出: {0, 1, 4, 9, 16, 25, 36, 49, 64, 81}
+     ```
+  
+  5. **去重并快速查找**：集合的查找时间复杂度是O(1)，所以它非常适合用于快速查找和去重。
+  
+     ```
+     复制def get_unique_words(text):
+         words = text.split()
+         unique_words = set(words)
+         return unique_words
+     ```
+
+
 
 ### 5. 字符串（String）
 
@@ -225,7 +269,6 @@
   True
   
   >>> print(c is e)
-  
   False
   
   >>> print(c == e)
@@ -275,7 +318,76 @@
 
 - **主要操作**: `append`, `pop`, `insert`等。
 
-  
+
+
+
+1. **存储同类型数据**：当你需要存储大量相同类型的数据时，使用 `array` 可以节省内存并提高性能。
+
+   ```
+   from array import array
+   
+   # 创建一个整数数组
+   int_array = array('i', [1, 2, 3, 4, 5])
+   
+   # 创建一个浮点数数组
+   float_array = array('d', [1.1, 2.2, 3.3, 4.4, 5.5])
+   ```
+
+2. **访问和修改元素**：你可以像访问列表一样访问和修改 `array` 中的元素。
+
+   ```
+   print(int_array[0])  # 输出: 1
+   int_array[0] = 10
+   print(int_array)  # 输出: array('i', [10, 2, 3, 4, 5])
+   ```
+
+3. **遍历数组**：可以遍历 `array` 中的元素。
+
+   ```
+   for item in int_array:
+       print(item)
+   ```
+
+4. **数组切片**：支持数组切片操作。
+
+   ```
+   sub_array = int_array[1:4]
+   print(sub_array)  # 输出: array('i', [2, 3, 4])
+   ```
+
+5. **数组长度**：可以获取数组的长度。
+
+   ```
+   print(len(int_array))  # 输出: 5
+   ```
+
+6. **数组类型转换**：可以将 `array` 转换为列表或其他数据结构。
+
+   ```
+   list_from_array = list(int_array)
+   print(list_from_array)  # 输出: [10, 2, 3, 4, 5]
+   ```
+
+7. **数组扩展**：可以向 `array` 中添加更多的元素。
+
+   ```
+   int_array.extend([6, 7, 8])
+   print(int_array)  # 输出: array('i', [10, 2, 3, 4, 5, 6, 7, 8])
+   ```
+
+8. **数组操作**：`array` 支持一些基本的数组操作，如 `append()`, `insert()`, `remove()`, `pop()` 等。
+
+   ```
+   int_array.append(9)
+   print(int_array)  # 输出: array('i', [10, 2, 3, 4, 5, 6, 7, 8, 9])
+   ```
+
+9. **数组排序**：可以对 `array` 进行排序。
+
+   ```
+   复制int_array.sort()
+   print(int_array)  # 输出: array('i', [2, 3, 4, 5, 6, 7, 8, 9, 10])
+   ```
 
 ### 7. 栈（Stack）和队列（Queue）
 
@@ -287,7 +399,75 @@
 
 - **主要操作**: 栈有`push`和`pop`，队列有`enqueue`和`dequeue`。
 
-  
+
+
+#### 栈（Stack）
+
+栈是一种后进先出（Last In First Out, LIFO）的数据结构。在栈中，最后添加的元素将是第一个被移除的元素。栈的基本操作通常包括：
+
+1. **Push** - 在栈顶添加一个元素。
+2. **Pop** - 从栈顶移除一个元素。
+3. **Top/Peek** - 查看栈顶的元素但不移除它。
+4. **IsEmpty** - 检查栈是否为空。
+
+在Python中，可以使用列表（list）来模拟栈的行为：
+
+```
+stack = []
+
+# 推入元素
+stack.append('Python')
+stack.append('Java')
+
+# 弹出元素（栈顶元素）
+top_element = stack.pop()
+
+# 查看栈顶元素
+top_element = stack[-1]
+
+# 检查栈是否为空
+is_empty = len(stack) == 0
+```
+
+Python标准库中没有内置的栈数据结构，但可以通过**列表**的这些操作来实现栈的功能。
+
+
+
+#### 队列（Queue）
+
+队列是一种先进先出（First In First Out, FIFO）的数据结构。在队列中，首先添加的元素将是第一个被移除的元素。队列的基本操作通常包括：
+
+1. **Enqueue** - 在队尾添加一个元素。
+2. **Dequeue** - 从队首移除一个元素。
+3. **Front** - 查看队首的元素但不移除它。
+4. **IsEmpty** - 检查队列是否为空。
+
+Python的 `collections` 模块提供了一个 `deque`（双端队列）类，它可以被用作队列：
+
+```
+from collections import deque
+
+queue = deque()
+
+# 入队
+queue.append('Python')
+queue.append('Java')
+
+# 出队
+front_element = queue.popleft()
+
+# 查看队首元素
+front_element = queue[0]
+
+# 检查队列是否为空
+is_empty = len(queue) == 0
+```
+
+使用 `deque` 的 `append` 方法来进行入队操作，使用 `popleft` 方法来进行出队操作。
+
+### 
+
+
 
 ### 8. 链表（LinkedList）
 
@@ -295,6 +475,8 @@
 - **可变性**: 可变。
 - **实现方式**: Python没有内置支持，但可以用类来实现。
 - **主要操作**: `insert`, `delete`, `find`等
+
+
 
 
 
@@ -628,21 +810,18 @@ print("Deep Copied:", deep_copied_list)  # Output: [1, [2, 3], 4]
      asyncio.run(main())
      ```
    
-     
 3. **异步迭代器（Async Iterators）和异步生成器（Async Generators）**：
    
    - 异步迭代器允许对象在异步操作完成时产生值。
    
    - 异步生成器是一种特殊的迭代器，可以在 `async def` 函数中使用 `yield`。
    
-     
 4. **Futures 和 Tasks**：
    
    - `Future` 对象代表最终会完成的异步操作。
    
    - `Task` 是 `Future` 的子类，用于封装和管理协程的执行。
    
-     
 5. **线程和进程池**：
    
    - `asyncio` 可以与 `concurrent.futures` 模块一起使用，后者提供了线程池（ThreadPoolExecutor）和进程池（ProcessPoolExecutor）。
@@ -834,7 +1013,7 @@ my_function = my_decorator(my_function)
 
 # 生成器
 
-生成器是一种用于创建迭代器的简单而强大的工具（一种特殊的迭代器）。与普通函数不同，生成器函数允许你使用 `yield` 语句暂停函数的执行，并在稍后恢复。
+生成器是一种用于创建迭代器的简单而强大的工具（一种**特殊的迭代器**）。与普通函数不同，生成器函数允许你使用 `yield` 语句暂停函数的执行，并在稍后恢复。
 
 
 

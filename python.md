@@ -467,7 +467,7 @@ is_empty = len(queue) == 0
 
 使用 `deque` 的 `append` 方法来进行入队操作，使用 `popleft` 方法来进行出队操作。
 
-### 
+
 
 
 
